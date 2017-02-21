@@ -12,7 +12,7 @@ public interface Distance {
   
     
     /**methode pour convertire des metres en radians
-     * @param distanceInMetres valeur en metres a convertir en radians
+     * @param distanceInMetres valeur en metres a convertir en radian
      * @return distance exprimee en radian
      */
     public static double toRadians (double distanceInMetres){
