@@ -1,7 +1,7 @@
 package ch.epfl.alpano;
 
 /**
-*méthode pour convertir des distances à la surface de la Terre de radians en mètre et inversément
+*methodes pour convertir des distances a la surface de la Terre de radians en metre et inversement
 *
 * @author Philippine Favre (258854)
 * @author Bastien Beuchat  (257117)
@@ -11,17 +11,17 @@ public interface Distance {
     double EARTH_RADIUS = 6371000;
   
     
-    /**
-     * @param distanceInMetres valeur en mètre à convertir en radian
-     * @return distance exprimée en radian
+    /**methode pour convertire des metres en radians
+     * @param distanceInMetres valeur en metre a convertir en radian
+     * @return distance exprimee en radian
      */
     public static double toRadians (double distanceInMetres){
         return distanceInMetres / EARTH_RADIUS;
     }
     
-    /**
-     * @param distanceInRadians valeur en radian à convertir en mètre
-     * @return distance exprimée en mètre
+    /**methode pour convertir des radians en metres
+     * @param distanceInRadians valeur en radian a convertir en metre
+     * @return distance exprimee en metre
      */
     public static double toMeters (double distanceInRadians) {
         return distanceInRadians * EARTH_RADIUS;
