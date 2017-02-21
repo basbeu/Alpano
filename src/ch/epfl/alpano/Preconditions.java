@@ -23,7 +23,7 @@ public interface Preconditions {
 	/**
 	 * Leve une exception si son argument est faux
 	 * @param b expression booleenne a verifier
-	 * @param message message d'erreur
+	 * @param message message d'erreur 
 	 * @throws IllegalArgumentException exception levee si le paramêtre booleen est faux
 	 */
 	public static void checkArgument(boolean b, String message) throws IllegalArgumentException{
