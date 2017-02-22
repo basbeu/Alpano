@@ -51,12 +51,12 @@ public interface Azimuth {
     
     /**
      * methode transformant un angle mathematique en azimut 
-     * @param azimuth angle dans le sens mathematique
+     * @param angle dans le sens mathematique
      * @return azimut canonique
      * @throws IllegalArguentException si l'argument n'est pas canonique
      */
-    public static double fromMath(double azimuth) {
-        return toMath(azimuth);
+    public static double fromMath(double angle) {
+        return toMath(angle);
     }
     
     /**
