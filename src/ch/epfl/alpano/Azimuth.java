@@ -8,7 +8,6 @@ package ch.epfl.alpano;
  */
 
 import static java.lang.Math.PI;
-import static java.lang.Math.sin;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 
 public interface Azimuth {
