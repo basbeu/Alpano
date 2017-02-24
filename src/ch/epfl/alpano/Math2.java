@@ -8,11 +8,7 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import java.util.function.DoubleUnaryOperator;
 
 /**
-<<<<<<< HEAD
-* Interface fournissant des methodes math�matiques
-=======
 * Interface fournissant des methodes mathematiques
->>>>>>> refs/remotes/origin/master
 *
 * @author Philippine Favre (258854)
 * @author Bastien Beuchat  (257117)
@@ -41,7 +37,7 @@ public interface Math2 {
 	
 	/**
 	 * Calcule du sinus verse d'un nombre
-	 * @param x Double auquel il faut calculer le sinus verse
+	 * @param x Double auquel il faut calculer le demi sinus verse
 	 * @return un double representant le sinus verse de x
 	 */
 	static double haversin(double x){
@@ -59,11 +55,7 @@ public interface Math2 {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * Calcule l'interpolation lin�aire de f(x)
-=======
 	 * Calcule l'interpolation lineaire de f(x)
->>>>>>> refs/remotes/origin/master
 	 * @param y0 Double representant f(0)
 	 * @param y1 Double representant f(1)
 	 * @param x  Double representant la valeur a interpoler
@@ -74,11 +66,7 @@ public interface Math2 {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * Calcule l'interpolation bilin�aire de f(x,y)
-=======
 	 * Calcule l'interpolation bilineaire de f(x,y)
->>>>>>> refs/remotes/origin/master
 	 * @param z00 Double representant f(0,0)
 	 * @param z10 Double representant f(1,0)
 	 * @param z01 Double representant f(0,1)
@@ -116,11 +104,7 @@ public interface Math2 {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * Determine un intervalle plus petit ou egal � epsilon contenant un 0
-=======
 	 * Determine un intervalle plus petit ou egal a epsilon contenant un 0
->>>>>>> refs/remotes/origin/master
 	 * @param f	DoubleUnaryOperator representant la fonction a tester
 	 * @param x1 Double representant la borne inferieur de l'intervalle
 	 * @param x2 Double representant la borne superieur de l'intervalle
