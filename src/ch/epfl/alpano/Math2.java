@@ -8,7 +8,7 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import java.util.function.DoubleUnaryOperator;
 
 /**
-* Interface fournissant des methodes mathématiques
+* Interface fournissant des methodes mathï¿½matiques
 *
 * @author Philippine Favre (258854)
 * @author Bastien Beuchat  (257117)
@@ -55,7 +55,7 @@ public interface Math2 {
 	}
 	
 	/**
-	 * Calcule l'interpolation linéaire de f(x)
+	 * Calcule l'interpolation linï¿½aire de f(x)
 	 * @param y0 Double representant f(0)
 	 * @param y1 Double representant f(1)
 	 * @param x  Double representant la valeur a interpoler
@@ -66,7 +66,7 @@ public interface Math2 {
 	}
 	
 	/**
-	 * Calcule l'interpolation bilinéaire de f(x,y)
+	 * Calcule l'interpolation bilinï¿½aire de f(x,y)
 	 * @param z00 Double representant f(0,0)
 	 * @param z10 Double representant f(1,0)
 	 * @param z01 Double representant f(0,1)
@@ -104,7 +104,7 @@ public interface Math2 {
 	}
 	
 	/**
-	 * Determine un intervalle plus petit ou egal à epsilon contenant un 0
+	 * Determine un intervalle plus petit ou egal ï¿½ epsilon contenant un 0
 	 * @param f	DoubleUnaryOperator representant la fonction a tester
 	 * @param x1 Double representant la borne inferieur de l'intervalle
 	 * @param x2 Double representant la borne superieur de l'intervalle
