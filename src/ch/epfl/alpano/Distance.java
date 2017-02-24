@@ -8,7 +8,7 @@ package ch.epfl.alpano;
 */
 
 public interface Distance {
-    final double EARTH_RADIUS = 6371000;
+    double EARTH_RADIUS = 6371000;
   
     
     /**methode pour convertir des metres en radians
