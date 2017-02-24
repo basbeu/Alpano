@@ -8,6 +8,8 @@ package ch.epfl.alpano;
  */
 
 import static java.lang.Math.PI;
+import static ch.epfl.alpano.Math2.PI2;
+import static ch.epfl.alpano.Math2.floorMod;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 
 public interface Azimuth {
@@ -17,7 +19,7 @@ public interface Azimuth {
      * @return vrai si l'angle est entre [0, 2*PI[ sinon faux
      */
     public static boolean isCanonical(double azimuth) {
-        if(0 <= azimuth && azimuth < 2 * PI){
+        if(0 <= azimuth && azimuth < PI2){
             return true;
         }else{
             return false;
@@ -30,7 +32,7 @@ public interface Azimuth {
      * @return azimut canonique
      */
     public static double canonicalize(double azimuth) {
-        return Math2.floorMod(azimuth,2*PI);
+        return floorMod(azimuth,PI2);
     }
     
     /**
@@ -40,9 +42,9 @@ public interface Azimuth {
      * @throws IllegalArgumentException si l'argument n'est pas un azimut canonique
      */
     public static double toMath(double azimuth) {
-        checkArgument(0 <= azimuth && azimuth < 2*PI, "angle invalide");
+        checkArgument(isCanonical(azimuth), "angle invalide");
         if(azimuth != 0){
-            return (2*PI) - azimuth;
+            return (PI2) - azimuth;
         }else{
             return azimuth;
         }
@@ -69,8 +71,8 @@ public interface Azimuth {
      * @throws IllegalArgumentException si l'argument n'est pas canonique
      */
     public static String toOctantString(double azimuth, String n, String e, String s, String w) {
-        checkArgument(0 <= azimuth && azimuth < 2*PI, "angle invalide");
-        if((15*PI/8 <= azimuth && azimuth < 2*PI) || (0<= azimuth && azimuth < PI/8)){
+        checkArgument(isCanonical(azimuth), "angle invalide");
+        if((15*PI/8 <= azimuth && azimuth < PI2) || (0<= azimuth && azimuth < PI/8)){
             return n;
         }else if(PI/8 <= azimuth && azimuth < 3*PI/8){
             return n+e;

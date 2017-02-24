@@ -11,9 +11,9 @@ public interface Distance {
     final double EARTH_RADIUS = 6371000;
   
     
-    /**methode pour convertire des metres en radians
-     * @param distanceInMetres valeur en metres a convertir en radians
-     * @return distance exprimee en radian
+    /**methode pour convertir des metres en radians
+     * @param distanceInMetres Double en metres a convertir en radians
+     * @return Double representant une distance exprimee en radian
      */
     public static double toRadians (double distanceInMetres){
         return distanceInMetres / EARTH_RADIUS;
