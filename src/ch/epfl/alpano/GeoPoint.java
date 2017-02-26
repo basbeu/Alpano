@@ -7,13 +7,11 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static ch.epfl.alpano.Azimuth.canonicalize;
-
-import java.text.DecimalFormat;
-
 import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Distance.EARTH_RADIUS;
 import static ch.epfl.alpano.Azimuth.fromMath;
 
+import java.text.DecimalFormat;
 
 /**
  *represente un point a la surface de la Terre dont la position est donnee dans un systeme de coodonnee spherique
