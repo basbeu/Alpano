@@ -12,16 +12,16 @@ import java.util.Objects;
  */
 public final class Interval1D {
     
-    private int from,to;
+    private final int from,to;
     
     /**
      * Constructeur d'un intervalle d'entier unidimensionnel
      * @param includedFrom Premier entier de l'intervalle
      * @param includedTo Dernier entier de l'intervalle
-     * @throws IllegalArgumentException si includedTo et strictement inferieur a includedFrom
+     * @throws IllegalArgumentException si includedTo est strictement inferieur a includedFrom
      */
     public Interval1D(int includedFrom,int includedTo){
-        checkArgument(includedTo >=includedFrom,"");
+        checkArgument(includedTo >=includedFrom,"includedTo must be greater or equal to includedFrom");
         
         from=includedFrom;
         to=includedTo;
@@ -104,6 +104,7 @@ public final class Interval1D {
      * Calcule l'union avec that
      * @param that Interval1D avec lequel il faut effectuer l'union
      * @return un Interval1D representant l'union avec that
+     * @throws IllegalArgumentException si l'intervalle that n'est pas unionable
      */
     public Interval1D union(Interval1D that){
         checkArgument(isUnionableWith(that));
