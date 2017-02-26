@@ -90,8 +90,7 @@ public final class GeoPoint {
         double longitudeDegre = (LONGITUDE*180)/PI;
         double latitudeDegre = (LATITUDE*180)/PI;
         
-        return "(df.longitudeDegre°, df.latitudeDegre°)";
-        
+        return "(" + df.format(longitudeDegre) + "°" + "," + df.format(latitudeDegre) + "°" + ")";
     }
   
 }
