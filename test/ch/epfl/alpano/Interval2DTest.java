@@ -182,6 +182,7 @@ public class Interval2DTest {
         Interval2D I2 = new Interval2D (i3,i4);
         
         assertEquals(new Interval2D(new Interval1D(0,6), new Interval1D(2,5)), I1.union(I2));
+        
     }
     
 }
