@@ -1,6 +1,7 @@
 package ch.epfl.alpano;
 
 import static org.junit.Assert.*;
+import static ch.epfl.test.ObjectTest.hashCodeIsCompatibleWithEquals;
 
 import org.junit.Test;
 
@@ -49,7 +50,7 @@ public class Interval1DTest {
     @Test
     public void testContainsWrong(){
         Interval1D interval = new Interval1D(0,6);
-        assertTrue(interval.contains(8));
+        assertFalse(interval.contains(8));
     }
     
     @Test
@@ -72,6 +73,27 @@ public class Interval1DTest {
     }
     
     @Test
+    public void testSizeOfIntersectionWith2(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(3,6);
+        assertEquals(1, interval.sizeOfIntersectionWith(interval2),0);
+    }
+    
+    @Test
+    public void testSizeOfIntersectionWith3(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(0,3);
+        assertEquals(4, interval.sizeOfIntersectionWith(interval2),0);
+    }
+    
+    @Test
+    public void testSizeOfIntersectionWith4(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(4,6);
+        assertEquals(0, interval.sizeOfIntersectionWith(interval2),0);
+    }
+    
+    @Test
     public void testBoundingUnion(){
         Interval1D interval = new Interval1D(0,3);
         Interval1D interval2 = new Interval1D(6,7);
@@ -80,10 +102,41 @@ public class Interval1DTest {
     }
     
     @Test
+    public void testBoundingUnion2(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(6,7);
+        Interval1D interval3 = new Interval1D(0,7);
+        assertEquals(interval3, interval2.boundingUnion(interval));
+    }
+    
+    @Test
+    public void testBoundingUnion3(){
+        Interval1D interval = new Interval1D(0,12);
+        Interval1D interval2 = new Interval1D(6,7);
+        Interval1D interval3 = new Interval1D(0,12);
+        assertEquals(interval3, interval.boundingUnion(interval2));
+    }
+    
+    @Test
+    public void testBoundingUnion4(){
+        Interval1D interval = new Interval1D(0,10);
+        Interval1D interval2 = new Interval1D(6,7);
+        Interval1D interval3 = new Interval1D(0,10);
+        assertEquals(interval3, interval2.boundingUnion(interval));
+    }
+    
+    @Test
     public void testIsUnionableWith(){
         Interval1D interval = new Interval1D(0,3);
         Interval1D interval2 = new Interval1D(2,7);
         assertTrue(interval.isUnionableWith(interval2));
+    }
+    
+    @Test
+    public void testIsUnionableWithWrong(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(5,7);
+        assertFalse(interval.isUnionableWith(interval2));
     }
     
     @Test
@@ -112,12 +165,14 @@ public class Interval1DTest {
     public void testEqualsWrong(){
         Interval1D interval = new Interval1D(0,3);
         Interval1D interval2 = new Interval1D(5,8);
-        assertTrue(interval.equals(interval2));
+        assertFalse(interval.equals(interval2));
     }
-
+    
     @Test
     public void testHashCode(){
-        
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(5,8);
+        assertTrue(hashCodeIsCompatibleWithEquals(interval, interval2));
     }
     
     @Test
