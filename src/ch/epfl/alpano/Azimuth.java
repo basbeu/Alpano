@@ -6,7 +6,7 @@ import static ch.epfl.alpano.Math2.floorMod;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 
 /**
- *methodes permettant de manipuler des nombres representant des azimuts exprimes en radians 
+ * methodes permettant de manipuler des nombres representant des azimuts exprimes en radians 
  *
  * @author Philippine Favre (258854)
  * @author Bastien Beuchat  (257117)
