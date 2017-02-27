@@ -133,6 +133,27 @@ public class Interval1DTest {
     }
     
     @Test
+    public void testIsUnionableWith2(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(0,3);
+        assertTrue(interval.isUnionableWith(interval2));
+    }
+    
+    @Test
+    public void testIsUnionableWith3(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(3,7);
+        assertTrue(interval.isUnionableWith(interval2));
+    }
+    
+    @Test
+    public void testIsUnionableWith5(){
+        Interval1D interval = new Interval1D(0,0);
+        Interval1D interval2 = new Interval1D(0,7);
+        assertTrue(interval.isUnionableWith(interval2));
+    }
+    
+    @Test
     public void testIsUnionableWithWrong(){
         Interval1D interval = new Interval1D(0,3);
         Interval1D interval2 = new Interval1D(5,7);
@@ -143,6 +164,21 @@ public class Interval1DTest {
     public void testUnion(){
         Interval1D interval = new Interval1D(0,3);
         Interval1D interval2 = new Interval1D(2,5);
+        Interval1D interval3 = new Interval1D(0,5);
+        assertEquals(interval3, interval.union(interval2));
+    }
+    
+    @Test
+    public void testUnion2(){
+        Interval1D interval = new Interval1D(0,0);
+        Interval1D interval2 = new Interval1D(0,5);
+        assertEquals(interval2, interval.union(interval2));
+    }
+    
+    @Test
+    public void testUnion3(){
+        Interval1D interval = new Interval1D(0,3);
+        Interval1D interval2 = new Interval1D(3,5);
         Interval1D interval3 = new Interval1D(0,5);
         assertEquals(interval3, interval.union(interval2));
     }
