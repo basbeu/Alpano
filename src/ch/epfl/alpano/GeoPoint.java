@@ -6,7 +6,7 @@ import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
-import static java.lang.Math.atan;
+import static java.lang.Math.atan2;
 import static ch.epfl.alpano.Azimuth.canonicalize;
 import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Distance.EARTH_RADIUS;
@@ -24,8 +24,8 @@ import java.util.Locale;
 
 public final class GeoPoint {
     
-    final double LONGITUDE;
-    final double LATITUDE;
+    private final double LONGITUDE;
+    private final double LATITUDE;
     /**
      * Constructeur d'un point de coordonnee 
      * 
@@ -77,8 +77,8 @@ public final class GeoPoint {
      * @return Double un azimut
      */
     public double azimuthTo(GeoPoint that){
-        double beta = atan((sin(this.longitude() - that.longitude())*cos(that.latitude()
-                /(cos(this.latitude()*sin(that.latitude()) - sin(this.latitude())*cos(that.latitude())*cos(this.longitude()-that.longitude()))))));
+        double beta = atan2(sin(this.longitude() - that.longitude())*cos(that.latitude())
+                ,cos(this.latitude())*sin(that.latitude()) - sin(this.latitude())*cos(that.latitude())*cos(this.longitude()-that.longitude()));
         
         return fromMath(canonicalize(beta));
     }
