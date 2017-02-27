@@ -67,7 +67,7 @@ public final class Interval1D {
         int size = 0;
         if(from <= that.includedFrom() && that.includedFrom()<=to){
             size = to-that.includedFrom()+1;
-        }if(from <= that.includedTo() && that.includedTo()<=to){
+        }else if(from <= that.includedTo() && that.includedTo()<=to){
             size = that.includedTo()-from+1;
         }else if(from <= that.includedFrom() && that.includedTo()<=to){
             size = that.size();
