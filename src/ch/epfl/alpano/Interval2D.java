@@ -18,9 +18,12 @@ public final class Interval2D {
      * en faisant le produit cartesien de deux intervalles unidimensionnels
      * @param iX Interval1D representant la premiere dimension
      * @param iY Interval1D representant la deuxieme dimension
+     * @throws NullPointerException si un des deux parametre est null
      */
     public Interval2D(Interval1D iX, Interval1D iY){
-        checkArgument(iX!=null && iY!=null);
+        if(iX!=null && iY!=null){
+            throw new NullPointerException();
+        }
         
         this.iX=iX;
         this.iY=iY;
