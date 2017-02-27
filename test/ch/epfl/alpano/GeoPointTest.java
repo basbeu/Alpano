@@ -54,11 +54,19 @@ public class GeoPointTest {
     }
     
     @Test
-    public void distanceToOnKnownValue(){
+    public void distanceToOnKnownValue1(){
         GeoPoint lausanne = new GeoPoint(toRadians(6.631),toRadians(46.521));
         GeoPoint moscou = new GeoPoint(toRadians(37.623),toRadians(55.753));
         
-        assertEquals(2370000, lausanne.distanceTo(moscou),1e-10);
+        assertEquals(2370000, lausanne.distanceTo(moscou),3000);
+    }
+
+    @Test
+    public void distanceToOnKnownValue2(){
+        GeoPoint bale = new GeoPoint(toRadians(7.57327),toRadians(47.5584));
+        GeoPoint lausanne = new GeoPoint(toRadians(6.63282),toRadians(46.516));
+        
+        assertEquals(136000, lausanne.distanceTo(bale),70);
     }
     
     @Test
@@ -67,7 +75,7 @@ public class GeoPointTest {
         GeoPoint lausanne = new GeoPoint(toRadians(6.631),toRadians(46.521));
         GeoPoint moscou = new GeoPoint(toRadians(37.623),toRadians(55.753));
         
-        assertEquals(toRadians(52.95), lausanne.azimuthTo(moscou),1e-10);
+        assertEquals(toRadians(52.95), lausanne.azimuthTo(moscou),0.0001);
     }
     
     @Test

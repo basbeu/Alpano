@@ -65,13 +65,13 @@ public final class Interval1D {
      */
     public int sizeOfIntersectionWith(Interval1D that){
         int size = 0;
-        if(from < that.includedFrom() && that.includedFrom()<to){
+        if(from <= that.includedFrom() && that.includedFrom()<=to){
             size = to-that.includedFrom()+1;
-        }if(from < that.includedTo() && that.includedTo()<to){
+        }if(from <= that.includedTo() && that.includedTo()<=to){
             size = that.includedTo()-from+1;
-        }else if(from < that.includedFrom() && that.includedTo()<to){
+        }else if(from <= that.includedFrom() && that.includedTo()<=to){
             size = that.size();
-        }else if(that.includedFrom() < from && to<that.includedTo()){
+        }else if(that.includedFrom() <= from && to<=that.includedTo()){
             size = size();
         }
         
