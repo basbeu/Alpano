@@ -220,5 +220,4 @@ public class Interval2DTest {
         System.out.println(I1.toString());
         assertTrue(I1.toString().equals("[0..3]x[5..8]"));
     }
-    
 }
