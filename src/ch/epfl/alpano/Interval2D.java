@@ -20,7 +20,7 @@ public final class Interval2D {
      * @param iY Interval1D representant la deuxieme dimension
      */
     public Interval2D(Interval1D iX, Interval1D iY){
-        checkArgument(iX!=null||iY!=null);
+        checkArgument(iX!=null && iY!=null);
         
         this.iX=iX;
         this.iY=iY;
