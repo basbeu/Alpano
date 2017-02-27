@@ -1,5 +1,6 @@
 package ch.epfl.alpano;
 
+import static ch.epfl.test.ObjectTest.hashCodeIsCompatibleWithEquals;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -182,8 +183,42 @@ public class Interval2DTest {
         Interval2D I2 = new Interval2D (i3,i4);
         
         assertEquals(new Interval2D(new Interval1D(0,6), new Interval1D(2,5)), I1.union(I2));
-        
-        
+    }
+    
+    @Test
+    public void testEqualsOK(){
+        Interval1D i1 = new Interval1D (0,5);
+        Interval1D i2 = new Interval1D (2,4);
+        Interval2D I1 = new Interval2D (i1,i2);
+        Interval2D I2 = new Interval2D (i1, i2);
+        assertTrue(I1.equals(I2));
+    }
+    
+    @Test
+    public void testEqualsWrong(){
+        Interval1D i1 = new Interval1D (0,5);
+        Interval1D i2 = new Interval1D (2,4);
+        Interval2D I1 = new Interval2D (i1,i2);
+        Interval2D I2 = new Interval2D (i1, new Interval1D(3,5));
+        assertFalse(I1.equals(I2));
+    }
+    
+    @Test
+    public void testHashCode(){
+        Interval1D i = new Interval1D(0,3);
+        Interval1D i2 = new Interval1D(5,8);
+        Interval2D I1 = new Interval2D (i, i2);
+        Interval2D I2 = new Interval2D (i, new Interval1D(4,7));
+        assertTrue(hashCodeIsCompatibleWithEquals(I1, I2));
+    }
+    
+    @Test
+    public void testToString(){
+        Interval1D i1 = new Interval1D(0,3);
+        Interval1D i2 = new Interval1D (5,8);
+        Interval2D I1 = new Interval2D(i1, i2);
+        System.out.println(I1.toString());
+        assertTrue(I1.toString().equals("[0..3]x[5..8]"));
     }
     
 }
