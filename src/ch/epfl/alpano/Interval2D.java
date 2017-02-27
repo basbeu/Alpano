@@ -21,7 +21,7 @@ public final class Interval2D {
      * @throws NullPointerException si un des deux parametre est null
      */
     public Interval2D(Interval1D iX, Interval1D iY){
-        if(iX!=null && iY!=null){
+        if(iX==null || iY==null){
             throw new NullPointerException();
         }
         
