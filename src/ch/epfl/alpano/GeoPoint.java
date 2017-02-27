@@ -6,12 +6,14 @@ import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
+import static java.lang.Math.atan;
 import static ch.epfl.alpano.Azimuth.canonicalize;
 import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Distance.EARTH_RADIUS;
 import static ch.epfl.alpano.Azimuth.fromMath;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 /**
  *represente un point a la surface de la Terre dont la position est donnee dans un systeme de coodonnee spherique
@@ -75,8 +77,8 @@ public final class GeoPoint {
      * @return Double un azimut
      */
     public double azimuthTo(GeoPoint that){
-        double beta = (sin(this.longitude() - that.longitude())*cos(that.latitude()))
-                /(cos(this.latitude()*sin(that.latitude()) - sin(this.latitude())*cos(that.latitude())*cos(this.longitude()-that.longitude())));
+        double beta = atan((sin(this.longitude() - that.longitude())*cos(that.latitude()
+                /(cos(this.latitude()*sin(that.latitude()) - sin(this.latitude())*cos(that.latitude())*cos(this.longitude()-that.longitude()))))));
         
         return fromMath(canonicalize(beta));
     }
@@ -86,11 +88,12 @@ public final class GeoPoint {
      * @return String position en degre entre parenthese separe par une virgule
      */   
     public String toString(){
-        DecimalFormat df = new DecimalFormat("0.0000");
+        Locale l = null;
         double longitudeDegre = (LONGITUDE*180)/PI;
         double latitudeDegre = (LATITUDE*180)/PI;
-        
-        return "(" + df.format(longitudeDegre) + "°" + "," + df.format(latitudeDegre) + "°" + ")";
+        String s = String.format(l, "(%.4f,%.4f)", longitudeDegre, latitudeDegre);
+                
+        return s;
     }
   
 }
