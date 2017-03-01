@@ -114,10 +114,21 @@ public class Interval2DTest {
         Interval1D i3 = new Interval1D (2,12);
         Interval1D i4 = new Interval1D (5, 8);
         
+        Interval1D i5 = new Interval1D (0,5);
+        Interval1D i6 = new Interval1D (2,4);
+        Interval1D i7 = new Interval1D (0,5);
+        Interval1D i8 = new Interval1D (2,5);
+        
+        
         Interval2D I1 = new Interval2D (i1,i2);
         Interval2D I2 = new Interval2D (i3,i2);
         Interval2D I3 = new Interval2D (i3,i1);
         Interval2D I4 = new Interval2D (i3,i4);
+        
+        Interval2D I5 = new Interval2D (i5,i6);
+        Interval2D I6 = new Interval2D (i7,i8);
+        
+        assertEquals(18, I5.sizeOfIntersectionWith(I6));
         
         assertEquals(0, I1.sizeOfIntersectionWith(I2));
         assertEquals(0, I2.sizeOfIntersectionWith(I3));
@@ -178,12 +189,40 @@ public class Interval2DTest {
         Interval1D i2 = new Interval1D (2,4);
         Interval2D I1 = new Interval2D (i1,i2);
         
-        Interval1D i3 = new Interval1D (2,6);
+        Interval1D i3 = new Interval1D (0,5);
         Interval1D i4 = new Interval1D (2,5);
         Interval2D I2 = new Interval2D (i3,i4);
         
-        assertEquals(new Interval2D(new Interval1D(0,6), new Interval1D(2,5)), I1.union(I2));
+        assertEquals(new Interval2D(new Interval1D(0,5), new Interval1D(2,5)), I1.union(I2));
     }
+    
+    @Test
+    public void testUnion2(){
+        Interval1D i1 = new Interval1D (2,5);
+        Interval1D i2 = new Interval1D (2,4);
+        Interval2D I1 = new Interval2D (i1,i2);
+        
+        Interval1D i3 = new Interval1D (5,10);
+        Interval1D i4 = new Interval1D (2,4);
+        Interval2D I2 = new Interval2D (i3,i4);
+        
+        assertEquals(new Interval2D(new Interval1D(2,10), new Interval1D(2,4)), I1.union(I2));
+    }
+    
+    @Test
+    public void testUnion3(){
+        Interval1D i1 = new Interval1D (5,10);
+        Interval1D i2 = new Interval1D (2,4);
+        Interval2D I1 = new Interval2D (i1,i2);
+        
+        Interval1D i3 = new Interval1D (5,10);
+        Interval1D i4 = new Interval1D (2,4);
+        Interval2D I2 = new Interval2D (i3,i4);
+        
+        assertEquals(new Interval2D(new Interval1D(5,10), new Interval1D(2,4)), I1.union(I2));
+    }
+    
+    
     
     @Test
     public void testEqualsOK(){
