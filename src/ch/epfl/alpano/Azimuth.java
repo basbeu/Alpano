@@ -57,7 +57,12 @@ public interface Azimuth {
      * @throws IllegalArguentException si l'argument n'est pas canonique
      */
     public static double fromMath(double angle) {
-        return toMath(angle);
+        checkArgument(isCanonical(angle), "angle invalide");
+        if(angle != 0){
+            return (PI2) - angle;
+        }else{
+            return angle;
+        }
     }
     
     /**
