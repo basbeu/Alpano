@@ -65,7 +65,7 @@ public final class Interval1D {
      */
     public int sizeOfIntersectionWith(Interval1D that){
         int size = 0;
-        if(from <= that.includedFrom() && that.includedFrom()<=to){
+        if(from <= that.includedFrom() && that.includedFrom()<=to && that.includedTo()>=to){
             size = to-that.includedFrom()+1;
         }else if(from <= that.includedTo() && that.includedTo()<=to){
             size = that.includedTo()-from+1;
