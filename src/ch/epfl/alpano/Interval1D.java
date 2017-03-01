@@ -2,6 +2,7 @@ package ch.epfl.alpano;
 
 import static ch.epfl.alpano.Preconditions.checkArgument;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -64,18 +65,26 @@ public final class Interval1D {
      * @return un entier representant la taille de l'intersection (0 si l'intersection n'existe pas)
      */
     public int sizeOfIntersectionWith(Interval1D that){
-        int size = 0;
-        if(from <= that.includedFrom() && that.includedFrom()<=to && that.includedTo()>=to){
-            size = to-that.includedFrom()+1;
-        }else if(from <= that.includedTo() && that.includedTo()<=to){
-            size = that.includedTo()-from+1;
-        }else if(from <= that.includedFrom() && that.includedTo()<=to){
-            size = that.size();
-        }else if(that.includedFrom() <= from && to<=that.includedTo()){
-            size = size();
-        }
+        int bornes[] = new int[4];
         
-        return size;
+        bornes[0]=includedFrom();
+        bornes[1]=includedTo();
+        bornes[2]=that.includedFrom();
+        bornes[3]=that.includedTo();
+        
+        //test si il y a une intersection
+        if(bornes[2]>=bornes[0] && bornes[2]<=bornes[1]
+           ||bornes[3]>=bornes[0] && bornes[3]<=bornes[1]
+           ||bornes[0]>=bornes[2] && bornes[0]<=bornes[3]
+           ||bornes[1]>=bornes[2] && bornes[1]<=bornes[3]){
+            //calcul de l'intersection
+            Arrays.sort(bornes);
+            
+            return bornes[2]-bornes[1]+1;
+        }else{
+            //pas d'intersection
+            return 0;
+        }
     }
     
     /**

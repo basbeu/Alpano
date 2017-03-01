@@ -11,34 +11,34 @@ public class Interval2DTest {
     public void testConstructeur() {
         Interval1D i1 = new Interval1D (0,3);
         Interval1D i2 = new Interval1D (2,4);
-        Interval2D I = new Interval2D (i1, i2);
+        new Interval2D (i1, i2);
     }
     
     @Test (expected = NullPointerException.class)
     public void testConstructeurException() {
         Interval1D i1 = null;
         Interval1D i2 = new Interval1D (0,4);
-        Interval2D I = new Interval2D (i1, i2);
+        new Interval2D (i1, i2);
     }
     
     @Test
     public void testConstructeur2() {
         Interval1D i1 = new Interval1D (0,0);
         Interval1D i2 = new Interval1D (2,4);
-        Interval2D I = new Interval2D (i1, i2);
+        new Interval2D (i1, i2);
     }
     
     @Test
     public void testConstructeur3() {
         Interval1D i1 = new Interval1D (0,3);
         Interval1D i2 = new Interval1D (2,4);
-        Interval2D I = new Interval2D (i2, i1);
+        new Interval2D (i2, i1);
     }
     
     @Test
     public void testConstructeur4() {
         Interval1D i1 = new Interval1D (0,3);
-        Interval2D I = new Interval2D (i1, i1);
+        new Interval2D (i1, i1);
     }
     
     @Test
@@ -144,7 +144,6 @@ public class Interval2DTest {
         
         Interval2D I1 = new Interval2D (i1,i2);
         Interval2D I2 = new Interval2D (i3,i2);
-        Interval2D I3 = new Interval2D (i3,i1);
         Interval2D I4 = new Interval2D (i3,i4);
         
         assertEquals(new Interval2D(new Interval1D(2,12), new Interval1D(4,8)), I2.boundingUnion(I4));
@@ -173,7 +172,6 @@ public class Interval2DTest {
         Interval1D i1 = new Interval1D (0,0);
         Interval1D i2 = new Interval1D (4,7);
         Interval1D i3 = new Interval1D (2,12);
-        Interval1D i4 = new Interval1D (5, 8);
         
         Interval2D I1 = new Interval2D (i1,i2);
         Interval2D I2 = new Interval2D (i3,i2);

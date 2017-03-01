@@ -9,12 +9,12 @@ public class Interval1DTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructeur() {
-        Interval1D interval = new Interval1D(6,0);
+        new Interval1D(6,0);
     }
     
     @Test
     public void testConstructeurOk(){
-        Interval1D it = new Interval1D (0,6);
+        new Interval1D (0,6);
     }
     
     @Test 

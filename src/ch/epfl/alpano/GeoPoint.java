@@ -12,7 +12,6 @@ import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Distance.EARTH_RADIUS;
 import static ch.epfl.alpano.Azimuth.fromMath;
 
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 /**
