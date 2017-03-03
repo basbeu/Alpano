@@ -1,6 +1,7 @@
 package ch.epfl.alpano.dem;
 
 import static java.lang.Math.PI;
+import static ch.epfl.alpano.Preconditions.checkArgument;
 
 import ch.epfl.alpano.Interval2D;
 
@@ -35,13 +36,13 @@ public interface DiscreteElevationModel extends AutoCloseable{
      */
     double elevationSample(int x, int y);
     
-    
     /**
      * @param that DiscreteElevationModel representant le MNT discret avec lequel il faut proceder a l'union
      * @return DiscreteElevationModel representant un MNT discret representant l'union de that et de this
      * @throws IllegalArgumentException si les etendues ne sont pas unionables
      */
     default DiscreteElevationModel union(DiscreteElevationModel that){
+        checkArgument(that.extent().isUnionableWith(this.extent()));
         return new CompositeDiscreteElevationModel(this, that);
     }
 }
