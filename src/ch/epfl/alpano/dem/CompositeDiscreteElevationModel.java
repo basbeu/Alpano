@@ -11,7 +11,7 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
  * @author Bastien Beuchat  (257117)
  */
 final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
-    private final DiscreteElevationModel DM1, DM2; 
+    private final DiscreteElevationModel DEM1, DEM2; 
     
     /**
      * Constructeur d'un CompositeDiscreteElevationModel  
@@ -20,28 +20,28 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
      * @param dem2 DiscreteElevationModel representant le deuxieme modele de terrain
      */
     public CompositeDiscreteElevationModel(DiscreteElevationModel dem1, DiscreteElevationModel dem2) {
-        DM1 = requireNonNull(dem1);
-        DM2 = requireNonNull(dem2);
+        DEM1 = requireNonNull(dem1);
+        DEM2 = requireNonNull(dem2);
     }
     
     @Override
     public void close() throws Exception {  
-        DM1.close();
-        DM2.close();
+        DEM1.close();
+        DEM2.close();
     }
 
     @Override
     public Interval2D extent() {
-        return DM1.extent().union(DM2.extent());
+        return DEM1.extent().union(DEM2.extent());
     }
 
     @Override
     public double elevationSample(int x, int y) {
-        checkArgument(!(DM1.extent().contains(x,y) || DM2.extent().contains(x, y)));
-        if(DM1.extent().contains(x, y)){
-            return DM1.elevationSample(x, y);
+        checkArgument(!(DEM1.extent().contains(x,y) || DEM2.extent().contains(x, y)));
+        if(DEM1.extent().contains(x, y)){
+            return DEM1.elevationSample(x, y);
         }else
-            return DM2.elevationSample(x, y);
+            return DEM2.elevationSample(x, y);
     }
     
 }
