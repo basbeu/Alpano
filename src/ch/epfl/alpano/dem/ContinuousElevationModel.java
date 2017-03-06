@@ -34,7 +34,7 @@ public final class ContinuousElevationModel {
      * Pour calculer l'altitude au point donné, en mètre, obtenue par interpolation bilineaire de l'extension du MNT discret
      * 
      * @param p GeoPoint point donne en radian
-     * @return double la pente du terrain
+     * @return double l'altitude du point donne
      */
     public double elevationAt(GeoPoint p){
         double x = sampleIndex(p.longitude());
@@ -47,8 +47,10 @@ public final class ContinuousElevationModel {
     }
     
     /**
-     * @param p
-     * @return
+     * Pour calculer la pente du terrain au point donne, en radians
+     * 
+     * @param p Geopoint donne en radian
+     * @return double la pente du terrain
      */
     public double slopeAt(GeoPoint p){
         double x = sampleIndex(p.longitude());
@@ -61,12 +63,13 @@ public final class ContinuousElevationModel {
     }
     
     /**
-     * @param x
-     * @param y
-     * @return
+     * Methode privee retournant l'altitude d'un point d'extension du DEM discret passe au constructeur
+     * 
+     * @param x Int composante x de l'index
+     * @param y Int composante y de l'index
+     * @return Double altitude en metre 
      */
     private double elevationDEMAt(int x, int y){
-        //faire le cas en dehors du DEM
         try{
             return DEM.elevationSample(x, y);
         }catch(IllegalArgumentException e){
@@ -75,13 +78,15 @@ public final class ContinuousElevationModel {
     }
     
     /**
-     * @param x
-     * @param y
-     * @return
+     * Methode privee retournant la pente d'un point de l'extension du DEM discret passe au constructeur
+     * 
+     * @param x Int composante x de l'index
+     * @param y Int composante y de l'index
+     * @return Double pente en radian 
      */
     private double slopeDEMAt(int x, int y){
-        double za = elevationDEMAt(x,y) - elevationDEMAt(x+1, y);
-        double zb = elevationDEMAt(x,y) - elevationDEMAt(x, y+1);
+        double za = Math.abs(elevationDEMAt(x,y) - elevationDEMAt(x+1, y));
+        double zb = Math.abs(elevationDEMAt(x,y) - elevationDEMAt(x, y+1));
         
         return acos(d/sqrt(za*za+zb*zb+d*d));
     }
