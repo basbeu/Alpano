@@ -5,7 +5,10 @@ import static java.util.Objects.requireNonNull;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
 import static ch.epfl.alpano.Math2.bilerp;
 import static java.lang.Math.floor;
-
+import static ch.epfl.alpano.Distance.toMeters;
+import static ch.epfl.alpano.dem.DiscreteElevationModel.SAMPLES_PER_RADIAN;
+import static java.lang.Math.acos;
+import static java.lang.Math.sqrt;
 
 /**
  * Represente un MNT continu, obtenu par interpolation d'un MNT discret
@@ -15,6 +18,7 @@ import static java.lang.Math.floor;
  */
 public final class ContinuousElevationModel {
     final private DiscreteElevationModel DEM;
+    private static double d = toMeters(1/SAMPLES_PER_RADIAN); 
     
     /**
      * Constructeur ContinuousElevationModel qui construit un MNT continu basé sur un MNT discret
@@ -47,7 +51,13 @@ public final class ContinuousElevationModel {
      * @return
      */
     public double slopeAt(GeoPoint p){
-        return 0.0;
+        double x = sampleIndex(p.longitude());
+        double y = sampleIndex(p.latitude());
+        
+        int x0 = (int)floor(x);
+        int y0 = (int)floor(y);
+        
+        return bilerp(slopeDEMAt(x0,y0),slopeDEMAt(x0+1,y0),slopeDEMAt(x0,y0+1),slopeDEMAt(x0+1,y0+1),x,y);
     }
     
     /**
@@ -70,6 +80,9 @@ public final class ContinuousElevationModel {
      * @return
      */
     private double slopeDEMAt(int x, int y){
-        return 0.0;
+        double za = elevationDEMAt(x,y) - elevationDEMAt(x+1, y);
+        double zb = elevationDEMAt(x,y) - elevationDEMAt(x, y+1);
+        
+        return acos(d/sqrt(za*za+zb*zb+d*d));
     }
 }

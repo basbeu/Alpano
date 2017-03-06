@@ -13,7 +13,7 @@ import ch.epfl.alpano.Interval2D;
  */
 public interface DiscreteElevationModel extends AutoCloseable{
     int SAMPLES_PER_DEGREE = 3600;
-    double SAMPLES_PER_RADIAN = SAMPLES_PER_DEGREE*PI/180;
+    double SAMPLES_PER_RADIAN = SAMPLES_PER_DEGREE*180/PI;
     
     /**
      * @param angle double representant un angle en radian
