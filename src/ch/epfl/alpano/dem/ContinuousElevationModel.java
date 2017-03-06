@@ -9,6 +9,8 @@ import static ch.epfl.alpano.Distance.toMeters;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.SAMPLES_PER_RADIAN;
 import static java.lang.Math.acos;
 import static java.lang.Math.sqrt;
+import static ch.epfl.alpano.Math2.sq;
+import static java.lang.Math.abs;
 
 /**
  * Represente un MNT continu, obtenu par interpolation d'un MNT discret
@@ -43,7 +45,7 @@ public final class ContinuousElevationModel {
         int x0 = (int)floor(x);
         int y0 = (int)floor(y);
         
-        return bilerp(elevationDEMAt(x0, y0), elevationDEMAt(x0+1,y0) ,elevationDEMAt(x0, y0+1) , elevationDEMAt(x0+1,y0+1) ,x,y);
+        return bilerp(elevationDEMAt(x0, y0), elevationDEMAt(x0+1,y0) ,elevationDEMAt(x0, y0+1) , elevationDEMAt(x0+1,y0+1) ,x-x0,y-y0);
     }
     
     /**
@@ -59,7 +61,7 @@ public final class ContinuousElevationModel {
         int x0 = (int)floor(x);
         int y0 = (int)floor(y);
         
-        return bilerp(slopeDEMAt(x0,y0),slopeDEMAt(x0+1,y0),slopeDEMAt(x0,y0+1),slopeDEMAt(x0+1,y0+1),x,y);
+        return bilerp(slopeDEMAt(x0,y0),slopeDEMAt(x0+1,y0),slopeDEMAt(x0,y0+1),slopeDEMAt(x0+1,y0+1),x-x0,y-y0);
     }
     
     /**
@@ -85,9 +87,9 @@ public final class ContinuousElevationModel {
      * @return Double pente en radian 
      */
     private double slopeDEMAt(int x, int y){
-        double za = Math.abs(elevationDEMAt(x,y) - elevationDEMAt(x+1, y));
-        double zb = Math.abs(elevationDEMAt(x,y) - elevationDEMAt(x, y+1));
+        double za = abs(elevationDEMAt(x,y) - elevationDEMAt(x+1, y));
+        double zb = abs(elevationDEMAt(x,y) - elevationDEMAt(x, y+1));
         
-        return acos(d/sqrt(za*za+zb*zb+d*d));
+        return acos(d/sqrt(sq(za)+sq(zb)+sq(d)));
     }
 }

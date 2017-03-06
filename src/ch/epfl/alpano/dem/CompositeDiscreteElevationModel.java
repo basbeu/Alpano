@@ -37,11 +37,12 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
 
     @Override
     public double elevationSample(int x, int y) {
-        checkArgument(!(DEM1.extent().contains(x,y) || DEM2.extent().contains(x, y)));
+        checkArgument(DEM1.extent().contains(x,y) || DEM2.extent().contains(x, y));
         if(DEM1.extent().contains(x, y)){
             return DEM1.elevationSample(x, y);
-        }else
+        }else{
             return DEM2.elevationSample(x, y);
+        }
     }
     
 }
