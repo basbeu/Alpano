@@ -5,6 +5,8 @@ import ch.epfl.alpano.Interval2D;
 import static java.lang.Math.PI;
 import static java.lang.Math.sin;
 import static java.lang.Math.cos;
+import static java.lang.Math.sqrt;
+import static ch.epfl.alpano.Math2.sq;
 
 public final class WavyDEM implements DiscreteElevationModel {
     private final static double PERIOD = 100, HEIGHT = 1000;
@@ -24,6 +26,10 @@ public final class WavyDEM implements DiscreteElevationModel {
     public double elevationSample(int x, int y) {
       double x1 = PI * 2d * x / PERIOD;
       double y1 = PI * 2d * y / PERIOD;
-      return (1 + sin(x1) * cos(y1)) / 2d * HEIGHT;
+//    return (1 + sin(x1) * cos(y1)) / 2d * HEIGHT;
+//    return (sin(10*(sq(x1-3)+sq(y1-3)))/10) / 2d * HEIGHT;
+//    return (1/(15*(sq(x1-3)+sq(y1-3)))) / 2d * HEIGHT; //marche
+//    return (sin(5*x1)*cos(5*y1)/5) / 2d * HEIGHT; //marche
+      return (sqrt(1/sq(x1-2) + sq(y1-4))) / 2d * HEIGHT;
     }
   }
