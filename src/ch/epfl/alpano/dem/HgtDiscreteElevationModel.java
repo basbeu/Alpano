@@ -12,6 +12,7 @@ import ch.epfl.alpano.Interval2D;
 
 import static ch.epfl.alpano.Preconditions.checkArgument;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
+import static java.lang.Math.toRadians;
 
 public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
     private ShortBuffer elevations;
@@ -57,7 +58,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         checkArgument(l == 25934402, "Length of the file incorrect");
         
         //Creation de l'Interval2D
-        extent=new Interval2D(new Interval1D((int)sampleIndex(longitude),(int)sampleIndex(longitude+1)),new Interval1D((int)sampleIndex(latitude),(int)sampleIndex(latitude+1)));
+        extent=new Interval2D(new Interval1D((int)sampleIndex(toRadians(longitude)),(int)sampleIndex(toRadians(longitude+1))),new Interval1D((int)sampleIndex(toRadians(latitude)),(int)sampleIndex(toRadians(latitude+1))));
         
         //Mappage du fichier
         try(FileInputStream s = new FileInputStream(file)){
