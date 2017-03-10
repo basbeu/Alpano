@@ -19,7 +19,7 @@ public interface DiscreteElevationModel extends AutoCloseable{
      * @param angle double representant un angle en radian
      * @return l'index correspondant à l'angle passe en parametre
      */
-    static double sampleIndex(Double angle){
+    static double sampleIndex(double angle){
         return angle * SAMPLES_PER_RADIAN;
     }
    
