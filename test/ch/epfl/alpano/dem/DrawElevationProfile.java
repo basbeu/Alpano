@@ -1,6 +1,6 @@
 package ch.epfl.alpano.dem;
 
-import static ch.epfl.alpano.Distance.toRadians;
+import static java.lang.Math.toRadians;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 

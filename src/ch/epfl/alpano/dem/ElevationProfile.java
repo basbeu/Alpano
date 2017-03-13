@@ -11,6 +11,7 @@ import static ch.epfl.alpano.Math2.PI2;
 import static java.lang.Math.ceil;
 import static ch.epfl.alpano.Math2.lerp;
 import ch.epfl.alpano.GeoPoint;
+import static ch.epfl.alpano.Math2.floorMod;
 
 public final class ElevationProfile {
     
@@ -34,12 +35,13 @@ public final class ElevationProfile {
        
        tab = new GeoPoint [(int) (ceil(length/4096)+1)];
        for(int i=0; i<tab.length; i++){
-           final double latitude = asin(sin(origin.latitude())*cos(toRadians(ESPACE*i)) + 
+           double latitude = asin(sin(origin.latitude())*cos(toRadians(ESPACE*i)) + 
                cos(origin.latitude())*sin(toRadians(ESPACE*i))*cos(toMath(azimuth)));
        
-           final double longitude = (origin.longitude() - asin(sin(toMath(azimuth))*sin(toRadians(ESPACE*i))/cos(latitude)) + PI)%PI2 - PI;
+           double longitude = (floorMod(origin.longitude() - asin(sin(toMath(azimuth))*sin(toRadians(ESPACE*i))/cos(latitude)) + PI, PI2) - PI);
            
-           tab[i] = new GeoPoint(latitude, longitude); 
+           tab[i] = new GeoPoint(longitude, latitude); 
+           //System.out.println(ESPACE*i + ", " + tab[i]);
        }
     }
     
@@ -56,6 +58,8 @@ public final class ElevationProfile {
         int borneInf = 0;
         int i =0;
         
+        
+        
         while(i*ESPACE < x){
             borneInf = i;
             i ++;                    
@@ -64,7 +68,9 @@ public final class ElevationProfile {
         borneSup = borneInf + 1;
         
         double longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), x/ESPACE - borneInf);
-        double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneInf);
+        double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneSup);
+        
+        
         
         if(i*ESPACE == x){
             borneInf =i;
@@ -72,7 +78,10 @@ public final class ElevationProfile {
             latitudeA = tab[borneInf].latitude();
         }
         
-        return new GeoPoint(longitudeA, latitudeA);
+        //System.out.println("longitude: " +longitudeA + ", latitude: " + latitudeA);
+        GeoPoint p = new GeoPoint(longitudeA, latitudeA);
+        System.out.println(p);
+        return p;
     }
     
     public double slopeAt(double x){
@@ -84,7 +93,7 @@ public final class ElevationProfile {
     
     
     private void isIn (double position, double longueur){
-        if(!(0<position && position<longueur)){
+        if(!(0<=position && position<=longueur)){
             throw new IllegalArgumentException();
         }        
     }
