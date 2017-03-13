@@ -14,10 +14,20 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
 import static java.lang.Math.toRadians;
 
+/**
+ * Classe immuable representant un MNT discret, par rapport a un fichier HGT
+ *
+ * @author Philippine Favre (258854)
+ * @author Bastien Beuchat  (257117)
+ */
 public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
     private ShortBuffer elevations;
     private final Interval2D extent;
     
+    /**
+     * Construit un HgtDiscreteElevationModel
+     * @param file File representant le fichier .hgt associe au HgtDiscreteElevationModel 
+     */
     public HgtDiscreteElevationModel(File file){
         int latitude = 0, longitude = 0;
         //controle du nom du fichier
@@ -41,7 +51,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
             }
             
             if(lat == 'S'){
-                lat *=-1;
+                latitude *=-1;
             }
             if(lon == 'W'){
                 longitude*=-1;
