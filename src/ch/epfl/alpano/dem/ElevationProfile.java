@@ -59,7 +59,7 @@ public final class ElevationProfile {
         int borneSup = borneInf + 1;
         
         double longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), x/ESPACE - borneInf);
-        double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneSup);
+        double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneInf);
         
         //System.out.println("longitude: " +longitudeA + ", latitude: " + latitudeA);
         GeoPoint p = new GeoPoint(longitudeA, latitudeA);
