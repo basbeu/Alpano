@@ -13,6 +13,7 @@ import ch.epfl.alpano.Interval2D;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
 import static java.lang.Math.toRadians;
+import static java.lang.Math.abs;
 
 /**
  * Classe immuable representant un MNT discret, par rapport a un fichier HGT
@@ -95,8 +96,9 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         checkArgument(extent.contains(x, y));
         int x0 = extent.iX().includedFrom();
         int y0 = extent.iY().includedTo();
-        
-        return elevations.get((y0-y-1)*3601+(x-x0));
+        System.out.println(x0+" "+y0);
+        System.out.println(x+" "+y);
+        return elevations.get(abs(y0-y-1)*3601+abs(x-x0));
     }
     
 }
