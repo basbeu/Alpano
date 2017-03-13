@@ -54,29 +54,12 @@ public final class ElevationProfile {
     public GeoPoint positionAt(double x){
         isIn(x, length);
         
-        int borneSup;
-        int borneInf = 0;
-        int i =0;
         
-        
-        
-        while(i*ESPACE < x){
-            borneInf = i;
-            i ++;                    
-        }
-        
-        borneSup = borneInf + 1;
+        int borneInf = (int)Math.floor(x/ESPACE);
+        int borneSup = borneInf + 1;
         
         double longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), x/ESPACE - borneInf);
         double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneSup);
-        
-        
-        
-        if(i*ESPACE == x){
-            borneInf =i;
-            longitudeA = tab[borneInf].longitude();
-            latitudeA = tab[borneInf].latitude();
-        }
         
         //System.out.println("longitude: " +longitudeA + ", latitude: " + latitudeA);
         GeoPoint p = new GeoPoint(longitudeA, latitudeA);
