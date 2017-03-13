@@ -1,7 +1,4 @@
 /bin/
 /.classpath
 /.project
-/elevation.png
-/slope.png
-/dem.png
-/profile.png
+/*.png
