@@ -13,7 +13,6 @@ import ch.epfl.alpano.Interval2D;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
 import static java.lang.Math.toRadians;
-import static java.lang.Math.abs;
 
 /**
  * Classe immuable representant un MNT discret, par rapport a un fichier HGT
