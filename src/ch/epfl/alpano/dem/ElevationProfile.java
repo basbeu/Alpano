@@ -41,7 +41,7 @@ public final class ElevationProfile {
            double longitude = (floorMod(origin.longitude() - asin(sin(toMath(azimuth))*sin(toRadians(ESPACE*i))/cos(latitude)) + PI, PI2) - PI);
            
            tab[i] = new GeoPoint(longitude, latitude); 
-           //System.out.println(ESPACE*i + ", " + tab[i]);
+           
        }
     }
     
@@ -61,9 +61,8 @@ public final class ElevationProfile {
         double longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), x/ESPACE - borneInf);
         double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneInf);
         
-        //System.out.println("longitude: " +longitudeA + ", latitude: " + latitudeA);
         GeoPoint p = new GeoPoint(longitudeA, latitudeA);
-        System.out.println(p);
+       
         return p;
     }
     
