@@ -40,7 +40,7 @@ final class DrawElevationProfile {
         int yL = (int)((pY / MAX_ELEVATION) * (HEIGHT - 1));
         for (int y = 0; y < HEIGHT; ++y) {
           int color = y < yL ? BLACK : WHITE;
-          i.setRGB(x, HEIGHT - 1 - y, color);
+          i.setRGB(x, HEIGHT - 1 - y, color); 
         }
       }
       dDEM.close();
