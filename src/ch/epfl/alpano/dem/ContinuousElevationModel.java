@@ -72,9 +72,9 @@ public final class ContinuousElevationModel {
      * @return Double altitude en metre 
      */
     private double elevationDEMAt(int x, int y){
-        try{
+        if(DEM.extent().contains(x, y)){
             return DEM.elevationSample(x, y);
-        }catch(IllegalArgumentException e){
+        }else{
             return 0;
         }
     }
