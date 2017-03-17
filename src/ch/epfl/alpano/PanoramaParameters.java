@@ -9,6 +9,7 @@ import static ch.epfl.alpano.Math2.PI2;
 final public class PanoramaParameters {
     
     private final GeoPoint OBSERVERPOSITION;
+   
     private final int OBSERVERELEVATION;
     private final double CENTERAZIMUTH;
     private final double HORIZONTALFIELDOFVIEW;
