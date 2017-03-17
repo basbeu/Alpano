@@ -15,6 +15,7 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import static java.lang.Math.scalb;
 import static java.lang.Math.pow;
 import static java.lang.Math.floor;
+import static java.lang.Math.ceil;
 
 import static java.util.Objects.requireNonNull;
 
@@ -48,7 +49,7 @@ public final class ElevationProfile {
        elevation = requireNonNull(elevationModel);
        this.length = length;
     
-       tab = new GeoPoint [(int) (scalb(length,-SPACING_EXPONENT)+1)];
+       tab = new GeoPoint [(int) (ceil(scalb(length,-SPACING_EXPONENT))+1)];
        for(int i=0; i<tab.length; i++){
            double latitude = asin(sin(origin.latitude())*cos(toRadians(SPACING*i)) + 
                cos(origin.latitude())*sin(toRadians(SPACING*i))*cos(toMath(azimuth)));
@@ -85,11 +86,11 @@ public final class ElevationProfile {
         int borneInf = (int)floor(index);
         double longitudeA=0,latitudeA=0;
         
-       if(borneInf != tab.length-1){
+       if(borneInf < tab.length-1){
             int borneSup = borneInf + 1;
             longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), index - borneInf);
             latitudeA  = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), index - borneInf);
-        
+         
             return new GeoPoint(longitudeA,latitudeA);
        }else{
            return tab[borneInf];
