@@ -33,7 +33,4 @@ public class TestingGazetteerParser {
         List<Summit> tab = GazetteerParser.readSummitsFrom(new File("alps.txt"));
         tab.remove(5);
     }
-
-
-
 }
