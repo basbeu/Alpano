@@ -68,7 +68,7 @@ public class DrawAllHgtDEM {
         }
         dDEM.close();
 
-        ImageIO.write(i, "png", new File(f.substring(0,7)+".png"));
+        ImageIO.write(i, "png", new File("BP_"+f.substring(0,7)+".png"));
 
     }
 

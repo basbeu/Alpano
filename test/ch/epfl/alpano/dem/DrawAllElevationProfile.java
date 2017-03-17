@@ -75,7 +75,7 @@ final class DrawAllElevationProfile {
               }
               dDEM.close();
 
-              ImageIO.write(i, "png", new File("Profile_"+f+"_BP.png"));
+              ImageIO.write(i, "png", new File("BP_Profile_"+f+".png"));
         
     }
   }

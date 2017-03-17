@@ -8,7 +8,7 @@ import java.io.File;
 import org.junit.Test;
 
 import ch.epfl.alpano.GeoPoint;
-//import static ch.epfl.alpano.Distance.toMeters;
+
 public class ElevationProfileTest {
 
     @Test

@@ -11,9 +11,6 @@ import ch.epfl.alpano.Interval1D;
 import ch.epfl.alpano.Interval2D;
 
 import static ch.epfl.alpano.Preconditions.checkArgument;
-import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
-import static java.lang.Math.toRadians;
-import static java.lang.Math.abs;
 
 /**
  * Classe immuable representant un MNT discret, par rapport a un fichier HGT
@@ -69,10 +66,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         checkArgument(l == 25934402, "Length of the file incorrect");
         
         //Creation de l'Interval2D
-        //extent=new Interval2D(new Interval1D((int)sampleIndex(toRadians(longitude)),(int)sampleIndex(toRadians(longitude+1))),new Interval1D((int)sampleIndex(toRadians(latitude)),(int)sampleIndex(toRadians(latitude+1))));
-        
         extent=new Interval2D(new Interval1D(longitude*3600,(longitude+1)*3600),new Interval1D(latitude*3600,(latitude+1)*3600));
-        
         
         //Mappage du fichier
         try(FileInputStream s = new FileInputStream(file)){
@@ -82,7 +76,6 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //System.out.println(file.getName());
     }
     
     @Override
@@ -101,16 +94,6 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         int x0 = extent.iX().includedFrom();
         int y0 = extent.iY().includedTo();
         
-        //System.out.println(toDegrees(x0/DiscreteElevationModel.SAMPLES_PER_RADIAN)+" "+toDegrees(y0/DiscreteElevationModel.SAMPLES_PER_RADIAN));
-       
-        //System.out.println((y0-y)*3601+x-x0);
-       // System.out.println((y0-y)*3601+x-x0);
-        // System.out.println((x-x0) +" "+(y0-y));
-      //  return elevations.get((y0-y-1)*3601+x-x0);
-        //System.out.println(abs(y0-y)*3601+abs(x-x0));
-        //(y0-y)*3601+x-x0
-        System.out.println(abs(y-y0)*3602+abs(x-x0));
         return elevations.get((y0-y)*3601+x-x0);
     }
-    
 }
