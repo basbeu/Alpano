@@ -42,7 +42,7 @@ final class DrawAllElevationProfile {
         for(String f:HGT_FILE){
             
             DiscreteElevationModel dDEM = new HgtDiscreteElevationModel(new File(f));
-            System.out.println(new Double(f.substring(1,3))+", "+new Double(f.substring(5,7)));
+           // System.out.println(new Double(f.substring(1,3))+", "+new Double(f.substring(5,7)));
             draw(f, dDEM, toRadians(new Double(f.substring(5,7))), toRadians(new Double(f.substring(1,3))));
             
         }

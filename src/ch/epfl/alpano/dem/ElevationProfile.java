@@ -8,40 +8,40 @@ import static ch.epfl.alpano.Distance.toRadians;
 import static ch.epfl.alpano.Azimuth.toMath;
 import static java.lang.Math.PI;
 import static ch.epfl.alpano.Math2.PI2;
-import static java.lang.Math.ceil;
+//import static java.lang.Math.ceil;
 import static ch.epfl.alpano.Math2.lerp;
 import ch.epfl.alpano.GeoPoint;
 import static ch.epfl.alpano.Math2.floorMod;
+import static ch.epfl.alpano.Preconditions.checkArgument;
+import static java.lang.Math.scalb;
+import static java.lang.Math.pow;
+import static java.lang.Math.floor;
+
+import static java.util.Objects.requireNonNull;
 
 public final class ElevationProfile {
     
     private final ContinuousElevationModel elevation;
     private final double length;
     private final GeoPoint [] tab;
-    private final int ESPACE = 4096;
+    private final int SPACING_EXPONENT = 12;
+    private final int SPACING = (int)pow(2,SPACING_EXPONENT);
     
     public ElevationProfile (ContinuousElevationModel elevationModel, GeoPoint origin, double azimuth, double length){
-       if(!(isCanonical(azimuth)) || length <= 0){
-           throw new IllegalArgumentException ();
-       }
+       checkArgument(isCanonical(azimuth) && length > 0);
        
-       if(elevationModel == null || origin == null){
-           throw new NullPointerException();
-       }
-       
-       elevation = elevationModel;
+       elevation = requireNonNull(elevationModel);
        this.length = length;
     
-       
-       tab = new GeoPoint [(int) (ceil(length/4096)+1)];
+       //tab = new GeoPoint [(int) (ceil(length/4096)+1)];
+       tab = new GeoPoint [(int) (scalb(length,-SPACING_EXPONENT)+1)];
        for(int i=0; i<tab.length; i++){
-           double latitude = asin(sin(origin.latitude())*cos(toRadians(ESPACE*i)) + 
-               cos(origin.latitude())*sin(toRadians(ESPACE*i))*cos(toMath(azimuth)));
+           double latitude = asin(sin(origin.latitude())*cos(toRadians(SPACING*i)) + 
+               cos(origin.latitude())*sin(toRadians(SPACING*i))*cos(toMath(azimuth)));
        
-           double longitude = (floorMod(origin.longitude() - asin(sin(toMath(azimuth))*sin(toRadians(ESPACE*i))/cos(latitude)) + PI, PI2) - PI);
+           double longitude = (floorMod(origin.longitude() - asin(sin(toMath(azimuth))*sin(toRadians(SPACING*i))/cos(latitude)) + PI, PI2) - PI);
            
-           tab[i] = new GeoPoint(longitude, latitude); 
-           
+           tab[i] = new GeoPoint(longitude, latitude);        
        }
     }
     
@@ -54,16 +54,19 @@ public final class ElevationProfile {
     public GeoPoint positionAt(double x){
         isIn(x, length);
         
+        double index = scalb(x,-SPACING_EXPONENT);
+        int borneInf = (int)floor(index);
+        double longitudeA=0,latitudeA=0;
         
-        int borneInf = (int)Math.floor(x/ESPACE);
-        int borneSup = borneInf + 1;
+       if(borneInf != tab.length-1){
+            int borneSup = borneInf + 1;
+            longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), index - borneInf);
+            latitudeA  = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), index - borneInf);
         
-        double longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), x/ESPACE - borneInf);
-        double latitudeA = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), x/ESPACE - borneInf);
-        
-        GeoPoint p = new GeoPoint(longitudeA, latitudeA);
-       
-        return p;
+            return new GeoPoint(longitudeA,latitudeA);
+       }else{
+           return tab[borneInf];
+       }
     }
     
     public double slopeAt(double x){
@@ -75,9 +78,7 @@ public final class ElevationProfile {
     
     
     private void isIn (double position, double longueur){
-        if(!(0<=position && position<=longueur)){
-            throw new IllegalArgumentException();
-        }        
+        checkArgument(0<=position && position<=longueur);
     }
 
 }
