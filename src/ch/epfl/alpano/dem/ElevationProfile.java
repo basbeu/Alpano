@@ -8,7 +8,6 @@ import static ch.epfl.alpano.Distance.toRadians;
 import static ch.epfl.alpano.Azimuth.toMath;
 import static java.lang.Math.PI;
 import static ch.epfl.alpano.Math2.PI2;
-//import static java.lang.Math.ceil;
 import static ch.epfl.alpano.Math2.lerp;
 import ch.epfl.alpano.GeoPoint;
 import static ch.epfl.alpano.Math2.floorMod;
@@ -19,6 +18,13 @@ import static java.lang.Math.floor;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Classe representant un profil altimetrique suivant un arc de grand cercle
+ *
+ * @author Philippine Favre (258854)
+ * @author Bastien Beuchat  (257117)
+ */
+
 public final class ElevationProfile {
     
     private final ContinuousElevationModel elevation;
@@ -27,13 +33,21 @@ public final class ElevationProfile {
     private final int SPACING_EXPONENT = 12;
     private final int SPACING = (int)pow(2,SPACING_EXPONENT);
     
+    /**Constructeur d'un profil altimetrique
+     * @param elevationModel ContinuousElevationModel MNT donne
+     * @param origin GeoPoint qui est le debut du trace
+     * @param azimuth double direction du grand cercle
+     * @param length double longueur du trace
+     * @throws IllegalArgumentException si l'azimuth n'est pas canonique et la longueur n'est pas strictement positive
+     * @throws NullPointerException  si l'azimut ou l'origine est null
+     */
+    
     public ElevationProfile (ContinuousElevationModel elevationModel, GeoPoint origin, double azimuth, double length){
        checkArgument(isCanonical(azimuth) && length > 0);
        
        elevation = requireNonNull(elevationModel);
        this.length = length;
     
-       //tab = new GeoPoint [(int) (ceil(length/4096)+1)];
        tab = new GeoPoint [(int) (scalb(length,-SPACING_EXPONENT)+1)];
        for(int i=0; i<tab.length; i++){
            double latitude = asin(sin(origin.latitude())*cos(toRadians(SPACING*i)) + 
@@ -45,12 +59,25 @@ public final class ElevationProfile {
        }
     }
     
+    /**
+     * Methode retournant l'altitude du terrain a la position donnee du profil
+     * @param x double position 
+     * @return double altitude 
+     * @throws IllegalArgumentException si la position n'est pas dans les bornes du profil
+     */
+    
     public double elevationAt(double x){
         isIn(x, length);
         
         return elevation.elevationAt(positionAt(x));
     }
     
+    /**
+     * Methode retournant les coordonnees du point a la position donnee du profil
+     * @param x double position
+     * @return GeoPoint coordonnees du point
+     * @throws IllegalArgumentException si la position n'est pas dans les bornes du profil 
+     */
     public GeoPoint positionAt(double x){
         isIn(x, length);
         
@@ -69,14 +96,24 @@ public final class ElevationProfile {
        }
     }
     
+    /**
+     * Methode retournant la pente du terrain a la position donnee du profil
+     * @param x double position
+     * @return double la pente du terrain
+     * @throws IllegalArgumentException  si la position n'est pas dans les bornes du profil
+     */
     public double slopeAt(double x){
         isIn(x, length);
         
         return elevation.slopeAt(positionAt(x));
     }
-    
-    
-    
+        
+    /**
+     * Methode privee pour tester si la position est comprise dans les bornes du profil
+     * @param position double position
+     * @param longueur double longueur
+     * @throws IllegalArgumentException si la position n'est pas dans les bornes
+     */
     private void isIn (double position, double longueur){
         checkArgument(0<=position && position<=longueur);
     }
