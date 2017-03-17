@@ -55,9 +55,9 @@ public final class GazetteerParser {
             double lat = angleStringToRadians(l.substring(10,18));
             
             GeoPoint position = new GeoPoint(lon,lat);
-            int elevation = Integer.parseInt(l.substring(20,24));
+            int elevation = Integer.parseInt(l.substring(20,24).trim());
             
-            String name = l.substring(37);
+            String name = l.substring(36);
             return new Summit(name, position, elevation);
         }catch(NumberFormatException e){
             throw new IOException("File not good formatted");
