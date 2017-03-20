@@ -5,18 +5,20 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Azimuth.canonicalize;
+import static java.lang.Math.tan;
 
 
 final public class PanoramaParameters {
     
     private final GeoPoint OBSERVERPOSITION;
    
-    private final int OBSERVERELEVATION;
-    private final double CENTERAZIMUTH;
-    private final double HORIZONTALFIELDOFVIEW;
-    private final int MAXDISTANCE;
+    private final int OBSERVER_ELEVATION;
+    private final double CENTER_AZIMUTH;
+    private final double HORIZONTAL_FIELD_OF_VIEW;
+    private final int MAX_DISTANCE;
     private final int WIDTH;
     private final int HEIGHT;
+    private final double DELTA;
     
     public PanoramaParameters(GeoPoint observerPosition, int observerElevation, double centerAzimuth, double horizontalFieldOfView, int maxDistance, int width, int height){
         checkArgument(isCanonical(centerAzimuth));
@@ -24,12 +26,14 @@ final public class PanoramaParameters {
         checkArgument(maxDistance > 0 && width > 0 && height > 0);
 
         OBSERVERPOSITION = requireNonNull(observerPosition);
-        OBSERVERELEVATION = observerElevation;
-        CENTERAZIMUTH = centerAzimuth;
-        HORIZONTALFIELDOFVIEW = horizontalFieldOfView;
-        MAXDISTANCE = maxDistance;
+        OBSERVER_ELEVATION = observerElevation;
+        CENTER_AZIMUTH = centerAzimuth;
+        HORIZONTAL_FIELD_OF_VIEW = horizontalFieldOfView;
+        MAX_DISTANCE = maxDistance;
         WIDTH = width;
         HEIGHT = height;
+        
+        DELTA = HORIZONTAL_FIELD_OF_VIEW/(WIDTH-1);
     }
     
     public GeoPoint observerPosition (){
@@ -37,19 +41,19 @@ final public class PanoramaParameters {
     }
     
     public int observerElevation(){
-        return OBSERVERELEVATION;
+        return OBSERVER_ELEVATION;
     }
     
     public double centerAzimuth(){
-        return CENTERAZIMUTH;
+        return CENTER_AZIMUTH;
     }
     
     public double horizontalFieldOfView(){
-        return HORIZONTALFIELDOFVIEW;
+        return HORIZONTAL_FIELD_OF_VIEW;
     }
     
     public int maxDistance(){
-        return MAXDISTANCE;
+        return MAX_DISTANCE;
     }
     
     public int width(){
@@ -61,31 +65,30 @@ final public class PanoramaParameters {
     }
     
     public double verticalFieldOfView(){
-        return HORIZONTALFIELDOFVIEW*((HEIGHT-1)/(WIDTH-1));
+        return HORIZONTAL_FIELD_OF_VIEW*((HEIGHT-1)/(WIDTH-1));
     }
     
     public double azimuthForX(double x){
-        checkArgument(x < 0 && x > (WIDTH -1));
-        double delta = HORIZONTALFIELDOFVIEW/(WIDTH-1);
-        return  canonicalize((delta*x)- (WIDTH/2) + CENTERAZIMUTH); 
+        checkArgument(x >= 0 && x <= (WIDTH -1));
+        return  canonicalize(CENTER_AZIMUTH+(DELTA*x)-HORIZONTAL_FIELD_OF_VIEW/2); 
         //return canonicalize(CENTERAZIMUTH + (x-(WIDTH/2))*delta);
     }
     
     public double xForAzimuth(double a){
-        checkArgument(a<CENTERAZIMUTH+HORIZONTALFIELDOFVIEW && a>CENTERAZIMUTH-HORIZONTALFIELDOFVIEW);
-        
+        checkArgument(a <= CENTER_AZIMUTH + HORIZONTAL_FIELD_OF_VIEW/2 && a >= CENTER_AZIMUTH - HORIZONTAL_FIELD_OF_VIEW/2);
+        double alpha = a - (CENTER_AZIMUTH-HORIZONTAL_FIELD_OF_VIEW/2);
+        return alpha*MAX_DISTANCE/DELTA;
     }
     
     public double altitudeForY(double y){
-        checkArgument(y<0 && y>(HEIGHT-1));
-        double delta = HORIZONTALFIELDOFVIEW/(WIDTH-1);
-        return canonicalize((delta*y)-(HEIGHT/2));
+        checkArgument(y <= 0 && y > (HEIGHT-1));
+        return canonicalize((verticalFieldOfView()/2) - (DELTA*y));
         //return canonicalize(delta*(y-(HEIGHT/2)));
     }
     
     public double yForAltitude(double a){
-        checkArgument(a<verticalFieldOfView() && a>(PI2-verticalFieldOfView()));
-        
+        checkArgument(a <= verticalFieldOfView()/2 && a >= -(verticalFieldOfView()/2));
+        return tan(a)*MAX_DISTANCE/DELTA;
 
     }
     
@@ -97,13 +100,7 @@ final public class PanoramaParameters {
     }
     
     int linearSampleIndex(int x, int y){
-        if(y==0){
-            return x;
-        }else if(x==WIDTH-1 && y==HEIGHT-1){
-            return WIDTH*HEIGHT-1;
-        }else{
-            return (WIDTH-1)*y + x;
-        }
+        return x + WIDTH*y;
         
     }
 
