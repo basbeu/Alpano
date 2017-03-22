@@ -5,7 +5,7 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Azimuth.canonicalize;
-import static java.lang.Math.tan;
+
 
 
 final public class PanoramaParameters {
@@ -81,16 +81,18 @@ final public class PanoramaParameters {
     
     public double altitudeForY(double y){
         checkArgument(y >= 0 && y <= (HEIGHT-1));
-        return canonicalize((verticalFieldOfView()/2) - (DELTA*y));
+        return (verticalFieldOfView()/2) - (DELTA*y);
     }
     
     public double yForAltitude(double a){
         checkArgument(a <= verticalFieldOfView()/2 && a >= -verticalFieldOfView()/2);
-        return a/DELTA;
+        double y0 = verticalFieldOfView()/(2*DELTA);
+        return y0 + a/DELTA*(-1);
+        
     }
     
     boolean isValidSampleIndex(int x, int y){
-        if(x > 0 && x < WIDTH && y > 0 && y < HEIGHT ){
+        if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT ){
             return true;
         }else
             return false;
