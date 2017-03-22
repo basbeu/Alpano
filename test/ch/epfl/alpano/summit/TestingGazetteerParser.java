@@ -23,6 +23,8 @@ public class TestingGazetteerParser {
     @Test
     public void rightSummitWithSecondValue() throws IOException{
        List<Summit> tab = GazetteerParser.readSummitsFrom(new File("alps.txt"));
+       //System.out.println(tab.get(0).position());
+       //System.out.println(tab.get(1).position());
        assertEquals("TRUC DEL FARO", tab.get(1).name());
        assertEquals(1206, tab.get(1).elevation());
        assertEquals(Math.toRadians(7.41), tab.get(1).position().longitude(),0.05);
