@@ -96,18 +96,37 @@ public class PanoramaParametersTestsAG {
     public void altitudeForYWorks(){
         PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/3, 30000, 2500, 800);
         assertEquals(0, p.altitudeForY(399.5), 1e-7);
-        
+        assertEquals(p.verticalFieldOfView()/2, p.altitudeForY(0), 1e-7);
+        assertEquals(0.1485520336, p.altitudeForY(45), 1e-7);
     } 
    
     
     @Test
     public void yForAltitudeWorks(){
         PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/3, 30000, 2500, 800);
+        assertEquals(0, p.yForAltitude(p.verticalFieldOfView()/2), 1e-7);
+        assertEquals(799, p.yForAltitude(-(p.verticalFieldOfView()/2)), 1e-7);
+        
     }
+        
     
     @Test
     public void linearSampleIndexWorks(){
-        
+        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/3, 30000, 2500, 800);
+        assertEquals(1999999, p.linearSampleIndex(2499, 799),0);
+        assertEquals(0, p.linearSampleIndex(0, 0), 0);
+        assertEquals(955439 ,p.linearSampleIndex(439, 382), 0);
+        assertEquals(1499601, p.linearSampleIndex(2101, 599),0);
+    }
+    
+    @Test
+    public void isValidWorks(){
+        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/3, 30000, 2500, 800);
+        assertTrue(p.isValidSampleIndex(2400, 50));
+        assertTrue(p.isValidSampleIndex(2499, 799));
+        assertTrue(p.isValidSampleIndex(0, 0));
+        assertFalse(p.isValidSampleIndex(2500, 40));
+        assertFalse(p.isValidSampleIndex(400, 800));
     }
 
 }
