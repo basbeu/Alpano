@@ -22,7 +22,7 @@ final public class PanoramaParameters {
     
     public PanoramaParameters(GeoPoint observerPosition, int observerElevation, double centerAzimuth, double horizontalFieldOfView, int maxDistance, int width, int height){
         checkArgument(isCanonical(centerAzimuth));
-        checkArgument(0 < horizontalFieldOfView && horizontalFieldOfView >= PI2);
+        checkArgument(0 < horizontalFieldOfView && horizontalFieldOfView <= PI2);
         checkArgument(maxDistance > 0 && width > 0 && height > 0);
 
         OBSERVERPOSITION = requireNonNull(observerPosition);
@@ -65,31 +65,28 @@ final public class PanoramaParameters {
     }
     
     public double verticalFieldOfView(){
-        return HORIZONTAL_FIELD_OF_VIEW*((HEIGHT-1)/(WIDTH-1));
+        return HORIZONTAL_FIELD_OF_VIEW *(HEIGHT-1)/(WIDTH-1);
     }
     
     public double azimuthForX(double x){
         checkArgument(x >= 0 && x <= (WIDTH -1));
         return  canonicalize(CENTER_AZIMUTH+(DELTA*x)-HORIZONTAL_FIELD_OF_VIEW/2); 
-        //return canonicalize(CENTERAZIMUTH + (x-(WIDTH/2))*delta);
     }
     
     public double xForAzimuth(double a){
         checkArgument(a <= CENTER_AZIMUTH + HORIZONTAL_FIELD_OF_VIEW/2 && a >= CENTER_AZIMUTH - HORIZONTAL_FIELD_OF_VIEW/2);
-        double alpha = a - (CENTER_AZIMUTH-HORIZONTAL_FIELD_OF_VIEW/2);
-        return alpha*MAX_DISTANCE/DELTA;
+        double alpha = a - CENTER_AZIMUTH + HORIZONTAL_FIELD_OF_VIEW/2;
+        return alpha/DELTA;
     }
     
     public double altitudeForY(double y){
-        checkArgument(y <= 0 && y > (HEIGHT-1));
+        checkArgument(y >= 0 && y <= (HEIGHT-1));
         return canonicalize((verticalFieldOfView()/2) - (DELTA*y));
-        //return canonicalize(delta*(y-(HEIGHT/2)));
     }
     
     public double yForAltitude(double a){
-        checkArgument(a <= verticalFieldOfView()/2 && a >= -(verticalFieldOfView()/2));
-        return tan(a)*MAX_DISTANCE/DELTA;
-
+        checkArgument(a <= verticalFieldOfView()/2 && a >= -verticalFieldOfView()/2);
+        return a/DELTA;
     }
     
     boolean isValidSampleIndex(int x, int y){
@@ -101,7 +98,6 @@ final public class PanoramaParameters {
     
     int linearSampleIndex(int x, int y){
         return x + WIDTH*y;
-        
     }
 
 }
