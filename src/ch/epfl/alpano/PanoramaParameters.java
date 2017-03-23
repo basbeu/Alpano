@@ -7,7 +7,6 @@ import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Azimuth.canonicalize;
 
 
-
 final public class PanoramaParameters {
     
     private final GeoPoint OBSERVERPOSITION;
