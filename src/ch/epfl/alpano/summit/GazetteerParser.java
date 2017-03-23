@@ -13,6 +13,7 @@ import java.util.List;
 import ch.epfl.alpano.GeoPoint;
 
 import static java.lang.Math.toRadians;
+import static java.lang.Math.signum;
 
 /**
  * Classe immuable et non instanciable representant un lecteur de fichier
@@ -51,13 +52,13 @@ public final class GazetteerParser {
      */
     private static Summit toSummit(String l) throws IOException{
         try{
-            double lon = angleStringToRadians(l.substring(2,9));
-            double lat = angleStringToRadians(l.substring(10,18));
+            double lon = angleStringToRadians(l.substring(0,9).trim());
+            double lat = angleStringToRadians(l.substring(10,18).trim());
             
             GeoPoint position = new GeoPoint(lon,lat);
             int elevation = Integer.parseInt(l.substring(20,24).trim());
             
-            String name = l.substring(36);
+            String name = l.substring(36).trim();
             return new Summit(name, position, elevation);
         }catch(NumberFormatException e){
             throw new IOException("File not good formatted");
@@ -70,6 +71,8 @@ public final class GazetteerParser {
      */
     private static double angleStringToRadians(String angle){
         String hms[] = angle.split(":");
-        return toRadians(Integer.parseInt(hms[0])+Integer.parseInt(hms[1])/60.+Integer.parseInt(hms[2])/3600.);
+        
+        double partieEntiere = Integer.parseInt(hms[0]);
+        return toRadians(partieEntiere+signum(partieEntiere)*Integer.parseInt(hms[1])/60.+signum(partieEntiere)*Integer.parseInt(hms[2])/3600.);
     }
 }

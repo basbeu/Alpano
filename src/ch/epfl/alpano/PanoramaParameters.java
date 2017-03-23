@@ -9,7 +9,7 @@ import static ch.epfl.alpano.Azimuth.canonicalize;
 
 final public class PanoramaParameters {
     
-    private final GeoPoint OBSERVERPOSITION;
+    private final GeoPoint OBSERVER_POSITION;
    
     private final int OBSERVER_ELEVATION;
     private final double CENTER_AZIMUTH;
@@ -20,11 +20,11 @@ final public class PanoramaParameters {
     private final double DELTA;
     
     public PanoramaParameters(GeoPoint observerPosition, int observerElevation, double centerAzimuth, double horizontalFieldOfView, int maxDistance, int width, int height){
+        OBSERVER_POSITION = requireNonNull(observerPosition);
         checkArgument(isCanonical(centerAzimuth));
         checkArgument(0 < horizontalFieldOfView && horizontalFieldOfView <= PI2);
         checkArgument(maxDistance > 0 && width > 0 && height > 0);
 
-        OBSERVERPOSITION = requireNonNull(observerPosition);
         OBSERVER_ELEVATION = observerElevation;
         CENTER_AZIMUTH = centerAzimuth;
         HORIZONTAL_FIELD_OF_VIEW = horizontalFieldOfView;
@@ -36,7 +36,7 @@ final public class PanoramaParameters {
     }
     
     public GeoPoint observerPosition (){
-        return OBSERVERPOSITION;
+        return OBSERVER_POSITION;
     }
     
     public int observerElevation(){
