@@ -9,32 +9,32 @@ public class PanoramaParametersTestsAG {
 
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnAzimuth() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, 2.1*PI, PI/6, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, 2.1*PI, PI/6, 30000, 2500, 800);
     }
     
     @Test(expected = NullPointerException.class)
     public void constructorThrowsExceptionOnObserver() {
-        PanoramaParameters p = new PanoramaParameters(null, 3600, PI, PI/6, 30000, 2500, 800);
+        new PanoramaParameters(null, 3600, PI, PI/6, 30000, 2500, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnHorizontalView() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 0, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 0, 30000, 2500, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnMaxDistance() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 0, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 0, 2500, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnWidth() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 0, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 0, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnHeight() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 2500, 0);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 2500, 0);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -66,7 +66,7 @@ public class PanoramaParametersTestsAG {
     
     @Test
     public void constructorWorks(){
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 2*PI, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 2*PI, 30000, 2500, 800);
     }
     
    
@@ -128,5 +128,4 @@ public class PanoramaParametersTestsAG {
         assertFalse(p.isValidSampleIndex(2500, 40));
         assertFalse(p.isValidSampleIndex(400, 800));
     }
-
 }
