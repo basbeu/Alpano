@@ -145,9 +145,10 @@ final public class PanoramaParameters {
      * @throws IllegalArgumentException si l'azimut n'appartient pas à la zone visible
      */
     public double xForAzimuth(double a){
-        checkArgument(a <= CENTER_AZIMUTH + HORIZONTAL_FIELD_OF_VIEW/2 && a >= CENTER_AZIMUTH - HORIZONTAL_FIELD_OF_VIEW/2);
-        double alpha = a - CENTER_AZIMUTH + HORIZONTAL_FIELD_OF_VIEW/2;
-        return alpha/DELTA;
+        double alpha =Math2.angularDistance(CENTER_AZIMUTH,a );
+        checkArgument(Math.abs(alpha) <=HORIZONTAL_FIELD_OF_VIEW/2.);
+        
+        return alpha/DELTA+(WIDTH-1)/2.0;
     }
     
     /**
