@@ -12,7 +12,7 @@ import static java.util.Arrays.fill;
  * @author Bastien Beuchat  (257117)
  */
 
-final class Panorama {
+public final class Panorama {
     
     private final PanoramaParameters PARAMETERS;
     private final float[] DISTANCE;
@@ -93,50 +93,44 @@ final class Panorama {
                    
         }
         
-        public Builder setDistanceAt(int x, int y, float distance){
+        void checkIsBuilt(boolean isBuilt){
             if(isBuilt){
                 throw new IllegalStateException();
             }
+        }
+        
+        public Builder setDistanceAt(int x, int y, float distance){
+            checkIsBuilt(isBuilt);
             distanceBuild[param.linearSampleIndex(x, y)] = distance;
             return this;
         }
         
         public Builder setLongitudeAt(int x, int y, float longitude){
-            if(isBuilt){
-                throw new IllegalStateException();
-            }
+            checkIsBuilt(isBuilt);
             longitudeBuild[param.linearSampleIndex(x, y)] = longitude;
             return this;
         }
         
         public Builder setLatitudeAt(int x, int y, float latitude){
-            if(isBuilt){
-                throw new IllegalStateException();
-            }
+            checkIsBuilt(isBuilt);
             latitudeBuild[param.linearSampleIndex(x, y)] = latitude;
             return this;
         }
         
         public Builder setElevationAt(int x, int y, float elevation){
-            if(isBuilt){
-                throw new IllegalStateException();
-            }
+            checkIsBuilt(isBuilt);
             elevationBuild[param.linearSampleIndex(x, y)] = elevation;
             return this;
         }
         
         public Builder setSlopeAt(int x, int y, float slope){
-            if(isBuilt){
-                throw new IllegalStateException();
-            }
+            checkIsBuilt(isBuilt);
             slopeBuild[param.linearSampleIndex(x, y)] = slope;
             return this;
         }
         
         public Panorama build(){
-            if(isBuilt){
-                throw new IllegalStateException();
-            }
+            checkIsBuilt(isBuilt);
             isBuilt = true;
             
             return new Panorama(param, distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild);
