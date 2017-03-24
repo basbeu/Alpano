@@ -84,7 +84,7 @@ final class Panorama {
             
         }
         
-        
+       
     }
 
 }
