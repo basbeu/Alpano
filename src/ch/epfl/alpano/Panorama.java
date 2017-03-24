@@ -93,7 +93,7 @@ public final class Panorama {
                    
         }
         
-        void checkIsBuilt(boolean isBuilt){
+        private void checkIsBuilt(boolean isBuilt){
             if(isBuilt){
                 throw new IllegalStateException();
             }
