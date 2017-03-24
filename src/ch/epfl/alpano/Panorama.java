@@ -31,31 +31,35 @@ final class Panorama {
         return PARAMETERS;
     }
     
+    private void checkInBound(int x, int y){
+        if()
+    }
+    
     public float distanceAt(int x, int y){
-        return DISTANCE[];
+        return DISTANCE[PARAMETERS.linearSampleIndex(x, y)];
     }
     
     public float longitudeAt(int x, int y){
-        return;
+        return LONGITUDE[PARAMETERS.linearSampleIndex(x, y)];
     }
     
     public float latitudeAt(int x, int y){
-        return;
+        return LATITUDE[PARAMETERS.linearSampleIndex(x, y)];
     }
     
     public float elevationAt(int x, int y){
-        return;
+        return ELEVATION[PARAMETERS.linearSampleIndex(x, y)];
     }
     
     public float slopeAt(int x, int y){
-        return;
+        return SLOAP[PARAMETERS.linearSampleIndex(x, y)];
     }
     
     public float distanceAt(int x, int y, float d){
         return;
     }
     
-    public final static Builder {
+    public final static class Builder {
         public Builder(PanoramaParameters parameters){
             
         }
