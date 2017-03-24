@@ -13,73 +13,73 @@ public class PanoramaParametersTest__Global {
 	// Constructor
 	@Test(expected = java.lang.NullPointerException.class)
 	public void testPanoramaParametersConstructorNullGeoPoint() {
-		PanoramaParameters p = new PanoramaParameters(null, 1280, Math.toRadians(162d), Math.toRadians(27d), 300000,
+		new PanoramaParameters(null, 1280, Math.toRadians(162d), Math.toRadians(27d), 300000,
 				2500, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNoCanonicalAzimuthCornerCase() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math2.PI2, Math.toRadians(27d), 300000, 2500, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNoCanonicalAzimuth() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math2.PI2 + Math.PI, Math.toRadians(27d), 300000, 2500, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorInvalidHorizontalFieldOfViewCornerCase() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), 0, 300000, 2500, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorInvalidHorizontalFieldOfView() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, 300000, 2500, 800);
 	}
 
 	@Test
 	public void testPanoramaParametersConstructorValidHorizontalFieldOfViewCornerCase() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2, 300000, 2500, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNullWidth() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, 300000, 2500, 0);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNegativeWidth() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, 300000, 2500, -2);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNullHeight() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, 300000, 0, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNegativeHeight() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, 300000, -5, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNullMaximalDistance() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, 0, 2500, 800);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testPanoramaParametersConstructorNegativeMaximalDistance() {
-		PanoramaParameters p = new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
+		new PanoramaParameters(new GeoPoint(Math.toRadians(6.8087), Math.toRadians(6.8087)),
 				1280, Math.toRadians(162d), Math2.PI2 + 3, -6, 2500, 800);
 	}
 
@@ -160,37 +160,37 @@ public class PanoramaParametersTest__Global {
 
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnAzimuth() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, 2.1*PI, PI/6, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, 2.1*PI, PI/6, 30000, 2500, 800);
     }
     
     @Test(expected = NullPointerException.class)
     public void constructorThrowsExceptionOnObserver() {
-        PanoramaParameters p = new PanoramaParameters(null, 3600, PI, PI/6, 30000, 2500, 800);
+        new PanoramaParameters(null, 3600, PI, PI/6, 30000, 2500, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnHorizontalView() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 0, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 0, 30000, 2500, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnMaxDistance() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 0, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 0, 2500, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnWidth() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 0, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 0, 800);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void constructorThrowsExceptionOnHeight() {
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 2500, 0);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/6, 30000, 2500, 0);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void azimuthForXthrowsException(){
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/3, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, PI/3, 30000, 2500, 800);
         p.azimuthForX(2500);
     }
     
@@ -217,7 +217,7 @@ public class PanoramaParametersTest__Global {
     
     @Test
     public void constructorWorks(){
-        PanoramaParameters p = new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 2*PI, 30000, 2500, 800);
+        new PanoramaParameters(new GeoPoint(PI, PI/2), 3600, PI, 2*PI, 30000, 2500, 800);
     }
     
    
