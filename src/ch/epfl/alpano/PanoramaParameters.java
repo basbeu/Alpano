@@ -5,6 +5,8 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Azimuth.canonicalize;
+import static ch.epfl.alpano.Math2.angularDistance;
+import static java.lang.Math.abs;
 
 /**
  * Classe representant les parametres necessaires au dessin d'un panorama
@@ -145,8 +147,8 @@ final public class PanoramaParameters {
      * @throws IllegalArgumentException si l'azimut n'appartient pas à la zone visible
      */
     public double xForAzimuth(double a){
-        double alpha =Math2.angularDistance(CENTER_AZIMUTH,a );
-        checkArgument(Math.abs(alpha) <=HORIZONTAL_FIELD_OF_VIEW/2.);
+        double alpha =angularDistance(CENTER_AZIMUTH,a );
+        checkArgument(abs(alpha) <=HORIZONTAL_FIELD_OF_VIEW/2.);
         
         return alpha/DELTA+(WIDTH-1)/2.0;
     }
