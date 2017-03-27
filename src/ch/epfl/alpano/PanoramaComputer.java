@@ -20,46 +20,51 @@ import ch.epfl.alpano.dem.ElevationProfile;
 final public class PanoramaComputer {
     private final ContinuousElevationModel DEM;
     private static final double K=0.13;
-    
+    private final int INTERVAL_SEARCH = 64;
+    private final int INTERVAL_DICHO = 4;
+
     public PanoramaComputer(ContinuousElevationModel dem){
         DEM = requireNonNull(dem);
     }
-    
+
     public Panorama computePanorama(PanoramaParameters parameters){
         Panorama.Builder builder = new Panorama.Builder(parameters); 
-           
+
         for(int x=0;x<parameters.width();++x){
             ElevationProfile profile= new ElevationProfile(DEM, parameters.observerPosition(), parameters.azimuthForX(x),parameters.maxDistance());
             boolean infinityFound=false;
-            for(int y=parameters.height()-1;y>=0;--y){
-
-                if(!infinityFound){
-                    DoubleUnaryOperator delta = rayToGroundDistance(profile, profile.elevationAt(0), tan(parameters.altitudeForY(y)));
-                    double x1= firstIntervalContainingRoot(delta, 0,parameters.maxDistance(), 64);
-                    System.out.println(x1);
-                    if(x1 != Double.POSITIVE_INFINITY){
-                        double distance = improveRoot(delta, x1, x1+63,4);
-                        builder.setDistanceAt(x, y, (float)distance);
-                    }else{
-                        infinityFound=true;
-                    }
-                    
-                }
+            double distanceX =0;
+            //for(int y=parameters.height()-1;y>=0;--y){
+            int y=parameters.height()-1;
+            while(!infinityFound && y>=0){
                 
-                builder.setElevationAt(x, y, (float)parameters.altitudeForY(y));
-                builder.setLatitudeAt(x, y, (float)profile.positionAt(y).latitude());
-                builder.setLongitudeAt(x, y, (float)profile.positionAt(y).longitude());
-                builder.setSlopeAt(x, y, (float)profile.slopeAt(y));
+                DoubleUnaryOperator delta = rayToGroundDistance(profile, parameters.observerElevation(), tan(parameters.altitudeForY(y)));
+                double x1= firstIntervalContainingRoot(delta, distanceX,parameters.maxDistance(), INTERVAL_SEARCH);
+                if(x1 != Double.POSITIVE_INFINITY){
+                    distanceX = improveRoot(delta, x1, x1+INTERVAL_SEARCH,INTERVAL_DICHO);
+                    double distanceY = profile.elevationAt(distanceX);
+                    double distance = Math.sqrt(Math2.sq(distanceX)+Math2.sq(distanceY));
+                    builder.setDistanceAt(x, y, (float)distance);
+
+
+                    builder.setElevationAt(x, y, (float)profile.elevationAt(distanceX));
+                    builder.setLatitudeAt(x, y, (float)profile.positionAt(distanceX).latitude());
+                    builder.setLongitudeAt(x, y, (float)profile.positionAt(distanceX).longitude());
+                    builder.setSlopeAt(x, y, (float)profile.slopeAt(distanceX));
+                }else{
+                    infinityFound=true;
+                }
+                --y;
             }
-             
+
         }
-        
-        
+
+
         return builder.build();
     }
-    
+
     public static DoubleUnaryOperator rayToGroundDistance(ElevationProfile profile, double ray0, double raySlope){
-        return (x)->{return ray0+x*raySlope-profile.elevationAt(x)+(1-K)/(2*EARTH_RADIUS)*x*x;};
+        return (x)->{return ray0+x*raySlope-profile.elevationAt(x)+((1-K)/(2*EARTH_RADIUS))*x*x;};
     }
-    
+
 }
