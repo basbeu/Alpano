@@ -98,7 +98,7 @@ public interface Math2 {
 			}
 			x1+=dX;
 			x2+=dX;
-		}while(x1<=maxX);
+		}while(x2<=maxX);
 		
 		return Double.POSITIVE_INFINITY;
 	}
