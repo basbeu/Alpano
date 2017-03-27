@@ -1,6 +1,5 @@
 package ch.epfl.alpano;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.Arrays.fill;
 
 /**
@@ -135,10 +134,6 @@ public final class Panorama {
         private PanoramaParameters param;
         private float[] distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild;
         private boolean isBuilt = false;
-<<<<<<< HEAD
-=======
-        //private final int taille = param.width()*param.height();
->>>>>>> refs/remotes/origin/master
         
         /**
          * Constructeur d'un builder
@@ -146,14 +141,11 @@ public final class Panorama {
          * @param parameters PanoramaParameters parametres du panorama
          */
         public Builder(PanoramaParameters parameters){
-<<<<<<< HEAD
-            param = requireNonNull(parameters);
+
             distanceBuild = new float[param.width()*param.height()];
-=======
             param = parameters;
             int taille = param.width()*param.height();
             distanceBuild = new float[taille];
->>>>>>> refs/remotes/origin/master
             fill(distanceBuild, Float.POSITIVE_INFINITY);
             longitudeBuild = new float[param.width()*param.height()];
             latitudeBuild = new float[param.width()*param.height()];
