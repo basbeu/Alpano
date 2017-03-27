@@ -62,6 +62,8 @@ public final class GazetteerParser {
             return new Summit(name, position, elevation);
         }catch(NumberFormatException e){
             throw new IOException("File not good formatted");
+        }catch(IndexOutOfBoundsException e){
+            throw new IOException("File not good formatted");
         }
     }
     
