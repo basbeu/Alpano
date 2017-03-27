@@ -189,8 +189,10 @@ final public class PanoramaParameters {
     boolean isValidSampleIndex(int x, int y){
         if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT ){
             return true;
-        }else
+        }else{
+            System.out.println(x+" "+y);
             return false;
+        }
     }
     
     /**
