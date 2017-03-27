@@ -141,16 +141,14 @@ public final class Panorama {
          * @param parameters PanoramaParameters parametres du panorama
          */
         public Builder(PanoramaParameters parameters){
-
-            distanceBuild = new float[param.width()*param.height()];
             param = parameters;
             int taille = param.width()*param.height();
             distanceBuild = new float[taille];
             fill(distanceBuild, Float.POSITIVE_INFINITY);
-            longitudeBuild = new float[param.width()*param.height()];
-            latitudeBuild = new float[param.width()*param.height()];
-            elevationBuild = new float[param.width()*param.height()];
-            slopeBuild = new float[param.width()*param.height()];
+            longitudeBuild = new float[taille];
+            latitudeBuild = new float[taille];
+            elevationBuild = new float[taille];
+            slopeBuild = new float[taille];
                    
         }
         
