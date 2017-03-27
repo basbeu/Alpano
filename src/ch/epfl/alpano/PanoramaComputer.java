@@ -37,12 +37,12 @@ final public class PanoramaComputer {
             //for(int y=parameters.height()-1;y>=0;--y){
             int y=parameters.height()-1;
             while(!infinityFound && y>=0){
-                
                 DoubleUnaryOperator delta = rayToGroundDistance(profile, parameters.observerElevation(), tan(parameters.altitudeForY(y)));
                 double x1= firstIntervalContainingRoot(delta, distanceX,parameters.maxDistance(), INTERVAL_SEARCH);
+                
                 if(x1 != Double.POSITIVE_INFINITY){
                     distanceX = improveRoot(delta, x1, x1+INTERVAL_SEARCH,INTERVAL_DICHO);
-                    double distanceY = profile.elevationAt(distanceX);
+                    double distanceY = parameters.observerElevation()-profile.elevationAt(distanceX);
                     double distance = Math.sqrt(Math2.sq(distanceX)+Math2.sq(distanceY));
                     builder.setDistanceAt(x, y, (float)distance);
 
