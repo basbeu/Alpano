@@ -36,7 +36,7 @@ public final class Panorama {
     }
     
     private void checkInBound(int x, int y){
-        if(PARAMETERS.isValidSampleIndex(x, y)){
+        if(!PARAMETERS.isValidSampleIndex(x, y)){
             throw new IndexOutOfBoundsException();
         }
     }
@@ -80,10 +80,11 @@ public final class Panorama {
         private PanoramaParameters param;
         private float[] distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild;
         private boolean isBuilt = false;
-        private final int taille = param.width()*param.height();
+        //private final int taille = param.width()*param.height();
         
         public Builder(PanoramaParameters parameters){
-            param = requireNonNull(parameters);
+            param = parameters;
+            int taille = param.width()*param.height();
             distanceBuild = new float[taille];
             fill(distanceBuild, Float.POSITIVE_INFINITY);
             longitudeBuild = new float[taille];
