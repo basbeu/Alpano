@@ -135,6 +135,12 @@ public final class Panorama {
         private float[] distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild;
         private boolean isBuilt = false;
         
+        
+        private void checkInBound(int x, int y){
+            if(!param.isValidSampleIndex(x, y)){
+                throw new IndexOutOfBoundsException();
+            }
+        }
         /**
          * Constructeur d'un builder
          * 
@@ -168,6 +174,7 @@ public final class Panorama {
          * @return
          */
         public Builder setDistanceAt(int x, int y, float distance){
+            checkInBound(x,y);
             checkIsBuilt(isBuilt);
             distanceBuild[param.linearSampleIndex(x, y)] = distance;
             return this;
@@ -180,6 +187,7 @@ public final class Panorama {
          * @return
          */
         public Builder setLongitudeAt(int x, int y, float longitude){
+            checkInBound(x,y);
             checkIsBuilt(isBuilt);
             longitudeBuild[param.linearSampleIndex(x, y)] = longitude;
             return this;
@@ -192,6 +200,7 @@ public final class Panorama {
          * @return
          */
         public Builder setLatitudeAt(int x, int y, float latitude){
+            checkInBound(x,y);
             checkIsBuilt(isBuilt);
             latitudeBuild[param.linearSampleIndex(x, y)] = latitude;
             return this;
@@ -204,6 +213,7 @@ public final class Panorama {
          * @return
          */
         public Builder setElevationAt(int x, int y, float elevation){
+            checkInBound(x,y);
             checkIsBuilt(isBuilt);
             elevationBuild[param.linearSampleIndex(x, y)] = elevation;
             return this;
@@ -216,6 +226,7 @@ public final class Panorama {
          * @return
          */
         public Builder setSlopeAt(int x, int y, float slope){
+            checkInBound(x,y);
             checkIsBuilt(isBuilt);
             slopeBuild[param.linearSampleIndex(x, y)] = slope;
             return this;
