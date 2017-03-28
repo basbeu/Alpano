@@ -34,23 +34,22 @@ final public class PanoramaComputer {
             ElevationProfile profile= new ElevationProfile(DEM, parameters.observerPosition(), parameters.azimuthForX(x),parameters.maxDistance());
             boolean infinityFound=false;
             double distanceX =0;
-            //for(int y=parameters.height()-1;y>=0;--y){
+            
             int y=parameters.height()-1;
             while(!infinityFound && y>=0){
                 DoubleUnaryOperator delta = rayToGroundDistance(profile, parameters.observerElevation(), tan(parameters.altitudeForY(y)));
                 double x1= firstIntervalContainingRoot(delta, distanceX,parameters.maxDistance(), INTERVAL_SEARCH);
-                
                 if(x1 != Double.POSITIVE_INFINITY){
                     distanceX = improveRoot(delta, x1, x1+INTERVAL_SEARCH,INTERVAL_DICHO);
-                    double distanceY = parameters.observerElevation()-profile.elevationAt(distanceX);
-                    double distance = Math.sqrt(Math2.sq(distanceX)+Math2.sq(distanceY));
+                    
+                    double distance = distanceX/Math.cos(parameters.altitudeForY(y));
                     builder.setDistanceAt(x, y, (float)distance);
-
 
                     builder.setElevationAt(x, y, (float)profile.elevationAt(distanceX));
                     builder.setLatitudeAt(x, y, (float)profile.positionAt(distanceX).latitude());
                     builder.setLongitudeAt(x, y, (float)profile.positionAt(distanceX).longitude());
                     builder.setSlopeAt(x, y, (float)profile.slopeAt(distanceX));
+                    
                 }else{
                     infinityFound=true;
                 }
