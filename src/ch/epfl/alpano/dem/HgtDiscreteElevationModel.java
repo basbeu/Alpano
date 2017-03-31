@@ -21,7 +21,7 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
     private ShortBuffer elevations;
     private final Interval2D extent;
-    
+
     /**
      * Construit un HgtDiscreteElevationModel
      * @param file File representant le fichier .hgt associe au HgtDiscreteElevationModel 
@@ -40,34 +40,34 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
             }catch(NumberFormatException e){
                 isNameCorrect = false;
             }
-            
+
             char lat = name.charAt(0);
             char lon = name.charAt(3);
             if((lat != 'N' && lat != 'S')||
                     (lon != 'E' && lon != 'W' )){
                 isNameCorrect = false;
             }
-            
+
             if(lat == 'S'){
                 latitude *=-1;
             }
             if(lon == 'W'){
                 longitude*=-1;
             }
-            
+
             if(!name.substring(7,11).equals(".hgt")){
                 isNameCorrect = false;
             }
         }
         checkArgument(isNameCorrect,"Name incorrect");
-        
+
         //controle de la longueur du fichier
         long l = file.length();
         checkArgument(l == 25934402, "Length of the file incorrect");
-        
+
         //Creation de l'Interval2D
         extent=new Interval2D(new Interval1D(longitude*3600,(longitude+1)*3600),new Interval1D(latitude*3600,(latitude+1)*3600));
-        
+
         //Mappage du fichier
         try(FileInputStream s = new FileInputStream(file)){
             elevations = s.getChannel().map(MapMode.READ_ONLY, 0, l).asShortBuffer();
@@ -77,7 +77,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void close() throws Exception {
         elevations = null;
@@ -93,7 +93,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         checkArgument(extent.contains(x, y));
         int x0 = extent.iX().includedFrom();
         int y0 = extent.iY().includedTo();
-        
+
         return elevations.get((y0-y)*3601+x-x0);
     }
 }

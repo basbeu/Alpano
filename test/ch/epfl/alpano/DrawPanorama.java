@@ -17,8 +17,8 @@ import ch.epfl.alpano.dem.HgtDiscreteElevationModel;
 final class DrawPanorama {
     final static File HGT_FILE = new File("N46E007.hgt");
 
-    final static int IMAGE_WIDTH = 500;
-    final static int IMAGE_HEIGHT = 200;
+    final static int IMAGE_WIDTH = 2000;
+    final static int IMAGE_HEIGHT = 800;
 
     final static double ORIGIN_LON = toRadians(7.65);
     final static double ORIGIN_LAT = toRadians(46.73);
@@ -38,7 +38,8 @@ final class DrawPanorama {
                              IMAGE_HEIGHT);
 
     public static void main(String[] as) throws Exception {
-      try (DiscreteElevationModel dDEM =
+        double t=System.currentTimeMillis();
+        try (DiscreteElevationModel dDEM =
            new HgtDiscreteElevationModel(HGT_FILE)) {
         ContinuousElevationModel cDEM =
           new ContinuousElevationModel(dDEM);
@@ -62,6 +63,7 @@ final class DrawPanorama {
 
         ImageIO.write(i, "png", new File("niesen.png"));
       }
+        System.out.println(System.currentTimeMillis()-t);
     }
     
     private static int gray(double v) {
