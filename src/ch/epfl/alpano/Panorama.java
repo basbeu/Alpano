@@ -66,6 +66,7 @@ public final class Panorama {
      * @param x int coorodnnee d'index x
      * @param y int coordonnee d'index y
      * @return float distance au point de coordonne (x, y)
+     * @throws IndexOutOfBoundsException si les coordonnees sont hors des bornes
      */
     public float distanceAt(int x, int y){
         checkInBound(x,y);
