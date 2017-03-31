@@ -190,7 +190,6 @@ final public class PanoramaParameters {
         if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT ){
             return true;
         }else{
-            System.out.println(x+" "+y);
             return false;
         }
     }
