@@ -1,7 +1,8 @@
 package ch.epfl.alpano.summit;
 
-import ch.epfl.alpano.GeoPoint;
 import static java.util.Objects.requireNonNull;
+
+import ch.epfl.alpano.GeoPoint;
 
 /**
  * Classe immuable representant un sommet 
@@ -19,6 +20,7 @@ public final class Summit {
      * @param name String representant le nom du sommet
      * @param position GeoPoint representant les coordonnees geographique du sommet
      * @param elevation int representant l'altitude du sommet
+     * @throws IllegalArgumentException si le nom ou la position est nulle
      */
     public Summit(String name, GeoPoint position, int elevation){
         this.name = requireNonNull(name);
@@ -27,7 +29,7 @@ public final class Summit {
     }
 
     /**
-     * @return un Strig representant le nom du sommet
+     * @return un String representant le nom du sommet
      */
     public String name(){
         return name;

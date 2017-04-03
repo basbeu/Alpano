@@ -1,5 +1,7 @@
 package ch.epfl.alpano.dem;
 
+import static ch.epfl.alpano.Preconditions.checkArgument;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,8 +12,6 @@ import java.nio.channels.FileChannel.MapMode;
 import ch.epfl.alpano.Interval1D;
 import ch.epfl.alpano.Interval2D;
 
-import static ch.epfl.alpano.Preconditions.checkArgument;
-
 /**
  * Classe immuable representant un MNT discret, par rapport a un fichier HGT
  *
@@ -19,12 +19,15 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
  * @author Bastien Beuchat  (257117)
  */
 public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
+    private final static int LENGTH_FILE = 25934402;
+    
     private ShortBuffer elevations;
     private final Interval2D extent;
 
     /**
      * Construit un HgtDiscreteElevationModel
-     * @param file File representant le fichier .hgt associe au HgtDiscreteElevationModel 
+     * @param file File representant le fichier .hgt associe au HgtDiscreteElevationModel
+     * @throws IllegalArgumentException si le fichier est incorrect, le nom doit etre correct et sa longueur 
      */
     public HgtDiscreteElevationModel(File file){
         int latitude = 0, longitude = 0;
@@ -55,18 +58,19 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
                 longitude*=-1;
             }
 
-            if(!name.substring(7,11).equals(".hgt")){
+            if(!name.substring(7, 11).equals(".hgt")){
                 isNameCorrect = false;
             }
         }
-        checkArgument(isNameCorrect,"Name incorrect");
+        checkArgument(isNameCorrect, "Nom incorrect");
 
         //controle de la longueur du fichier
         long l = file.length();
-        checkArgument(l == 25934402, "Length of the file incorrect");
+        checkArgument(l == LENGTH_FILE, "Longueur du fichier incorrecte");
 
         //Creation de l'Interval2D
-        extent=new Interval2D(new Interval1D(longitude*3600,(longitude+1)*3600),new Interval1D(latitude*3600,(latitude+1)*3600));
+        extent = new Interval2D(new Interval1D(longitude * SAMPLES_PER_DEGREE, (longitude + 1) * SAMPLES_PER_DEGREE),
+                new Interval1D(latitude * SAMPLES_PER_DEGREE, (latitude + 1) * SAMPLES_PER_DEGREE));
 
         //Mappage du fichier
         try(FileInputStream s = new FileInputStream(file)){
@@ -94,6 +98,6 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         int x0 = extent.iX().includedFrom();
         int y0 = extent.iY().includedTo();
 
-        return elevations.get((y0-y)*3601+x-x0);
+        return elevations.get((y0 - y) * (SAMPLES_PER_DEGREE + 1) + x - x0);
     }
 }
