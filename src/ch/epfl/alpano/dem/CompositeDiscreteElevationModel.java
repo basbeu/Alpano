@@ -18,6 +18,7 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
      * 
      * @param dem1 DiscreteElevationModel representant le premier modele de terrain
      * @param dem2 DiscreteElevationModel representant le deuxieme modele de terrain
+     * @throws NullPointerException si dem1 ou dem2 est null
      */
     public CompositeDiscreteElevationModel(DiscreteElevationModel dem1, DiscreteElevationModel dem2) {
         DEM1 = requireNonNull(dem1);
