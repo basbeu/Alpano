@@ -31,7 +31,7 @@ public final class ContinuousElevationModel {
      * @throws NullPointerException si le MNT discret passe en argument est nul
      */
     public ContinuousElevationModel(DiscreteElevationModel dem) {
-        this.dem = requireNonNull(dem);
+        this.dem = requireNonNull(dem,"DiscreteElevation dem : null");
     }
 
     /**

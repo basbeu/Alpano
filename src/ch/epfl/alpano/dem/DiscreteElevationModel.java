@@ -46,7 +46,7 @@ public interface DiscreteElevationModel extends AutoCloseable{
      * @throws IllegalArgumentException si les etendues ne sont pas unionables
      */
     default DiscreteElevationModel union(DiscreteElevationModel that){
-        checkArgument(that.extent().isUnionableWith(this.extent()));
+        checkArgument(that.extent().isUnionableWith(this.extent()),"That pas unionable avec this");
         return new CompositeDiscreteElevationModel(this, that);
     }
 }

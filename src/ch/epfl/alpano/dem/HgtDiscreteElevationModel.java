@@ -94,7 +94,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
 
     @Override
     public double elevationSample(int x, int y) {
-        checkArgument(extent.contains(x, y));
+        checkArgument(extent.contains(x, y),"Index en dehors du DEM");
         int x0 = extent.iX().includedFrom();
         int y0 = extent.iY().includedTo();
 
