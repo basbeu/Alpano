@@ -51,7 +51,7 @@ public final class Summit {
     
     @Override
     public String toString() {
-        return name+" "+position+" "+elevation;
+        return name()+" "+position()+" "+elevation();
     }
     
 }
