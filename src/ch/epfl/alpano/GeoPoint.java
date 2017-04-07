@@ -15,84 +15,81 @@ import static ch.epfl.alpano.Azimuth.fromMath;
 import java.util.Locale;
 
 /**
- *represente un point a la surface de la Terre dont la position est donnee dans un systeme de coodonnee spherique
+ *Classe immuable representant un point a la surface de la Terre dont la position est donnee dans un systeme de coodonnee spherique
  *
  * @author Philippine Favre (258854)
  * @author Bastien Beuchat  (257117)
  */
 
 public final class GeoPoint {
-    
-    private final double LONGITUDE;
-    private final double LATITUDE;
+
+    private final double longitude;
+    private final double latitude;
+
     /**
      * Constructeur d'un point de coordonnee 
-     * 
-     * @param longitude Double representant la longitude en radians
-     * @param latitude Double representant la latitude en radians
-     * @throws IllegalArgumentExcpetion si la longitude n'est pas comprise entre [-PI; PI] et si la latitude n'est
+     * @param longitude double representant la longitude en radians
+     * @param latitude double representant la latitude en radians
+     * @throws IllegalArgumentExcpetion si la longitude n'est pas comprise entre [-PI; PI] ou si la latitude n'est
      *          pas comprise entre [-PI/2, PI/2]
      */
     public GeoPoint(double longitude, double latitude){
         checkArgument(-PI <= longitude && longitude <= PI, "longitude invalide");
-        checkArgument(-PI/2 <= latitude && latitude <= PI/2, "latitude invalide");
-        LONGITUDE = longitude;
-        LATITUDE = latitude;
+        checkArgument(-PI / 2 <= latitude && latitude <= PI / 2, "latitude invalide");
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
-    
+
     /**
-     * methode retournant la longitude
-     * @return Double la longitude en radians
+     * Accesseur public de la longitude du point
+     * @return double la longitude en radians
      */
     public double longitude(){
-        return LONGITUDE;
-        
+        return longitude;
+
     }
-    
+
     /**
-     * methode retournant la latitude
-     * @return Double la latitude en radians
+     * Accesseur public de la latitude du point
+     * @return double la latitude en radians
      */
     public double latitude(){
-        return LATITUDE;
-        
+        return latitude;
+
     }
-    
+
     /**
-     * methode qui retourne la distance en metre separant le recepteur (this) de l'argument (that) 
+     * Calcul la distance en metre separant le recepteur (this) de l'argument (that) 
      * @param that GeoPoint point sur la surface de la Terre avec lequel nous calculons la distance
-     * @return Double distance en metre
+     * @return double distance en metre
      */
     public double distanceTo(GeoPoint that){
-        double alpha = 2*asin(sqrt(haversin(this.latitude() - that.latitude()) 
-                + cos(this.latitude())*cos(that.latitude())*haversin(this.longitude() - that.longitude())));
-        
-        return alpha*EARTH_RADIUS;
+        double alpha = 2 * asin(sqrt(haversin(this.latitude() - that.latitude()) 
+                + cos(this.latitude()) * cos(that.latitude()) * haversin(this.longitude() - that.longitude())));
+
+        return alpha * EARTH_RADIUS;
     }
-    
+
     /**
-     * methode retournant l'azimut de l'argument (that) par rapport au recepteur (this)
+     * Calcul l'azimut de l'argument (that) par rapport au recepteur (this)
      * @param that GeoPoint permettant de calculer l'azimut 
-     * @return Double un azimut
+     * @return double un azimut
      */
     public double azimuthTo(GeoPoint that){
-        double beta = atan2(sin(this.longitude() - that.longitude())*cos(that.latitude())
-                ,cos(this.latitude())*sin(that.latitude()) - sin(this.latitude())*cos(that.latitude())*cos(this.longitude()-that.longitude()));
-        
+        double beta = atan2(sin(this.longitude() - that.longitude()) * cos(that.latitude()), 
+                cos(this.latitude()) * sin(that.latitude()) - sin(this.latitude()) * cos(that.latitude()) * cos(this.longitude() - that.longitude()));
+
         return fromMath(canonicalize(beta));
     }
-    
-    /**
-     * methode retournant la position en longitude et latitude (en degre) 
-     * @return String position en degre entre parenthese separe par une virgule
-     */   
+
+    @Override  
     public String toString(){
         Locale l = null;
-        double longitudeDegre = (LONGITUDE*180)/PI;
-        double latitudeDegre = (LATITUDE*180)/PI;
+        double longitudeDegre = (longitude * 180) / PI;
+        double latitudeDegre = (latitude * 180) / PI;
         String s = String.format(l, "(%.4f,%.4f)", longitudeDegre, latitudeDegre);
-                
+
         return s;
     }
-  
+
 }

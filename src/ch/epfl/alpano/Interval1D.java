@@ -13,31 +13,33 @@ import java.util.Objects;
  */
 public final class Interval1D {
     
-    private final int from,to;
+    private final int from, to;
     
     /**
      * Constructeur d'un intervalle d'entier unidimensionnel
-     * @param includedFrom Premier entier de l'intervalle
-     * @param includedTo Dernier entier de l'intervalle
+     * @param includedFrom int premier entier de l'intervalle
+     * @param includedTo int dernier entier de l'intervalle
      * @throws IllegalArgumentException si includedTo est strictement inferieur a includedFrom
      */
-    public Interval1D(int includedFrom,int includedTo){
-        checkArgument(includedTo >=includedFrom,"includedTo must be greater or equal to includedFrom");
+    public Interval1D(int includedFrom, int includedTo){
+        checkArgument(includedTo >= includedFrom, "includedTo doit être plus grand ou égal à includedFrom");
         
-        from=includedFrom;
-        to=includedTo;
+        from = includedFrom;
+        to = includedTo;
     }
     
     
     /**
-     * @return le premier entier de l'intervalle
+     * Accesseur public du premier entier de l'intervalle
+     * @return int le plus petit element de l'intervalle
      */
     public int includedFrom(){
         return from;
     }
     
     /**
-     * @return le dernier entier de l'intervalle
+     * Accesseur public du dernier entier de l'intervalle
+     * @return int le plus grand element de l'intervalle
      */
     public int includedTo(){
         return to;
@@ -45,42 +47,43 @@ public final class Interval1D {
     
     /**
      * Indique si un entier est compris dans l'intervalle
-     * @param v entier a chercher dans l'intervalle
-     * @return un booleen indiquant si l'entier en parametre est contenu dans l'intervalle
+     * @param v int entier a chercher dans l'intervalle
+     * @return boolean indiquant si l'entier en parametre est contenu dans l'intervalle
      */
     public boolean contains(int v){
         return (v >= from && v <= to);
     }
     
     /**
-     * @return un entier pour la taille de l'intervalle
+     * Calcul la taille de l'intervalle
+     * @return int taille de l'intervalle
      */
     public int size(){
-        return to-from+1;
+        return to - from + 1;
     }
     
     /**
      * Calcule la taille de l'intersection avec l'intervalle en parametre
      * @param that Interval1D avec lequel on doit calculer la taille de l'intersection
-     * @return un entier representant la taille de l'intersection (0 si l'intersection n'existe pas)
+     * @return int entier representant la taille de l'intersection (0 si l'intersection n'existe pas)
      */
     public int sizeOfIntersectionWith(Interval1D that){
         int bornes[] = new int[4];
         
-        bornes[0]=includedFrom();
-        bornes[1]=includedTo();
-        bornes[2]=that.includedFrom();
-        bornes[3]=that.includedTo();
+        bornes[0] = includedFrom();
+        bornes[1] = includedTo();
+        bornes[2] = that.includedFrom();
+        bornes[3] = that.includedTo();
         
         //test si il y a une intersection
-        if(bornes[2]>=bornes[0] && bornes[2]<=bornes[1]
-           ||bornes[3]>=bornes[0] && bornes[3]<=bornes[1]
-           ||bornes[0]>=bornes[2] && bornes[0]<=bornes[3]
-           ||bornes[1]>=bornes[2] && bornes[1]<=bornes[3]){
+        if(bornes[2] >= bornes[0] && bornes[2] <= bornes[1]
+           || bornes[3] >= bornes[0] && bornes[3] <= bornes[1]
+           || bornes[0] >= bornes[2] && bornes[0] <= bornes[3]
+           || bornes[1] >= bornes[2] && bornes[1] <= bornes[3]){
             //calcul de l'intersection
             Arrays.sort(bornes);
             
-            return bornes[2]-bornes[1]+1;
+            return bornes[2] - bornes[1] + 1;
         }else{
             //pas d'intersection
             return 0;
@@ -90,19 +93,19 @@ public final class Interval1D {
     /**
      * Calcule l'union englobante avec le parametre
      * @param that Interval1D avec lequel il faut effectuer l'union englobante
-     * @return un Interval1D qui represente l'union englobante
+     * @return Interval1D qui represente l'union englobante
      */
     public Interval1D boundingUnion(Interval1D that){
-        int boundFrom = (from<that.includedFrom()?from:that.includedFrom());
-        int boundTo = (to>that.includedTo()?to:that.includedTo());
+        int boundFrom = (from < that.includedFrom() ? from : that.includedFrom());
+        int boundTo = (to > that.includedTo() ? to : that.includedTo());
         
-        return new Interval1D(boundFrom,boundTo);
+        return new Interval1D(boundFrom, boundTo);
     }
     
     /**
      * Indique si that est unionable avec this
      * @param that Interval1D avec lequel on verifie l'unionabilite
-     * @return un booleen indiquant si this et that sont unionables
+     * @return boolean indiquant si this et that sont unionables
      */
     public boolean isUnionableWith(Interval1D that){
         
@@ -112,7 +115,7 @@ public final class Interval1D {
     /**
      * Calcule l'union avec that
      * @param that Interval1D avec lequel il faut effectuer l'union
-     * @return un Interval1D representant l'union avec that
+     * @return Interval1D representant l'union avec that
      * @throws IllegalArgumentException si l'intervalle that n'est pas unionable
      */
     public Interval1D union(Interval1D that){
