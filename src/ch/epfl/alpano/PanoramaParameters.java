@@ -56,7 +56,7 @@ final public class PanoramaParameters {
         this.width = width;
         this.height = height;
 
-        delta = horizontalFieldOfView/(width-1);
+        delta = horizontalFieldOfView / (width - 1);
     }
 
     /**
@@ -120,7 +120,7 @@ final public class PanoramaParameters {
      * @return double angle de vue vertical
      */
     public double verticalFieldOfView(){
-        return horizontalFieldOfView() * (height() - 1) / (width()-1);
+        return horizontalFieldOfView() * (height() - 1) / (width() - 1);
     }
 
     /**
