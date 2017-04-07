@@ -18,7 +18,7 @@ public interface DiscreteElevationModel extends AutoCloseable{
     /**
      * Methode retournant l'index de l'echantillon correspondant a l'angle
      * @param angle double representant un angle en radian
-     * @return l'index correspondant à l'angle passe en parametre
+     * @return double l'index correspondant à l'angle passe en parametre
      */
     static double sampleIndex(double angle){
         return angle * SAMPLES_PER_RADIAN;
@@ -26,7 +26,7 @@ public interface DiscreteElevationModel extends AutoCloseable{
 
     /**
      * Methode calculant et retournant l'etendue du MNT discret
-     * @return un Interval2D representant l'etendu du MNT
+     * @return Interval2D representant l'etendu du MNT
      */
     Interval2D extent();
 
@@ -34,7 +34,7 @@ public interface DiscreteElevationModel extends AutoCloseable{
      * Methode retournant l'echantillon d'altitude correspondant à l'index
      * @param x int representant la composante x de l'index
      * @param y int representant la composante y de l'index 
-     * @return un double representant l'echantillon d'altitude (en metre) correspondant a l'index
+     * @return double representant l'echantillon d'altitude (en metre) correspondant a l'index
      * @throws IllegalArgumentException si l'index ne fait pas partie de l'etendue du MNT
      */
     double elevationSample(int x, int y);

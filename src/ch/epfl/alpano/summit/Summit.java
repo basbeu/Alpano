@@ -23,7 +23,7 @@ public final class Summit {
      * @throws IllegalArgumentException si le nom ou la position est nulle
      */
     public Summit(String name, GeoPoint position, int elevation){
-        this.name = requireNonNull(name,"String name : null");
+        this.name = requireNonNull(name, "String name : null");
         this.position = requireNonNull(position, "GeoPoint position : null");
         this.elevation = elevation;
     }
@@ -51,7 +51,7 @@ public final class Summit {
 
     @Override
     public String toString() {
-        return name()+" "+position()+" "+elevation();
+        return name() + " " + position() + " " + elevation();
     }
 
 }

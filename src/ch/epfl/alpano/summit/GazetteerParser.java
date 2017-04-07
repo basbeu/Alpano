@@ -50,6 +50,7 @@ public final class GazetteerParser {
      * Methode retournant le sommet associe a la ligne du fichier
      * @param l String representant une ligne d'un fichier de sommet
      * @return Summit representant le sommet associe a la ligne
+     * @throws IOException si le fichier n'est pas correctement formate
      */
     private static Summit toSummit(String l) throws IOException{
         try{
@@ -62,9 +63,9 @@ public final class GazetteerParser {
             String name = l.substring(36).trim();
             return new Summit(name, position, elevation);
         }catch(NumberFormatException e){
-            throw new IOException("Fichier pas formatte correctement");
+            throw new IOException("Fichier pas formaté correctement");
         }catch(IndexOutOfBoundsException e){
-            throw new IOException("Fichier pas formatte correctement");
+            throw new IOException("Fichier pas formaté correctement");
         }
     }
 

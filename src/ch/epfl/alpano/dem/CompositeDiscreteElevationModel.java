@@ -16,7 +16,6 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
 
     /**
      * Constructeur d'un CompositeDiscreteElevationModel  
-     * 
      * @param dem1 DiscreteElevationModel representant le premier modele de terrain
      * @param dem2 DiscreteElevationModel representant le deuxieme modele de terrain
      * @throws NullPointerException si dem1 ou dem2 est null

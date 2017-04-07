@@ -44,7 +44,7 @@ public final class ElevationProfile {
      * @throws NullPointerException  si l'azimut ou l'origine est null
      */
     public ElevationProfile (ContinuousElevationModel elevationModel, GeoPoint origin, double azimuth, double length){
-        checkArgument(isCanonical(azimuth) && length > 0,"azimuth doit etre canonique et length >0");
+        checkArgument(isCanonical(azimuth) && length > 0, "azimuth doit être canonique et length >0");
 
         elevation = requireNonNull(elevationModel, "ContinuousElevationModel elevationModel : null");
         this.length = length;
@@ -80,11 +80,11 @@ public final class ElevationProfile {
     public GeoPoint positionAt(double x){
         isIn(x, length);
 
-        double index = scalb(x,-SPACING_EXPONENT);
+        double index = scalb(x, -SPACING_EXPONENT);
         int borneInf = (int)floor(index);
         double longitudeA = 0, latitudeA = 0;
 
-        if(borneInf < tab.length-1){
+        if(borneInf < tab.length - 1){
             int borneSup = borneInf + 1;
             longitudeA = lerp(tab[borneInf].longitude(), tab[borneSup].longitude(), index - borneInf);
             latitudeA  = lerp(tab[borneInf].latitude(), tab[borneSup].latitude(), index - borneInf);

@@ -31,6 +31,7 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
      */
     public HgtDiscreteElevationModel(File file){
         int latitude = 0, longitude = 0;
+
         //controle du nom du fichier
         String name = file.getName();
         boolean isNameCorrect=true;
