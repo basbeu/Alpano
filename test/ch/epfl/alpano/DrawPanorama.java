@@ -38,7 +38,7 @@ final class DrawPanorama {
                              IMAGE_HEIGHT);
 
     public static void main(String[] as) throws Exception {
-        double t=System.currentTimeMillis();
+        //double t=System.currentTimeMillis();
         try (DiscreteElevationModel dDEM =
            new HgtDiscreteElevationModel(HGT_FILE)) {
         ContinuousElevationModel cDEM =
