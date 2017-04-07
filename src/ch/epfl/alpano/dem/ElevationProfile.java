@@ -46,7 +46,7 @@ public final class ElevationProfile {
     public ElevationProfile (ContinuousElevationModel elevationModel, GeoPoint origin, double azimuth, double length){
         checkArgument(isCanonical(azimuth) && length > 0,"azimuth doit etre canonique et length >0");
 
-        elevation = requireNonNull(elevationModel,"ContinuousElevationModel elevationModel : null");
+        elevation = requireNonNull(elevationModel, "ContinuousElevationModel elevationModel : null");
         this.length = length;
 
         tab = new GeoPoint [(int) (ceil(scalb(length, -SPACING_EXPONENT)) + 1)];
@@ -114,6 +114,6 @@ public final class ElevationProfile {
      * @throws IllegalArgumentException si la position n'est pas dans les bornes
      */
     private void isIn (double position, double longueur){
-        checkArgument(0 <= position && position <= longueur,"Position en dehors de ElevationProfile");
+        checkArgument(0 <= position && position <= longueur, "Position en dehors de ElevationProfile");
     }
 }

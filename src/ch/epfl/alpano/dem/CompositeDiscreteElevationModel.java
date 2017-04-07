@@ -22,8 +22,8 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
      * @throws NullPointerException si dem1 ou dem2 est null
      */
     public CompositeDiscreteElevationModel(DiscreteElevationModel dem1, DiscreteElevationModel dem2) {
-        this.dem1 = requireNonNull(dem1,"DiscreteElevation dem1 : null");
-        this.dem2 = requireNonNull(dem2,"DiscreteElevation dem2 : null");
+        this.dem1 = requireNonNull(dem1, "DiscreteElevation dem1 : null");
+        this.dem2 = requireNonNull(dem2, "DiscreteElevation dem2 : null");
     }
 
     @Override
@@ -39,7 +39,7 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
 
     @Override
     public double elevationSample(int x, int y) {
-        checkArgument(dem1.extent().contains(x,y) || dem2.extent().contains(x, y),"Index en dehors du DEM");
+        checkArgument(dem1.extent().contains(x,y) || dem2.extent().contains(x, y), "Index en dehors du DEM");
         if(dem1.extent().contains(x, y)){
             return dem1.elevationSample(x, y);
         }else{
