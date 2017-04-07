@@ -31,7 +31,7 @@ public final class GeoPoint {
      * Constructeur d'un point de coordonnee 
      * @param longitude double representant la longitude en radians
      * @param latitude double representant la latitude en radians
-     * @throws IllegalArgumentExcpetion si la longitude n'est pas comprise entre [-PI; PI] ou si la latitude n'est
+     * @throws IllegalArgumentException si la longitude n'est pas comprise entre [-PI; PI] ou si la latitude n'est
      *          pas comprise entre [-PI/2, PI/2]
      */
     public GeoPoint(double longitude, double latitude){

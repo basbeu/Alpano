@@ -172,7 +172,7 @@ public final class Panorama {
         /**
          * Methode privee pour tester si la methode build() a deja ete appelee une fois
          * @param isBuilt boolean a true si la methode build() a deja ete appelee une fois
-         * @throws IllegalStateException() si si la methode build() a deja ete appelee une fois
+         * @throws IllegalStateException si la methode build() a deja ete appelee une fois
          */
         private void checkIsBuilt(boolean isBuilt){
             if(isBuilt){
@@ -186,7 +186,7 @@ public final class Panorama {
          * @param y int coordonnee y
          * @param distance float distance a cet index
          * @return elle-même pour pouvoir faire le chainage d'appels
-         * @throws IllegalStateException() si si la methode build() a deja ete appelee une fois
+         * @throws IllegalStateException si la methode build() a deja ete appelee une fois
          * @throws IndexOutOfBoundsException si les coordonnes du point passe (l'index x, y) sont invalides
          */
         public Builder setDistanceAt(int x, int y, float distance){
@@ -202,7 +202,7 @@ public final class Panorama {
          * @param y int coordonnee y
          * @param longitude float la longitude a cet index
          * @return elle-même pour pouvoir faire le chainage d'appels
-         * @throws IllegalStateException() si si la methode build() a deja ete appelee une fois
+         * @throws IllegalStateException si la methode build() a deja ete appelee une fois
          * @throws IndexOutOfBoundsException si les coordonnes du point passe (l'index x, y) sont invalides
          */
         public Builder setLongitudeAt(int x, int y, float longitude){
@@ -218,7 +218,7 @@ public final class Panorama {
          * @param y int coordonnee y
          * @param latitude float la latitude a cet index
          * @return elle-même pour pouvoir faire le chainage d'appels
-         * @throws IllegalStateException() si si la methode build() a deja ete appelee une fois
+         * @throws IllegalStateException si la methode build() a deja ete appelee une fois
          * @throws IndexOutOfBoundsException si les coordonnes du point passe (l'index x, y) sont invalides
          */
         public Builder setLatitudeAt(int x, int y, float latitude){
@@ -234,7 +234,7 @@ public final class Panorama {
          * @param y int coordonnee y
          * @param elevation float l'altitude a cet index
          * @return elle-même pour pouvoir faire le chainage d'appels
-         * @throws IllegalStateException() si si la methode build() a deja ete appelee une fois
+         * @throws IllegalStateException si la methode build() a deja ete appelee une fois
          * @throws IndexOutOfBoundsException si les coordonnes du point passe (l'index x, y) sont invalides
          */
         public Builder setElevationAt(int x, int y, float elevation){
@@ -250,7 +250,7 @@ public final class Panorama {
          * @param y int coordonnee y
          * @param slope float la pente a cet index
          * @return elle-même pour pouvoir faire le chainage d'appels
-         * @throws IllegalStateException() si si la methode build() a deja ete appelee une fois
+         * @throws IllegalStateException si la methode build() a deja ete appelee une fois
          * @throws IndexOutOfBoundsException si les coordonnes du point passe (l'index x, y) sont invalides
          */
         public Builder setSlopeAt(int x, int y, float slope){

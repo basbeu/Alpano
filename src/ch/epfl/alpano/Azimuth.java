@@ -51,7 +51,7 @@ public interface Azimuth {
      * Transforme un angle mathematique en azimut 
      * @param angle double dans le sens mathematique
      * @return double azimut canonique
-     * @throws IllegalArguentException si l'argument n'est pas canonique
+     * @throws IllegalArgumentException si l'argument n'est pas canonique
      */
     static double fromMath(double angle) {
         checkArgument(isCanonical(angle), "angle invalide");

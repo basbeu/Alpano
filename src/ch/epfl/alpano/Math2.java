@@ -110,7 +110,7 @@ public interface Math2 {
      * @param x2 double representant la borne superieur de l'intervalle
      * @param epsilon double representant l'intervalle
      * @return double representant la taille max de l'intervalle a trouver
-     * @throws IllegalArgumentException() si f(x1) et f(x2) sont de meme signe
+     * @throws IllegalArgumentException si f(x1) et f(x2) sont de meme signe
      */
     static double improveRoot(DoubleUnaryOperator f, double x1,double x2, double epsilon){
         checkArgument(f.applyAsDouble(x1) * f.applyAsDouble(x2) < 0, "f(x1) et f(x2) doivent être de signe différent");

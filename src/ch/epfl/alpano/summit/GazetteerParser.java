@@ -27,7 +27,7 @@ public final class GazetteerParser {
     /**
      * Lit un fichier de sommmet et le retourne dans une liste
      * @param file File representant le fichier a lire
-     * @return List<Summit> representant la liste de sommet contenue dans le fichier
+     * @return List de Summit representant la liste de sommet contenue dans le fichier
      * @throws IOException en cas d'erreur avec le fichier ou mauvais formatage
      */
     public static List<Summit> readSummitsFrom(File file) throws IOException{
