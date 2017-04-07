@@ -22,7 +22,7 @@ public final class Interval2D {
      */
     public Interval2D(Interval1D iX, Interval1D iY){
         if(iX == null || iY == null){
-            throw new NullPointerException("Un interval ne doit pas être null");
+            throw new NullPointerException("Un intervalle ne doit pas être null");
         }
         
         this.iX = iX;
@@ -75,7 +75,7 @@ public final class Interval2D {
     /**
      * Calcule l'union englobante avec le parametre
      * @param that Interval2D avec lequel l'union englobante est effectue
-     * @return un Interval2D representant l'union englobante
+     * @return Interval2D representant l'union englobante
      */
     public Interval2D boundingUnion(Interval2D that){
         return new Interval2D(iX().boundingUnion(that.iX()),iY().boundingUnion(that.iY()));
@@ -84,7 +84,7 @@ public final class Interval2D {
     /**
      * Indique si l'union avec le parametre est possible
      * @param that Interval2D avec lequel l'unionabilite est verifiee
-     * @return un booleen indiquant si l'union est possible avec le parametre
+     * @return booleen indiquant si l'union est possible avec le parametre
      */
     public boolean isUnionableWith(Interval2D that){
         return size()+that.size()-sizeOfIntersectionWith(that) == boundingUnion(that).size();
@@ -97,7 +97,7 @@ public final class Interval2D {
      * @throws IllegalArgumentException si l'union n'est pas possible
      */
     public Interval2D union(Interval2D that){
-        checkArgument(isUnionableWith(that));
+        checkArgument(isUnionableWith(that), "L'union de ces deux intervalles n'est pas possible!");
         
         return boundingUnion(that);
     }
