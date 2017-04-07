@@ -178,11 +178,7 @@ final public class PanoramaParameters {
      * @return boolean vrai ssi l'index passe est un index valide
      */
     boolean isValidSampleIndex(int x, int y){
-        if(x >= 0 && x < width() && y >= 0 && y < height()){
-            return true;
-        }else{
-            return false;
-        }
+        return (x >= 0 && x < width() && y >= 0 && y < height());
     }
 
     /**

@@ -20,11 +20,7 @@ public interface Azimuth {
      * @return boolean vrai si l'angle est entre [0, 2*PI[ sinon faux
      */
     static boolean isCanonical(double azimuth) {
-        if(0 <= azimuth && azimuth < PI2){
-            return true;
-        }else{
-            return false;
-        }
+        return (0 <= azimuth && azimuth < PI2);
     }
 
     /**
