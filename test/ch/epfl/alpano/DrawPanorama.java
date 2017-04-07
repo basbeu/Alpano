@@ -63,7 +63,6 @@ final class DrawPanorama {
 
         ImageIO.write(i, "png", new File("niesen.png"));
       }
-        System.out.println(System.currentTimeMillis()-t);
     }
     
     private static int gray(double v) {

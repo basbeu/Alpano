@@ -214,7 +214,6 @@ public class Interval1DTest {
     @Test
     public void testToString(){
         Interval1D interval = new Interval1D(0,3);
-        System.out.println(interval.toString());
         assertTrue(interval.toString().equals("[0..3]"));
     }
 }

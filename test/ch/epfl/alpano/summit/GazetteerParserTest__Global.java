@@ -131,7 +131,6 @@ public class GazetteerParserTest__Global {
             fail("Could not parse the file!");
         }
         for (int i = 0; i < nls.size(); ++i) {
-            // System.out.println(negativeLatitude.get(i).toString() + " " +
             // nls.get(i).toString());
             compareTwoSummits(negativeLatitude.get(i), nls.get(i));
         }

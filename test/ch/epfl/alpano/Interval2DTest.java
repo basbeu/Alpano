@@ -254,7 +254,6 @@ public class Interval2DTest {
         Interval1D i1 = new Interval1D(0,3);
         Interval1D i2 = new Interval1D (5,8);
         Interval2D I1 = new Interval2D(i1, i2);
-        System.out.println(I1.toString());
         assertTrue(I1.toString().equals("[0..3]x[5..8]"));
     }
 }

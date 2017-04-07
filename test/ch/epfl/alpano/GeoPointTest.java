@@ -81,7 +81,6 @@ public class GeoPointTest {
     @Test
     public void testToString(){
         GeoPoint g = new GeoPoint(toRadians(-7.6543),toRadians(54.3210));
-        System.out.println(g.toString());
         assertTrue(g.toString().equals("(-7.6543,54.3210)"));
     }
 

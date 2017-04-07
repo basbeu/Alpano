@@ -33,9 +33,7 @@ public class ElevationProfileTest {
         ElevationProfile p = new ElevationProfile(cDEM, o, toRadians(45),  110_000);
         
         for(int i=0;i<x.length;++i){
-            //System.out.println(i);
 
-            //System.out.println(new GeoPoint(toRadians(lon[i]),toRadians(lat[i]))+" "+p.positionAt(x[i]));
             assertEquals(toRadians(lat[i]),p.positionAt(x[i]).latitude(),1e-7);
             assertEquals(toRadians(lon[i]),p.positionAt(x[i]).longitude(),1e-7);
         }
@@ -64,7 +62,6 @@ public class ElevationProfileTest {
         ElevationProfile p = new ElevationProfile(cDEM, o, toRadians(225),  110_000);
         
         for(int i=0;i<x.length;++i){
-           // System.out.println(new GeoPoint(toRadians(lon[i]),toRadians(lat[i]))+" "+p.positionAt(x[i])+toMeters(toRadians(lon[i])-p.positionAt(x[i]).longitude()));
             assertEquals(toRadians(lat[i]),p.positionAt(x[i]).latitude(),1e-3);
             assertEquals(toRadians(lon[i]),p.positionAt(x[i]).longitude(),1e-3);
         }
@@ -82,9 +79,7 @@ public class ElevationProfileTest {
         ElevationProfile p = new ElevationProfile(cDEM, o, toRadians(225),  110_000);
         
         for(int i=0;i<x.length;++i){
-            //System.out.println(i);
 
-            //System.out.println(new GeoPoint(toRadians(lon[i]),toRadians(lat[i]))+" "+p.positionAt(x[i]));
             assertEquals(toRadians(lat[i]),p.positionAt(x[i]).latitude(),1e-7);
             assertEquals(toRadians(lon[i]),p.positionAt(x[i]).longitude(),1e-7);
         }
