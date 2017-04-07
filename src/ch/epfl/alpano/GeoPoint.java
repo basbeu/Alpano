@@ -1,16 +1,17 @@
 package ch.epfl.alpano;
 
+import static ch.epfl.alpano.Azimuth.canonicalize;
+import static ch.epfl.alpano.Azimuth.fromMath;
+import static ch.epfl.alpano.Distance.EARTH_RADIUS;
+import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 import static java.lang.Math.PI;
 import static java.lang.Math.asin;
+import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
-import static java.lang.Math.atan2;
-import static ch.epfl.alpano.Azimuth.canonicalize;
-import static ch.epfl.alpano.Math2.haversin;
-import static ch.epfl.alpano.Distance.EARTH_RADIUS;
-import static ch.epfl.alpano.Azimuth.fromMath;
+import static java.lang.Math.toDegrees;
 
 import java.util.Locale;
 
@@ -85,11 +86,7 @@ public final class GeoPoint {
     @Override  
     public String toString(){
         Locale l = null;
-        double longitudeDegre = (longitude * 180) / PI;
-        double latitudeDegre = (latitude * 180) / PI;
-        String s = String.format(l, "(%.4f,%.4f)", longitudeDegre, latitudeDegre);
-
-        return s;
+        return String.format(l, "(%.4f,%.4f)", toDegrees(longitude()), toDegrees(latitude()));
     }
 
 }

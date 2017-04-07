@@ -1,9 +1,9 @@
 package ch.epfl.alpano;
 
-import static java.lang.Math.PI;
 import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Math2.floorMod;
 import static ch.epfl.alpano.Preconditions.checkArgument;
+import static java.lang.Math.PI;
 
 /**
  * Classe permettant de manipuler des nombres representant des azimuts exprimes en radians 
@@ -19,7 +19,7 @@ public interface Azimuth {
      * @param azimuth double angle en radian
      * @return boolean vrai si l'angle est entre [0, 2*PI[ sinon faux
      */
-    public static boolean isCanonical(double azimuth) {
+    static boolean isCanonical(double azimuth) {
         if(0 <= azimuth && azimuth < PI2){
             return true;
         }else{
@@ -32,7 +32,7 @@ public interface Azimuth {
      * @param azimuth double angle en radian pas canonique
      * @return double azimut canonique
      */
-    public static double canonicalize(double azimuth) {
+    static double canonicalize(double azimuth) {
         return floorMod(azimuth, PI2);
     }
 
@@ -42,7 +42,7 @@ public interface Azimuth {
      * @return double angle mathematique
      * @throws IllegalArgumentException si l'argument n'est pas un azimut canonique
      */
-    public static double toMath(double azimuth) {
+    static double toMath(double azimuth) {
         checkArgument(isCanonical(azimuth), "angle invalide");
         if(azimuth != 0){
             return (PI2) - azimuth;
@@ -57,7 +57,7 @@ public interface Azimuth {
      * @return double azimut canonique
      * @throws IllegalArguentException si l'argument n'est pas canonique
      */
-    public static double fromMath(double angle) {
+    static double fromMath(double angle) {
         checkArgument(isCanonical(angle), "angle invalide");
         if(angle != 0){
             return (PI2) - angle;
@@ -76,7 +76,7 @@ public interface Azimuth {
      * @return String exprimant le cadran correspondant a l'azimut
      * @throws IllegalArgumentException si l'argument n'est pas canonique
      */
-    public static String toOctantString(double azimuth, String n, String e, String s, String w) {
+    static String toOctantString(double azimuth, String n, String e, String s, String w) {
         checkArgument(isCanonical(azimuth), "angle invalide");
         if((15 * PI / 8 <= azimuth && azimuth < PI2) || (0 <= azimuth && azimuth < PI / 8)){
             return n;

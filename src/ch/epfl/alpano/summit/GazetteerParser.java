@@ -23,7 +23,7 @@ import ch.epfl.alpano.GeoPoint;
  */
 public final class GazetteerParser {
     private GazetteerParser(){}
-    
+
     /**
      * Lit un fichier de sommmet et le retourne dans une liste
      * @param file File representant le fichier a lire
@@ -32,7 +32,7 @@ public final class GazetteerParser {
      */
     public static List<Summit> readSummitsFrom(File file) throws IOException{
         ArrayList<Summit> listSummit = new ArrayList<>(); 
-        
+
         //ouverture du fichier
         try(BufferedReader s = new BufferedReader(new InputStreamReader(new FileInputStream(file)))){
             String line;
@@ -42,10 +42,10 @@ public final class GazetteerParser {
         } catch (FileNotFoundException e) {
             throw new IOException("Fichier incorrect");
         }
-         
+
         return Collections.unmodifiableList(listSummit);
     }
-    
+
     /**
      * Methode retournant le sommet associe a la ligne du fichier
      * @param l String representant une ligne d'un fichier de sommet
@@ -55,10 +55,10 @@ public final class GazetteerParser {
         try{
             double lon = angleStringToRadians(l.substring(0, 9).trim());
             double lat = angleStringToRadians(l.substring(10, 18).trim());
-            
+
             GeoPoint position = new GeoPoint(lon, lat);
             int elevation = Integer.parseInt(l.substring(20, 24).trim());
-            
+
             String name = l.substring(36).trim();
             return new Summit(name, position, elevation);
         }catch(NumberFormatException e){
@@ -67,7 +67,7 @@ public final class GazetteerParser {
             throw new IOException("Fichier pas formatte correctement");
         }
     }
-    
+
     /**
      * Metode retournant l'angle HMS en radian
      * @param angle String representant un angle avec le format suivant °°:'':""
@@ -75,7 +75,7 @@ public final class GazetteerParser {
      */
     private static double angleStringToRadians(String angle){
         String hms[] = angle.split(":");
-        
+
         int h = Integer.parseInt(hms[0]);
         return toRadians(h + signum(h) * Integer.parseInt(hms[1]) / 60d + signum(h) * Integer.parseInt(hms[2]) / 3600d);
     }
