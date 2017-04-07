@@ -20,7 +20,7 @@ import ch.epfl.alpano.Interval2D;
  */
 public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
     private final static int LENGTH_FILE = 25934402;
-    
+
     private ShortBuffer elevations;
     private final Interval2D extent;
 

@@ -1,12 +1,12 @@
 package ch.epfl.alpano;
 
-import static ch.epfl.alpano.Azimuth.isCanonical;
-import static ch.epfl.alpano.Preconditions.checkArgument;
-import static java.util.Objects.requireNonNull;
-import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Azimuth.canonicalize;
+import static ch.epfl.alpano.Azimuth.isCanonical;
+import static ch.epfl.alpano.Math2.PI2;
 import static ch.epfl.alpano.Math2.angularDistance;
+import static ch.epfl.alpano.Preconditions.checkArgument;
 import static java.lang.Math.abs;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Classe representant les parametres necessaires au dessin d'un panorama
