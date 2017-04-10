@@ -57,61 +57,68 @@ public interface ChannelPainter {
     
     /**
      * Methode par default pour ajouter la valeur produite par le peintre par une constante passee en argument
-     * @param c int constante a ajouter a la valeur
-     * @return ChannelPainter avec 
+     * @param c float constante a ajouter a la valeur
+     * @return ChannelPainter avec c ajoute a toutes les valeurs produites
      */
     default ChannelPainter add(float c){
         return (x, y) -> valueAt(x, y) + c;
     }
     
     /**
-     * @param c
-     * @return
+     * Methode par default pour soustraire la valeur produite par le peintre par une constante passee en argument
+     * @param c float constante a soustraire a la valeur
+     * @return ChannelPainter avec c soustrait a toutes les valeurs produites
      */
     default ChannelPainter sub(float c){
         return (x, y) -> valueAt(x, y) - c;
     }
     
-    /**
-     * @param c
-     * @return
+    /**     
+     * Methode par default pour multiplier la valeur produite par le peintre par une constante passee en argument
+     * @param c float constante a multiplier a la valeur
+     * @return ChannelPainter avec c multiplie a toutes les valeurs produites
      */
     default ChannelPainter mul(float c){
         return (x, y) -> valueAt(x, y) * c;
     }
     
-    /**
-     * @param c
-     * @return
+    /**     
+     * Methode par default pour diviser la valeur produite par le peintre par une constante passee en argument
+     * @param c float constante a diviser a la valeur
+     * @return ChannelPainter avec toutes les valeurs produites divisees par c
      */
     default ChannelPainter div(float c){
         return (x, y) -> valueAt(x, y) / c;        
     }
     
     /**
-     * @param op
-     * @return
+     * Methode par defaut permettant d'appliquer à la valeur produite par le peintre un operateur unaire
+     * @param op DoubleUnaryOperator operateur unaire a appliquer a la valeur
+     * @return ChannelPainter canal avec operateur applique aux valeurs
      */
     default ChannelPainter map(DoubleUnaryOperator op){
         return (x, y) -> (float)op.applyAsDouble(valueAt(x, y));
     }
     
     /**
-     * @return
+     * Fonction mathematique  f(x) = 1 - x
+     * @return ChannelPainter compose avec les valeurs apres application de la fonction
      */
     default ChannelPainter inverted(){
         return (x, y) -> 1 - valueAt(x, y);
     }
     
     /**
-     * @return
+     * Fonction mathematique f(x) = max(0, min(x, 1))
+     * @return ChannelPainter compose avec les valeurs apres application de la fonction
      */
     default ChannelPainter clamped(){
         return (x, y) -> max(0 , min(valueAt(x, y), 1));
     }
     
     /**
-     * @return
+     * Fonction mathematique f(x) = x mod 1
+     * @return ChannelPainter compose avec les valeurs apres application de la fonction
      */
     default ChannelPainter cycling(){
         return (x, y) -> (float)floorMod(valueAt(x, y), 1);
