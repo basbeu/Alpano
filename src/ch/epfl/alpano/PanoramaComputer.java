@@ -26,7 +26,7 @@ final public class PanoramaComputer {
 
     /**
      * Constructeur de PanoramaComputer
-     * @param dem ContinuousModel representant le MNT continus sur lequel on se base
+     * @param dem ContinuousElevationModel representant le MNT continus sur lequel on se base
      * @throws NullPointerException le dem est null
      */
     public PanoramaComputer(ContinuousElevationModel dem){
