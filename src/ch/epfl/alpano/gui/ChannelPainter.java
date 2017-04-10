@@ -1,5 +1,9 @@
 package ch.epfl.alpano.gui;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static ch.epfl.alpano.Math2.floorMod;
+
 import java.util.function.DoubleUnaryOperator;
 
 import ch.epfl.alpano.Panorama;
@@ -12,43 +16,61 @@ import ch.epfl.alpano.Panorama;
  */
 @FunctionalInterface
 public interface ChannelPainter {
-    abstract float valueAt(int x, int y);
+    float valueAt(int x, int y);
     
     static ChannelPainter maxDistanceToNeighbors(Panorama panorama){
-        return null;
+        
+        
+        return (x,y) -> {
+            float[] distance = new float[4];
+            distance[0] = panorama.distanceAt(x - 1, y, 0);
+            distance [1] = panorama.distanceAt(x + 1, y, 0);
+            distance [2] = panorama.distanceAt(x, y - 1, 0);
+            distance [3] = panorama.distanceAt(x, y + 1, 0);
+
+            float max = Float.MIN_VALUE;
+            for(int i = 0; i < distance.length - 1; i++){
+                if (distance[i] > max){
+                    max = distance[i];
+                }
+            }
+            
+            return max - panorama.distanceAt(x, y, 0);
+            
+        };
         
     }
     
-    default void add(int c){
-        
+    default ChannelPainter add(int c){
+        return (x, y) -> valueAt(x, y) + c;
     }
     
-    default void sub(int c){
-        
+    default ChannelPainter sub(int c){
+        return (x, y) -> valueAt(x, y) - c;
     }
     
-    default void mul(int c){
-        
+    default ChannelPainter mul(int c){
+        return (x, y) -> valueAt(x, y) * c;
     }
     
-    default void div(int c){
-        
+    default ChannelPainter div(int c){
+        return (x, y) -> valueAt(x, y) / c;        
     }
     
-    default void map(DoubleUnaryOperator op){
-        
+    default ChannelPainter map(DoubleUnaryOperator op){
+        return (x, y) -> (float)op.applyAsDouble(valueAt(x, y));
     }
     
-    default void inverted(){
-        
+    default ChannelPainter inverted(){
+        return (x, y) -> 1 - valueAt(x, y);
     }
     
-    default void clamped(){
-        
+    default ChannelPainter clamped(){
+        return (x, y) -> max(0 , min(valueAt(x, y), 1));
     }
     
-    default void cycling(){
-        
+    default ChannelPainter cycling(){
+        return (x, y) -> (float)floorMod(valueAt(x, y), 1);
     }
     
 }
