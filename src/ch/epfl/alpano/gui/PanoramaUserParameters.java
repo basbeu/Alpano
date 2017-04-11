@@ -3,6 +3,7 @@ package ch.epfl.alpano.gui;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Classe public et immuable represente les parametres d'un panorama d'un point de vue de l'utilisateur final de l'application
@@ -83,6 +84,16 @@ public final class PanoramaUserParameters {
     
     public int panoramaDisplayParameters(){
         return 0;
+    }
+    
+    @Override
+    public boolean equals(Object t){
+        return (t instanceof PanoramaUserParameters) && (t.equals(userParameters));
+    }
+    
+    @Override
+    public int hashCode(){
+        return Objects.hash(userParameters);
     }
     
 
