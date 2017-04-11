@@ -18,6 +18,7 @@ public interface PanoramaRenderer {
      * @param panorama Panorama representant le panorama a peindre
      * @param painter ImagePainter representant la maniere de peindre le panorama
      * @return Image representant l'image du panorama selon le peintre
+     * @throws ????
      */
     static Image renderPanorama(Panorama panorama, ImagePainter painter){
         WritableImage image = new WritableImage(panorama.parameters().width(),panorama.parameters().height());
