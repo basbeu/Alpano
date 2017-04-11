@@ -2,6 +2,7 @@ package ch.epfl.alpano.gui;
 
 import static java.lang.Math.toRadians;
 import static java.lang.Math.pow;
+import static ch.epfl.alpano.Preconditions.checkArgument;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -20,20 +21,32 @@ import ch.epfl.alpano.PanoramaParameters;
 public final class PanoramaUserParameters {
     
     private static final int TO_KM = 1_000;
+    private static final int MAX_VERTICAL_FIELD_OF_VIEW = 170;
+    
     private Map<UserParameter, Integer> userParameters;
     
-    
     public PanoramaUserParameters(Map<UserParameter, Integer> userParameters){
+        for(UserParameter param : UserParameter.values())
+            checkArgument(userParameters.containsKey(param),"La Map doit contenir tous les paramêtres");
+            
+        //controle de la hauteur
+        int height = UserParameter.HEIGHT.sanitize(userParameters.get(UserParameter.HEIGHT));
+        int width =  UserParameter.WIDTH.sanitize(userParameters.get(UserParameter.WIDTH));
+        int vh = UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW));
+        
+        if(((height-1)/(width-1))*vh > MAX_VERTICAL_FIELD_OF_VIEW){
+            height = (MAX_VERTICAL_FIELD_OF_VIEW*(width-1))/vh;
+        }
         
         Map<UserParameter, Integer> up = new EnumMap<>(UserParameter.class);
         up.put(UserParameter.OBSERVER_LONGITUDE, UserParameter.OBSERVER_LONGITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LONGITUDE)));
         up.put(UserParameter.OBSERVER_LATITUDE, UserParameter.OBSERVER_LATITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LATITUDE)));
         up.put(UserParameter.OBSERVER_ELEVATION, UserParameter.OBSERVER_ELEVATION.sanitize(userParameters.get(UserParameter.OBSERVER_ELEVATION)));
         up.put(UserParameter.CENTER_AZIMUTH, UserParameter.CENTER_AZIMUTH.sanitize(userParameters.get(UserParameter.CENTER_AZIMUTH)));
-        up.put(UserParameter.HORIZONTAL_FIELD_OF_VIEW, UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW)));
+        up.put(UserParameter.HORIZONTAL_FIELD_OF_VIEW, vh);
         up.put(UserParameter.MAX_DISTANCE, UserParameter.MAX_DISTANCE.sanitize(userParameters.get(UserParameter.MAX_DISTANCE)));
-        up.put(UserParameter.WIDTH, UserParameter.WIDTH.sanitize(userParameters.get(UserParameter.WIDTH)));
-        up.put(UserParameter.HEIGHT, UserParameter.HEIGHT.sanitize(userParameters.get(UserParameter.HEIGHT)));
+        up.put(UserParameter.WIDTH, width);
+        up.put(UserParameter.HEIGHT, height);
         up.put(UserParameter.SUPER_SAMPLING_EXPONENT, UserParameter.SUPER_SAMPLING_EXPONENT.sanitize(userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT)));
                 
         this.userParameters = Collections.unmodifiableMap(new EnumMap<>(up));
