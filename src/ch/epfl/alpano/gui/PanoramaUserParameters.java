@@ -1,10 +1,15 @@
 package ch.epfl.alpano.gui;
 
+import static java.lang.Math.toRadians;
+import static java.lang.Math.pow;
+
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import ch.epfl.alpano.GeoPoint;
+import ch.epfl.alpano.PanoramaParameters;
 
 /**
  * Classe public et immuable represente les parametres d'un panorama d'un point de vue de l'utilisateur final de l'application
@@ -13,9 +18,11 @@ import java.util.Objects;
  * @author Bastien Beuchat  (257117)
  */
 public final class PanoramaUserParameters {
-
+    
+    private static final int TO_KM = 1_000;
     private Map<UserParameter, Integer> userParameters;
-
+    
+    
     public PanoramaUserParameters(Map<UserParameter, Integer> userParameters){
         
         Map<UserParameter, Integer> up = new EnumMap<>(UserParameter.class);
@@ -46,6 +53,14 @@ public final class PanoramaUserParameters {
             put(UserParameter.SUPER_SAMPLING_EXPONENT, superSamplingExponent);
         }});
 
+    }
+    
+    private double tenThousandthDegreesToRadian(int degree){
+        return toRadians(degree/10000);
+    }
+    
+    private GeoPoint observerPosition(){
+        return new GeoPoint(tenThousandthDegreesToRadian(observerLongitude()), tenThousandthDegreesToRadian(observerLatitude())); 
     }
     
     public int get(UserParameter up){
@@ -88,12 +103,15 @@ public final class PanoramaUserParameters {
         return userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT);
     }
     
-    public int panoramaParameters(){
-        return 0;
+    public PanoramaParameters panoramaParameters(){
+        int wp = (int)pow(2, superSamplingExponent())*width();
+        int hp = (int)pow(2, superSamplingExponent())*height();
+        
+        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
     }
     
-    public int panoramaDisplayParameters(){
-        return 0;
+    public PanoramaParameters panoramaDisplayParameters(){
+        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, width(), height());
     }
     
     @Override
@@ -105,6 +123,7 @@ public final class PanoramaUserParameters {
     public int hashCode(){
         return userParameters.hashCode();
     }
+    
     
 
 }
