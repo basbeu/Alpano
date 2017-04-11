@@ -34,9 +34,8 @@ public final class PanoramaUserParameters {
         int width =  UserParameter.WIDTH.sanitize(userParameters.get(UserParameter.WIDTH));
         int vh = UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW));
         
-        if(((height-1)/(width-1))*vh > MAX_VERTICAL_FIELD_OF_VIEW){
+        if(((height-1)/(width-1))*vh > MAX_VERTICAL_FIELD_OF_VIEW)
             height = (MAX_VERTICAL_FIELD_OF_VIEW*(width-1))/vh;
-        }
         
         Map<UserParameter, Integer> up = new EnumMap<>(UserParameter.class);
         up.put(UserParameter.OBSERVER_LONGITUDE, UserParameter.OBSERVER_LONGITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LONGITUDE)));
