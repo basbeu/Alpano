@@ -2,6 +2,7 @@ package ch.epfl.alpano.gui;
 
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -16,65 +17,74 @@ public final class PanoramaUserParameters {
     private Map<UserParameter, Integer> userParameters;
 
     public PanoramaUserParameters(Map<UserParameter, Integer> userParameters){
-        this.userParameters = Collections.unmodifiableMap(new EnumMap<>(userParameters));
+        
+        Map<UserParameter, Integer> up = new EnumMap<>(UserParameter.class);
+        up.put(UserParameter.OBSERVER_LONGITUDE, UserParameter.OBSERVER_LONGITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LONGITUDE)));
+        up.put(UserParameter.OBSERVER_LATITUDE, UserParameter.OBSERVER_LATITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LATITUDE)));
+        up.put(UserParameter.OBSERVER_ELEVATION, UserParameter.OBSERVER_ELEVATION.sanitize(userParameters.get(UserParameter.OBSERVER_ELEVATION)));
+        up.put(UserParameter.CENTER_AZIMUTH, UserParameter.CENTER_AZIMUTH.sanitize(userParameters.get(UserParameter.CENTER_AZIMUTH)));
+        up.put(UserParameter.HORIZONTAL_FIELD_OF_VIEW, UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW)));
+        up.put(UserParameter.MAX_DISTANCE, UserParameter.MAX_DISTANCE.sanitize(userParameters.get(UserParameter.MAX_DISTANCE)));
+        up.put(UserParameter.WIDTH, UserParameter.WIDTH.sanitize(userParameters.get(UserParameter.WIDTH)));
+        up.put(UserParameter.HEIGHT, UserParameter.HEIGHT.sanitize(userParameters.get(UserParameter.HEIGHT)));
+        up.put(UserParameter.SUPER_SAMPLING_EXPONENT, UserParameter.SUPER_SAMPLING_EXPONENT.sanitize(userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT)));
+                
+        this.userParameters = Collections.unmodifiableMap(new EnumMap<>(up));
     }
 
-    public PanoramaUserParameters(int observerLongitude, int observerLatitude, int observeElevation, int centerAzimuth, int horizontalFielOfView, int maxDistance, int width, int height, int superSamplingExponent){
+    public PanoramaUserParameters(int observerLongitude, int observerLatitude, int observerElevation, int centerAzimuth, int horizontalFieldOfView, int maxDistance, int width, int height, int superSamplingExponent){
         
-        //this(new EnumMap<>(UserParameter.class));
-
-        Map<UserParameter, Integer> up = new EnumMap<>(UserParameter.class);
-        up.put(UserParameter.OBSERVER_LONGITUDE, UserParameter.OBSERVER_LONGITUDE.sanitize(observerLongitude));
-        up.put(UserParameter.OBSERVER_LATITUDE, UserParameter.OBSERVER_LATITUDE.sanitize(observerLatitude));
-        up.put(UserParameter.OBSERVER_ELEVATION, UserParameter.OBSERVER_ELEVATION.sanitize(observeElevation));
-        up.put(UserParameter.CENTER_AZIMUTH, UserParameter.CENTER_AZIMUTH.sanitize(centerAzimuth));
-        up.put(UserParameter.HORIZONTAL_FIELD_OF_VIEW, UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(horizontalFielOfView));
-        up.put(UserParameter.MAX_DISTANCE, UserParameter.MAX_DISTANCE.sanitize(maxDistance));
-        up.put(UserParameter.WIDTH, UserParameter.WIDTH.sanitize(width));
-        up.put(UserParameter.HEIGHT, UserParameter.HEIGHT.sanitize(height));
-        up.put(UserParameter.SUPER_SAMPLING_EXPONENT, UserParameter.SUPER_SAMPLING_EXPONENT.sanitize(superSamplingExponent));
-        
-        new PanoramaUserParameters(up);
+        this(new HashMap<UserParameter, Integer>(){{
+            put(UserParameter.OBSERVER_LONGITUDE, observerLongitude);
+            put(UserParameter.OBSERVER_LATITUDE, observerLatitude);
+            put(UserParameter.OBSERVER_ELEVATION, observerElevation);
+            put(UserParameter.CENTER_AZIMUTH, centerAzimuth);
+            put(UserParameter.HORIZONTAL_FIELD_OF_VIEW, horizontalFieldOfView);
+            put(UserParameter.MAX_DISTANCE, maxDistance);
+            put(UserParameter.WIDTH, width);
+            put(UserParameter.HEIGHT, height);
+            put(UserParameter.SUPER_SAMPLING_EXPONENT, superSamplingExponent);
+        }});
 
     }
     
-    public Integer get(UserParameter up){
+    public int get(UserParameter up){
         return userParameters.get(up);
     }
     
-    public Integer observerLongitude(){
+    public int observerLongitude(){
         return userParameters.get(UserParameter.OBSERVER_LONGITUDE);
     }
     
-    public Integer observerLatitude(){
+    public int observerLatitude(){
         return userParameters.get(UserParameter.OBSERVER_LATITUDE);
     }
     
-    public Integer observerElevation(){
+    public int observerElevation(){
         return userParameters.get(UserParameter.OBSERVER_ELEVATION);
     }
     
-    public Integer centerAzimuth(){
+    public int centerAzimuth(){
         return userParameters.get(UserParameter.CENTER_AZIMUTH);
     }
     
-    public Integer horizontalFieldOfView(){
+    public int horizontalFieldOfView(){
         return userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW);
     }
     
-    public Integer maxDistance(){
+    public int maxDistance(){
         return userParameters.get(UserParameter.MAX_DISTANCE);
     }
     
-    public Integer width(){
+    public int width(){
         return userParameters.get(UserParameter.WIDTH);
     }
     
-    public Integer heigth(){
+    public int height(){
         return userParameters.get(UserParameter.HEIGHT);
     }
     
-    public Integer superSampleExponent(){
+    public int superSamplingExponent(){
         return userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT);
     }
     
@@ -88,12 +98,12 @@ public final class PanoramaUserParameters {
     
     @Override
     public boolean equals(Object t){
-        return (t instanceof PanoramaUserParameters) && (t.equals(userParameters));
+        return (t instanceof PanoramaUserParameters) && (((PanoramaUserParameters)t).userParameters.equals(userParameters));
     }
     
     @Override
     public int hashCode(){
-        return Objects.hash(userParameters);
+        return userParameters.hashCode();
     }
     
 
