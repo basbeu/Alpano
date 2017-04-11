@@ -33,7 +33,12 @@ public enum UserParameter {
         return max;
     }
     
-   /* public int sanitize(int value){
-        return 
-    }*/
+    public int sanitize(int value){
+        if(value<min())
+            return min();
+        else if(value>max())
+            return max();
+        else
+            return value;
+    }
 }
