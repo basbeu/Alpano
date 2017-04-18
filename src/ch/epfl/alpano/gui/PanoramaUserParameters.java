@@ -32,17 +32,17 @@ public final class PanoramaUserParameters {
         //controle de la hauteur
         int height = UserParameter.HEIGHT.sanitize(userParameters.get(UserParameter.HEIGHT));
         int width =  UserParameter.WIDTH.sanitize(userParameters.get(UserParameter.WIDTH));
-        int vh = UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW));
+        int horizontalFieldOfView = UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW));
 
-        if(((height-1)/(width-1))*vh > MAX_VERTICAL_FIELD_OF_VIEW)
-            height = (MAX_VERTICAL_FIELD_OF_VIEW*(width-1))/vh;
+        if(((height-1)/(width-1))*horizontalFieldOfView > MAX_VERTICAL_FIELD_OF_VIEW)
+            height = (MAX_VERTICAL_FIELD_OF_VIEW*(width-1))/horizontalFieldOfView+1;
 
         Map<UserParameter, Integer> up = map(
                 UserParameter.OBSERVER_LONGITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LONGITUDE)),
                 UserParameter.OBSERVER_LATITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LATITUDE)),
                 UserParameter.OBSERVER_ELEVATION.sanitize(userParameters.get(UserParameter.OBSERVER_ELEVATION)),
                 UserParameter.CENTER_AZIMUTH.sanitize(userParameters.get(UserParameter.CENTER_AZIMUTH)),
-                vh,
+                horizontalFieldOfView,
                 UserParameter.MAX_DISTANCE.sanitize(userParameters.get(UserParameter.MAX_DISTANCE)),
                 width,
                 height,
@@ -69,7 +69,7 @@ public final class PanoramaUserParameters {
     }
 
     private static double tenThousandthDegreesToRadian(int degree){
-        return toRadians(degree/10000);
+        return toRadians(degree/10000d);
     }
 
     private GeoPoint observerPosition(){
@@ -119,7 +119,7 @@ public final class PanoramaUserParameters {
     public PanoramaParameters panoramaParameters(){
         int wp = (int)pow(2, superSamplingExponent())*width();
         int hp = (int)pow(2, superSamplingExponent())*height();
-
+        
         return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
     }
 
