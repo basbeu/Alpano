@@ -25,6 +25,11 @@ public final class PanoramaUserParameters {
 
     private Map<UserParameter, Integer> userParameters;
 
+    /**
+     * Constructeur principal des parametre d'un panorama
+     * @param userParameters Map avec comme cle des parametres de l'utilisateur et comme valeur assicee des Integer
+     * @throws IllegalArgumentException si la map ne contient pas tous les parametres
+     */
     public PanoramaUserParameters(Map<UserParameter, Integer> userParameters){
         for(UserParameter param : UserParameter.values())
             checkArgument(userParameters.containsKey(param),"La Map doit contenir tous les paramêtres");
@@ -50,10 +55,35 @@ public final class PanoramaUserParameters {
         this.userParameters = Collections.unmodifiableMap(new EnumMap<>(up));
     }
 
+    /**
+     * Constructeur secondaire 
+     * @param observerLongitude int longitude de l'observateur
+     * @param observerLatitude int latitude de l'observateur
+     * @param observerElevation altitude de l'observateur
+     * @param centerAzimuth int azimute central
+     * @param horizontalFieldOfView int angle horizonal de vue
+     * @param maxDistance int distance de vue maximale
+     * @param width int largeur du panorama
+     * @param height int hauteur du panorama
+     * @param superSamplingExponent int facteur de surechantillonage
+     */
     public PanoramaUserParameters(int observerLongitude, int observerLatitude, int observerElevation, int centerAzimuth, int horizontalFieldOfView, int maxDistance, int width, int height, int superSamplingExponent){
         this(map(observerLongitude, observerLatitude, observerElevation, centerAzimuth, horizontalFieldOfView, maxDistance, width, height, superSamplingExponent));
     }
 
+    /**
+     * Methode privee pour construire une map
+     * @param observerLongitude int longitude de l'observateur
+     * @param observerLatitude int latitude de l'observateur
+     * @param observerElevation altitude de l'observateur
+     * @param centerAzimuth int azimute central
+     * @param horizontalFieldOfView int angle horizonal de vue
+     * @param maxDistance int distance de vue maximale
+     * @param width int largeur du panorama
+     * @param height int hauteur du panorama
+     * @param superSamplingExponent int facteur de surechantillonage
+     * @return Map les parametres de l'utilisateur associes a leur valeur en int
+     */
     private static Map<UserParameter, Integer> map(int observerLongitude, int observerLatitude, int observerElevation, int centerAzimuth, int horizontalFieldOfView, int maxDistance, int width, int height, int superSamplingExponent){
         Map<UserParameter, Integer> userParam = new EnumMap<>(UserParameter.class);
         userParam.put(UserParameter.OBSERVER_LONGITUDE, observerLongitude);
@@ -68,54 +98,108 @@ public final class PanoramaUserParameters {
         return userParam;
     }
 
+    /**
+     * Methode privee pour convertir les degres en radian a l'echelle
+     * @param degree int degre a convertir
+     * @return double la valeur en radian
+     */
     private static double tenThousandthDegreesToRadian(int degree){
         return toRadians(degree/10000);
     }
 
+    /**
+     * Methode privee pour calculer le GeoPoint de la position de l'observateur
+     * @return GeoPoint coordonnee de l'observateur
+     */
     private GeoPoint observerPosition(){
         return new GeoPoint(tenThousandthDegreesToRadian(observerLongitude()), tenThousandthDegreesToRadian(observerLatitude())); 
     }
 
+    /**
+     * Accesseur public de la valeur associees au parametre up
+     * @param up Userparameter parametre de l'utilisateur
+     * @return int valeur associee a ce parametre
+     */
     public int get(UserParameter up){
         return userParameters.get(up);
     }
 
+    /**
+     * Accesseur public de la longitude de l'observateur
+     * @return int longitude de l'observateur
+     */
     public int observerLongitude(){
         return userParameters.get(UserParameter.OBSERVER_LONGITUDE);
     }
 
+    /**
+     * Accesseur public de la latitude de l'observateur
+     * @return int latitude de l'observateur
+     */
     public int observerLatitude(){
         return userParameters.get(UserParameter.OBSERVER_LATITUDE);
     }
 
+    /**
+     * Accesseur public de l'altitude de l'observateur
+     * @return int altitude de l'observateur
+     */
     public int observerElevation(){
         return userParameters.get(UserParameter.OBSERVER_ELEVATION);
     }
 
+    /**
+     * Accesseur public de l'azimute central
+     * @return int valeur de l'azimute central
+     */
     public int centerAzimuth(){
         return userParameters.get(UserParameter.CENTER_AZIMUTH);
     }
 
+    /**
+     * Accesseur public de l'angle de vue horizontal
+     * @return int angle de vue horizontal
+     */
     public int horizontalFieldOfView(){
         return userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW);
     }
 
+    /**
+     * Accesseur public de la distance maximale de vue
+     * @return int distance maximale de vue
+     */
     public int maxDistance(){
         return userParameters.get(UserParameter.MAX_DISTANCE);
     }
 
+    /**
+     * Accesseur public de la largeur du panorama
+     * @return int largeur de panorama
+     */
     public int width(){
         return userParameters.get(UserParameter.WIDTH);
     }
 
+    /**
+     * Accesseur public de la hauteur du panorama 
+     * @return int hauteur du panorama
+     */
     public int height(){
         return userParameters.get(UserParameter.HEIGHT);
     }
 
+    /**
+     * Accesseur public de l'exposant de surechantillonnage
+     * @return int exposant de surechantillonnage
+     */
     public int superSamplingExponent(){
         return userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT);
     }
 
+    /**
+     * Methode public retournant les parametres du panorama tel qu'il sera calcule
+     * @return PanoramaParameters parametres du panorama tel qu'il sera calcule
+     */
     public PanoramaParameters panoramaParameters(){
         int wp = (int)pow(2, superSamplingExponent())*width();
         int hp = (int)pow(2, superSamplingExponent())*height();
@@ -123,6 +207,10 @@ public final class PanoramaUserParameters {
         return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
     }
 
+    /**
+     * Methode public retournant les parametres du panorama tel qu'il sera affiche
+     * @return PanoramaParameters parametres du panorama tel qu'il sera affiche
+     */
     public PanoramaParameters panoramaDisplayParameters(){
         return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, width(), height());
     }
