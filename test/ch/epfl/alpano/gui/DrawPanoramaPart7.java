@@ -40,12 +40,14 @@ final class DrawPanoramaPart7 {
                     IMAGE_HEIGHT);
 
     public static void main(String[] as) throws Exception {
+        double t=System.currentTimeMillis();
+
         try (DiscreteElevationModel dDEM =
                 new HgtDiscreteElevationModel(HGT_FILE)) {
             ContinuousElevationModel cDEM =
                     new ContinuousElevationModel(dDEM);
             Panorama p = new PanoramaComputer(cDEM)
-                    .computePanorama(PARAMS);
+                    .computePanorama(PredefinedPanoramas.NIESEN.panoramaParameters());
 
             ChannelPainter gray =
                     ChannelPainter.maxDistanceToNeighbors(p)
@@ -64,22 +66,24 @@ final class DrawPanoramaPart7 {
             ImageIO.write(SwingFXUtils.fromFXImage(i, null),
                     "png",
                     new File("niesen-profile.png"));
-            
-             //image en couleur
+
+            //image en couleur
             ChannelPainter h = (x,y)->360*distance.div(100000).cycling().valueAt(x, y);
-            
+
             ChannelPainter s = distance.div(200000).clamped().inverted();
-            
+
             ChannelPainter slope = p::slopeAt;
             ChannelPainter b = (x,y)->0.3f+0.7f*slope.mul(2).div((float)Math.PI).inverted().valueAt(x, y);
-            
+
             ImagePainter painter = ImagePainter.hsb(h, s, b, opacity);
             Image col = PanoramaRenderer.renderPanorama(p, painter);
             ImageIO.write(SwingFXUtils.fromFXImage(col, null),
                     "png",
                     new File("niesen-shaded.png"));
-            
-       }
+
+        }
+
+        System.out.println(System.currentTimeMillis()-t);
     }
 }
 
