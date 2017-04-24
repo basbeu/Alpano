@@ -31,15 +31,15 @@ public final class PanoramaUserParameters {
      */
     public PanoramaUserParameters(Map<UserParameter, Integer> userParameters){
         for(UserParameter param : UserParameter.values())
-            checkArgument(userParameters.containsKey(param),"La Map doit contenir tous les paramêtres");
+            checkArgument(userParameters.containsKey(param), "La Map doit contenir tous les paramètres");
 
         //controle de la hauteur
         int height = UserParameter.HEIGHT.sanitize(userParameters.get(UserParameter.HEIGHT));
         int width =  UserParameter.WIDTH.sanitize(userParameters.get(UserParameter.WIDTH));
         int vh = UserParameter.HORIZONTAL_FIELD_OF_VIEW.sanitize(userParameters.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW));
 
-        if(((height-1)/(width-1))*vh > MAX_VERTICAL_FIELD_OF_VIEW)
-            height = (MAX_VERTICAL_FIELD_OF_VIEW*(width-1))/vh;
+        if(((height - 1) / (width - 1)) * vh > MAX_VERTICAL_FIELD_OF_VIEW)
+            height = (MAX_VERTICAL_FIELD_OF_VIEW * (width - 1)) / vh;
 
         Map<UserParameter, Integer> up = map(
                 UserParameter.OBSERVER_LONGITUDE.sanitize(userParameters.get(UserParameter.OBSERVER_LONGITUDE)),
@@ -103,7 +103,7 @@ public final class PanoramaUserParameters {
      * @return double la valeur en radian
      */
     private static double tenThousandthDegreesToRadian(int degree){
-        return toRadians(degree/10000d);
+        return toRadians(degree / 10000d);
     }
 
     /**
@@ -200,8 +200,8 @@ public final class PanoramaUserParameters {
      * @return PanoramaParameters parametres du panorama tel qu'il sera calcule
      */
     public PanoramaParameters panoramaParameters(){
-        int wp = (int)pow(2, superSamplingExponent())*width();
-        int hp = (int)pow(2, superSamplingExponent())*height();
+        int wp = (int)pow(2, superSamplingExponent()) * width();
+        int hp = (int)pow(2, superSamplingExponent()) * height();
 
         return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
     }
