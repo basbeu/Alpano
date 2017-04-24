@@ -47,7 +47,7 @@ final class DrawPanoramaPart7 {
             ContinuousElevationModel cDEM =
                     new ContinuousElevationModel(dDEM);
             Panorama p = new PanoramaComputer(cDEM)
-                    .computePanorama(PredefinedPanoramas.NIESEN.panoramaParameters());
+                    .computePanorama(PARAMS);
 
             ChannelPainter gray =
                     ChannelPainter.maxDistanceToNeighbors(p)

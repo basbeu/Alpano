@@ -6,7 +6,6 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.alpano.GeoPoint;
@@ -104,7 +103,7 @@ public final class PanoramaUserParameters {
      * @return double la valeur en radian
      */
     private static double tenThousandthDegreesToRadian(int degree){
-        return toRadians(degree/10000);
+        return toRadians(degree/10000d);
     }
 
     /**
