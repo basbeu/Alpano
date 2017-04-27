@@ -5,6 +5,7 @@ import static ch.epfl.alpano.Azimuth.fromMath;
 import static ch.epfl.alpano.Distance.EARTH_RADIUS;
 import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Preconditions.checkArgument;
+import static ch.epfl.alpano.Distance.toMeters;
 import static java.lang.Math.PI;
 import static java.lang.Math.asin;
 import static java.lang.Math.atan2;
@@ -68,7 +69,7 @@ public final class GeoPoint {
         double alpha = 2 * asin(sqrt(haversin(this.latitude() - that.latitude()) 
                 + cos(this.latitude()) * cos(that.latitude()) * haversin(this.longitude() - that.longitude())));
 
-        return alpha * EARTH_RADIUS;
+        return toMeters(alpha);
     }
 
     /**
