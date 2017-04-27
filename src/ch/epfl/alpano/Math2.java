@@ -87,18 +87,21 @@ public interface Math2 {
      * @param minX double representant le minimum de l'intervalle de recherche
      * @param maxX double representant le maximum de l'intervalle de recherche
      * @param dX double representant la taille des intervalles testes
-     * @return double representant la borne inferieur de l'intervalle de taille dX contenant un zero 
+     * @return double representant la borne inferieur de l'intervalle de taille dX contenant un zero
+     * @throws IllegalArgumentException si les intervalles ne sont pas valides 
      */
     static double firstIntervalContainingRoot(DoubleUnaryOperator f, double minX, double maxX, double dX){
+        checkArgument(minX <= maxX && 0 < dX, "Le minimum doit être plus petit ou égal au maximum et la taille de l'intervalle doit être supérieur à 0");
         double x1 = minX;
         double x2 = minX + dX;
-        do{
+        
+        while(x2 <= maxX){
             if(f.applyAsDouble(x1) * f.applyAsDouble(x2) < 0){
                 return x1; 
             }
             x1 += dX;
             x2 += dX;
-        }while(x2 <= maxX);
+        }
 
         return Double.POSITIVE_INFINITY;
     }
@@ -115,7 +118,7 @@ public interface Math2 {
     static double improveRoot(DoubleUnaryOperator f, double x1,double x2, double epsilon){
         checkArgument(f.applyAsDouble(x1) * f.applyAsDouble(x2) < 0, "f(x1) et f(x2) doivent être de signe différent");
 
-        do{
+        while(Math.abs(x1 - x2) > epsilon){
             double xM = (x1 + x2) / 2;
             double yM = f.applyAsDouble(xM); 
             if(yM == 0){
@@ -125,7 +128,7 @@ public interface Math2 {
             }else {
                 x1 = xM;
             }
-        }while(Math.abs(x1 - x2) > epsilon);
+        }
 
         return x1;
     }
