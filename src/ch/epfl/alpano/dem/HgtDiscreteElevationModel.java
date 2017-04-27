@@ -4,7 +4,6 @@ import static ch.epfl.alpano.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ShortBuffer;
 import java.nio.channels.FileChannel.MapMode;
@@ -76,10 +75,9 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
         //Mappage du fichier
         try(FileInputStream s = new FileInputStream(file)){
             elevations = s.getChannel().map(MapMode.READ_ONLY, 0, l).asShortBuffer();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException("Fichier incorrecte");
         }
     }
 
