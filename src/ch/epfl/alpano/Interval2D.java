@@ -109,13 +109,11 @@ public final class Interval2D {
             return false;
         Interval2D other = (Interval2D) obj;
         if (iX() == null) {
-            if (other.iX() != null)
-                return false;
+            return false;
         } else if (!iX().equals(other.iX()))
             return false;
         if (iY() == null) {
-            if (other.iY() != null)
-                return false;
+            return false;
         } else if (!iY().equals(other.iY()))
             return false;
         return true;
@@ -128,6 +126,6 @@ public final class Interval2D {
 
     @Override
     public String toString() {
-        return iX().toString()+"x"+iY().toString();
+        return iX()+"x"+iY();
     }
 }
