@@ -1,8 +1,9 @@
 package ch.epfl.alpano;
 
 import static ch.epfl.alpano.Preconditions.checkArgument;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -68,22 +69,14 @@ public final class Interval1D {
      * @return int entier representant la taille de l'intersection (0 si l'intersection n'existe pas)
      */
     public int sizeOfIntersectionWith(Interval1D that){
-        int bornes[] = new int[4];
-
-        bornes[0] = includedFrom();
-        bornes[1] = includedTo();
-        bornes[2] = that.includedFrom();
-        bornes[3] = that.includedTo();
+        int minTo = min(includedTo(), that.includedTo());
+        int maxFrom = max(includedFrom(), that.includedFrom());
 
         //test si il y a une intersection
-        if(bornes[2] >= bornes[0] && bornes[2] <= bornes[1]
-                || bornes[3] >= bornes[0] && bornes[3] <= bornes[1]
-                        || bornes[0] >= bornes[2] && bornes[0] <= bornes[3]
-                                || bornes[1] >= bornes[2] && bornes[1] <= bornes[3]){
+        if(maxFrom <= minTo){
+//                
             //calcul de l'intersection
-            Arrays.sort(bornes);
-
-            return bornes[2] - bornes[1] + 1;
+            return minTo - maxFrom + 1;
         }else{
             //pas d'intersection
             return 0;
@@ -96,8 +89,8 @@ public final class Interval1D {
      * @return Interval1D qui represente l'union englobante
      */
     public Interval1D boundingUnion(Interval1D that){
-        int boundFrom = (includedFrom() < that.includedFrom() ? includedFrom() : that.includedFrom());
-        int boundTo = (includedTo() > that.includedTo() ? includedTo() : that.includedTo());
+        int boundFrom = min(includedFrom(), that.includedFrom());
+        int boundTo = max(includedTo(), that.includedTo());
 
         return new Interval1D(boundFrom, boundTo);
     }
@@ -126,8 +119,6 @@ public final class Interval1D {
 
     @Override
     public boolean equals(Object that0) {
-        if (this == that0)
-            return true;
         if (that0 == null)
             return false;
         if (getClass() != that0.getClass())
