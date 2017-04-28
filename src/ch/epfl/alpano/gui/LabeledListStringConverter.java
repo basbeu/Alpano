@@ -15,9 +15,9 @@ import javafx.util.StringConverter;
  * @author Bastien Beuchat  (257117)
  */
 
-public class LabeledListStringConverter extends StringConverter<Integer> {
+public final class LabeledListStringConverter extends StringConverter<Integer> {
 
-    private List<String> s;
+    private final List<String> s;
     
     /**
      * Constructeur d'un LabeledListStringConverter

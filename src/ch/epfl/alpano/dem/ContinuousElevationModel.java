@@ -5,7 +5,6 @@ import static ch.epfl.alpano.Math2.bilerp;
 import static ch.epfl.alpano.Math2.sq;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.SAMPLES_PER_RADIAN;
 import static ch.epfl.alpano.dem.DiscreteElevationModel.sampleIndex;
-import static java.lang.Math.abs;
 import static java.lang.Math.acos;
 import static java.lang.Math.floor;
 import static java.lang.Math.sqrt;
@@ -84,8 +83,8 @@ public final class ContinuousElevationModel {
      * @return Double pente en radian 
      */
     private double slopeDEMAt(int x, int y){
-        double za = abs(elevationDEMAt(x, y) - elevationDEMAt(x + 1, y));
-        double zb = abs(elevationDEMAt(x, y) - elevationDEMAt(x, y + 1));
+        double za = elevationDEMAt(x, y) - elevationDEMAt(x + 1, y);
+        double zb = elevationDEMAt(x, y) - elevationDEMAt(x, y + 1);
 
         return acos(DISTANCE / sqrt(sq(za) + sq(zb) + sq(DISTANCE)));
     }

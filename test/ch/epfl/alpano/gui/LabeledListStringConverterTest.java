@@ -10,7 +10,6 @@ public class LabeledListStringConverterTest {
         System.out.println(c.fromString("c"));
         System.out.println(c.fromString("d"));
         System.out.println(c.fromString("e"));
-        System.out.println(c.fromString("f"));
 
 
         System.out.println(c.toString(0));
@@ -18,7 +17,10 @@ public class LabeledListStringConverterTest {
         System.out.println(c.toString(2));
         System.out.println(c.toString(3));
         System.out.println(c.toString(4));
-
+        
+        FixedPointStringConverter f = new FixedPointStringConverter(1);
+        System.out.println(f.fromString("12.36789"));
+        System.out.println(f.toString(678));
 
     }
 

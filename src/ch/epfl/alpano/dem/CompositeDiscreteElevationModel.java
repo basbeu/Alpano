@@ -12,7 +12,8 @@ import ch.epfl.alpano.Interval2D;
  * @author Bastien Beuchat  (257117)
  */
 final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
-    private final DiscreteElevationModel dem1, dem2; 
+    private final DiscreteElevationModel dem1, dem2;
+    private final Interval2D demUnion; 
 
     /**
      * Constructeur d'un CompositeDiscreteElevationModel  
@@ -23,6 +24,7 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
     public CompositeDiscreteElevationModel(DiscreteElevationModel dem1, DiscreteElevationModel dem2) {
         this.dem1 = requireNonNull(dem1, "DiscreteElevation dem1 : null");
         this.dem2 = requireNonNull(dem2, "DiscreteElevation dem2 : null");
+        demUnion = dem1.extent().union(dem2.extent());
     }
 
     @Override
@@ -33,7 +35,7 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
 
     @Override
     public Interval2D extent() {
-        return dem1.extent().union(dem2.extent());
+        return demUnion;
     }
 
     @Override
