@@ -116,7 +116,7 @@ public interface Math2 {
      * @throws IllegalArgumentException si f(x1) et f(x2) sont de meme signe
      */
     static double improveRoot(DoubleUnaryOperator f, double x1,double x2, double epsilon){
-        checkArgument(f.applyAsDouble(x1) * f.applyAsDouble(x2) < 0, "f(x1) et f(x2) doivent être de signe différent");
+        checkArgument(f.applyAsDouble(x1) * f.applyAsDouble(x2) <= 0, "f(x1) et f(x2) doivent être de signe différent");
 
         while(Math.abs(x1 - x2) > epsilon){
             double xM = (x1 + x2) / 2;
