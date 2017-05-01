@@ -137,7 +137,7 @@ public final class Panorama {
      * 
      */    
     public final static class Builder {
-        private PanoramaParameters param;
+        private final PanoramaParameters param;
         private float[] distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild;
         private boolean isBuilt = false;
 
@@ -268,8 +268,16 @@ public final class Panorama {
         public Panorama build(){
             checkIsBuilt(isBuilt);
             isBuilt = true;
-
-            return new Panorama(param, distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild);
+            Panorama p = new Panorama(param, distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild);
+            
+            //DEMANDER
+            distanceBuild = null;
+            longitudeBuild = null;
+            latitudeBuild = null;
+            elevationBuild = null; 
+            slopeBuild = null;
+           
+            return p;
         }     
     }
 }
