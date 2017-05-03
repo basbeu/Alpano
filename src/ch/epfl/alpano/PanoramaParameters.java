@@ -22,6 +22,7 @@ final public class PanoramaParameters {
     private final int observerElevation;
     private final double centerAzimuth;
     private final double horizontalFieldOfView;
+    private final double verticalFieldOfView;
     private final int maxDistance;
     private final int width;
     private final int height;
@@ -52,6 +53,7 @@ final public class PanoramaParameters {
         this.observerElevation = observerElevation;
         this.centerAzimuth = centerAzimuth;
         this.horizontalFieldOfView = horizontalFieldOfView;
+        this.verticalFieldOfView = horizontalFieldOfView * (height - 1) / (width - 1);
         this.maxDistance = maxDistance;
         this.width = width;
         this.height = height;
@@ -120,7 +122,7 @@ final public class PanoramaParameters {
      * @return double angle de vue vertical
      */
     public double verticalFieldOfView(){
-        return horizontalFieldOfView() * (height() - 1) / (width() - 1);
+        return verticalFieldOfView;
     }
 
     /**
