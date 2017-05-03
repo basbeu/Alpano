@@ -160,7 +160,7 @@ final public class PanoramaParameters {
 
     /**
      * Methode retourne l'index de pixel vertical correspondant a l'elevation donnee
-     * @param a double azimut
+     * @param a double elevation
      * @return double index de pixel vertical  
      * @throws IllegalArgumentException si l'elevation n'appartient pas a la zone visible
      */
