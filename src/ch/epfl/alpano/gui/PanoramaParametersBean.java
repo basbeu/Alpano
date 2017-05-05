@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class PanoramaParametersBean {
     
+    //faire une enummap pour les attributs
     private ReadOnlyObjectProperty<PanoramaUserParameters> parameters;
     private ObjectProperty<Integer> observerLongitude;
     private ObjectProperty<Integer> observerLatitude;
