@@ -2,7 +2,6 @@ package ch.epfl.alpano;
 
 import static ch.epfl.alpano.Azimuth.canonicalize;
 import static ch.epfl.alpano.Azimuth.fromMath;
-import static ch.epfl.alpano.Distance.EARTH_RADIUS;
 import static ch.epfl.alpano.Math2.haversin;
 import static ch.epfl.alpano.Preconditions.checkArgument;
 import static ch.epfl.alpano.Distance.toMeters;
