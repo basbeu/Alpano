@@ -137,9 +137,9 @@ public final class Labelizer {
     }
 
     /**
-     * Classe privee representant un sommet sur l'image
+     * Classe privee statique representant un sommet sur l'image
      */
-    private final class VisibleSummit implements Comparable<VisibleSummit>{
+    static private final class VisibleSummit implements Comparable<VisibleSummit>{
         private final int x;
         private final int y;
         private final String name;
