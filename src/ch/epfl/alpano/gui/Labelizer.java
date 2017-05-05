@@ -83,10 +83,7 @@ public final class Labelizer {
                     if(firstIntervalContainingRoot(delta, 0, distance - TOLERANCE, INTERVAL_SEARCH) == POSITIVE_INFINITY){
                         
                         //Controle que le sommet se situe au delà de la limite verticale
-                        int y = (int) round(params.yForAltitude(altitude));
-                       //if(y >= VERTICAL_LIMIT){
-                            visible.add(new VisibleSummit((int) round(params.xForAzimuth(azimuth)), y, summit.name(), summit.elevation()));
-                        //}
+                        visible.add(new VisibleSummit((int) round(params.xForAzimuth(azimuth)), (int) round(params.yForAltitude(altitude)), summit.name(), summit.elevation()));
                     }
                 }
             }
@@ -108,8 +105,9 @@ public final class Labelizer {
         BitSet positionsXAvailable = new BitSet();
         positionsXAvailable.set(0, params.width()-2*HORIZONTAL_SPACING);
         
-        BitSet minimalInterval = new BitSet(2*HORIZONTAL_SPACING);
-        minimalInterval.set(0,2*HORIZONTAL_SPACING);
+        //BitSet minimalInterval = new BitSet(2*HORIZONTAL_SPACING);
+        BitSet minimalInterval = new BitSet();
+        minimalInterval.set(0,HORIZONTAL_SPACING);
         boolean isFirst = true;
         int yl = -VERTICAL_SPACING;
         for(VisibleSummit summit : visibleSummits){
@@ -119,10 +117,9 @@ public final class Labelizer {
             if(summit.y >= VERTICAL_LIMIT 
                     && HORIZONTAL_SPACING < summit.x 
                     && summit.x < params.width()-HORIZONTAL_SPACING
-                    && positionsXAvailable.get(summit.x-HORIZONTAL_SPACING, summit.x+HORIZONTAL_SPACING).equals(minimalInterval)){
-                
-                positionsXAvailable.flip(summit.x-HORIZONTAL_SPACING, summit.x+HORIZONTAL_SPACING);
-                
+                    && positionsXAvailable.get(summit.x, summit.x + HORIZONTAL_SPACING).equals(minimalInterval)){
+                    
+                positionsXAvailable.flip(summit.x, summit.x+HORIZONTAL_SPACING);
                 if(isFirst){
                     yl += summit.y;
                     isFirst = false;
