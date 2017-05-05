@@ -8,5 +8,8 @@ package ch.epfl.alpano.gui;
  */
 
 public class PanoramaComputerBean {
+    
+    private Panorama panorama;
+    private ObjectProperty<PanoramaUserParameters> parameters;
 
 }
