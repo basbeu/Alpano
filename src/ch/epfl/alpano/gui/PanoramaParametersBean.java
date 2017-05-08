@@ -2,6 +2,8 @@ package ch.epfl.alpano.gui;
 
 import static javafx.application.Platform.runLater;
 
+import java.util.EnumMap;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,97 +16,116 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 
 public class PanoramaParametersBean {
+    private ObjectProperty<PanoramaUserParameters> parameters;
+    private EnumMap<UserParameter, ObjectProperty<Integer>> properties;
     
-    //faire une enummap pour les attributs
-    private ReadOnlyObjectProperty<PanoramaUserParameters> parameters;
-    private ObjectProperty<Integer> observerLongitude;
-    private ObjectProperty<Integer> observerLatitude;
-    private ObjectProperty<Integer> observerElevation;
-    private ObjectProperty<Integer> centerAzimuth;
-    private ObjectProperty<Integer> horizontalFieldOfView;
-    private ObjectProperty<Integer> maxDistance;
-    private ObjectProperty<Integer> width;
-    private ObjectProperty<Integer> heigth;
-    private ObjectProperty<Integer> superSamplingExponent;
-    
+    /**
+     * Constructeur d'un bean contenant les parametres utilisateurs d'un panorama
+     * @param params PanoramaUserParameters representant les parametres du panorama
+     */
     public PanoramaParametersBean(PanoramaUserParameters params){
         parameters = new SimpleObjectProperty<>(params);
         
-        observerLongitude = new SimpleObjectProperty<>(params.observerLongitude());
-        observerLatitude = new SimpleObjectProperty<>(params.observerLatitude());
-        observerElevation = new SimpleObjectProperty<>(params.observerElevation());
-        centerAzimuth = new SimpleObjectProperty<>(params.centerAzimuth());
-        horizontalFieldOfView = new SimpleObjectProperty<>(params.horizontalFieldOfView());
-        maxDistance = new SimpleObjectProperty<>(params.maxDistance());
-        width = new SimpleObjectProperty<>(params.width());
-        heigth = new SimpleObjectProperty<>(params.height());
-        superSamplingExponent = new SimpleObjectProperty<>(params.superSamplingExponent());
+        properties = new EnumMap<>(UserParameter.class);
+        properties.put(UserParameter.OBSERVER_LONGITUDE, new SimpleObjectProperty<>(params.observerLongitude()));
+        properties.put(UserParameter.OBSERVER_LATITUDE, new SimpleObjectProperty<>(params.observerLatitude()));
+        properties.put(UserParameter.OBSERVER_ELEVATION, new SimpleObjectProperty<>(params.observerElevation()));
+        properties.put(UserParameter.CENTER_AZIMUTH, new SimpleObjectProperty<>(params.centerAzimuth()));
+        properties.put(UserParameter.HORIZONTAL_FIELD_OF_VIEW, new SimpleObjectProperty<>(params.horizontalFieldOfView()));
+        properties.put(UserParameter.MAX_DISTANCE, new SimpleObjectProperty<>(params.maxDistance()));
+        properties.put(UserParameter.WIDTH, new SimpleObjectProperty<>(params.width()));
+        properties.put(UserParameter.HEIGHT, new SimpleObjectProperty<>(params.height()));
+        properties.put(UserParameter.SUPER_SAMPLING_EXPONENT, new SimpleObjectProperty<>(params.superSamplingExponent()));
         
-        observerLongitude.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        observerLatitude.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        observerElevation.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        centerAzimuth.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        horizontalFieldOfView.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        maxDistance.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        width.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        heigth.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        superSamplingExponent.addListener((b, o, n) -> runLater(this::synchronizeParameters));
-        
+        properties.forEach((k,v)->v.addListener((b, o, n) -> runLater(this::synchronizeParameters)));
     }
     
+    /**
+     * @return ReadOnlyObjectProperty<PanoramaUserParameters> representant les parametres du panorama
+     */
     public ReadOnlyObjectProperty<PanoramaUserParameters> parametersProperty(){
         return parameters;
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant la longitude
+     */
     public ObjectProperty<Integer> observerLongitudeProperty(){
-        return observerLongitude;
+        return properties.get(UserParameter.OBSERVER_LONGITUDE);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant la latitude
+     */
     public ObjectProperty<Integer> observerLatitudeProperty(){
-        return observerLatitude;
+        return properties.get(UserParameter.OBSERVER_LATITUDE);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant l'altitude
+     */
     public ObjectProperty<Integer> observerElevationProperty(){
-        return observerElevation;
+        return properties.get(UserParameter.OBSERVER_ELEVATION);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant l'azimuth central
+     */
     public ObjectProperty<Integer> centerAzimuthProperty(){
-        return centerAzimuth;
+        return properties.get(UserParameter.CENTER_AZIMUTH);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant le champ de vision horizontal
+     */
     public ObjectProperty<Integer> horizontalFieldOfViewProperty(){
-        return horizontalFieldOfView;
+        return properties.get(UserParameter.HORIZONTAL_FIELD_OF_VIEW);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant la distance maximale
+     */
     public ObjectProperty<Integer> maxDistanceProperty(){
-        return maxDistance;
+        return properties.get(UserParameter.MAX_DISTANCE);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant la largeur
+     */
     public ObjectProperty<Integer> widthProperty(){
-        return width;
+        return properties.get(UserParameter.WIDTH);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant la hauteur
+     */
     public ObjectProperty<Integer> heightProperty(){
-        return heigth;
+        return properties.get(UserParameter.HEIGHT);
     }
     
+    /**
+     * @return ObjectProperty<Integer> representant l'exposant de super-echantillonnage
+     */
     public ObjectProperty<Integer> superSamplingExponentProperty(){
-        return superSamplingExponent;
+        return properties.get(UserParameter.SUPER_SAMPLING_EXPONENT);
     }
     
+    /**
+     * Methode privee synchronisant les parametres et proprietes
+     */
     private void synchronizeParameters(){
-        PanoramaUserParameters userParam = new PanoramaUserParameters(observerLongitude.getValue(), observerLatitude.getValue(), observerElevation.getValue(), centerAzimuth.getValue(), horizontalFieldOfView.getValue(), maxDistance.getValue(), width.getValue(), heigth.getValue(), superSamplingExponent.getValue());
-        parameters = new SimpleObjectProperty<>(userParam);
+        PanoramaUserParameters userParam = new PanoramaUserParameters(observerLongitudeProperty().getValue(), observerLatitudeProperty().getValue(), observerElevationProperty().getValue(), centerAzimuthProperty().getValue(), horizontalFieldOfViewProperty().getValue(), maxDistanceProperty().getValue(), widthProperty().getValue(), heightProperty().getValue(), superSamplingExponentProperty().getValue());
+        parameters.setValue(userParam);        
         
-        observerLongitude.setValue(userParam.observerLongitude());
-        observerLatitude.setValue(userParam.observerLatitude());
-        observerElevation.setValue(userParam.observerElevation());
-        centerAzimuth.setValue(userParam.centerAzimuth());
-        horizontalFieldOfView.setValue(userParam.horizontalFieldOfView());
-        maxDistance.setValue(userParam.maxDistance());
-        width.setValue(userParam.width());
-        heigth.setValue(userParam.height());
-        superSamplingExponent.setValue(userParam.superSamplingExponent());
+        observerLongitudeProperty().setValue(userParam.observerLongitude());
+        observerLatitudeProperty().setValue(userParam.observerLatitude());
+        observerElevationProperty().setValue(userParam.observerElevation());
+        centerAzimuthProperty().setValue(userParam.centerAzimuth());
+        horizontalFieldOfViewProperty().setValue(userParam.horizontalFieldOfView());
+        maxDistanceProperty().setValue(userParam.maxDistance());
+        widthProperty().setValue(userParam.width());
+        heightProperty().setValue(userParam.height());
+        superSamplingExponentProperty().setValue(userParam.superSamplingExponent());
     }
     
 }
