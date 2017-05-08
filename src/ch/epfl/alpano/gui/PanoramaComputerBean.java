@@ -33,6 +33,11 @@ public class PanoramaComputerBean {
     private ObjectProperty<Image> image;
     private ObjectProperty<ObservableList<Node>> labels;
     
+    /**
+     * Constructeur d'un PanoramaComputerBean
+     * @param cDem ContinuousElevationModel modèle pour créer le panoramaComputer ainsi que le labelizer
+     * @param summits List<Summit> liste des sommets
+     */
     public PanoramaComputerBean(ContinuousElevationModel cDem, List<Summit> summits){
       parameters = new SimpleObjectProperty<>();
       parameters.addListener((b,o,n)-> compute());
@@ -43,47 +48,88 @@ public class PanoramaComputerBean {
       image = new SimpleObjectProperty<>();
     }
     
+    /**
+     * Accesseur public des paramètres du panorama
+     * @return ObjectProperty<PanoramaUserParameters> obtenir la propriété JavaFX correspondant aux paramètres
+     */
     public ObjectProperty<PanoramaUserParameters> parametersProperty(){
         return parameters;
     }
     
+    /**
+     * Accesseur public des paramètres du panorama
+     * @return PanoramaUserParameters paramètres du panorama
+     */
     public PanoramaUserParameters getParameters(){
         return parameters.getValue();
     }
     
+    /**
+     * Modificateur public des paramètres du panorama
+     * @param newParameters PanoramaUserParameters nouveaux paramètres
+     */
     public void setParameters(PanoramaUserParameters newParameters){
         parameters.setValue(newParameters);
     }
     
+    /**
+     * Accesseur public du panorama
+     * @return ReadOnlyObjectProperty<Panorama> panorama accessible en lecture seule
+     */
     public ReadOnlyObjectProperty<Panorama> panoramaProperty(){
         return panorama;
     }
     
+    /**
+     * Accesseur public du panorama
+     * @return Panorama le panorama
+     */
     public Panorama getPanorama(){
         return panorama.getValue();
     }
     
+    /**
+     * Accesseur public de l'image
+     * @return ReadOnlyObjectProperty<Image> l'image accessible en lecture seule
+     */
     public ReadOnlyObjectProperty<Image> imageProperty(){
         return image;
     }
     
+    /**
+     * Accesseur public de l'image
+     * @return Image l'image
+     */
     public Image getImage(){
         return image.getValue();
     }
     
+    /**
+     * Accesseur public des étiquettes
+     * @return ReadOnlyObjectProperty<ObservableList<Node>> les étiquettes accessible en lecture seule dans un type de liste observable JavaFX 
+     */
     public ReadOnlyObjectProperty<ObservableList<Node>> labelsProperty(){
         return labels;
     }
     
+    /**
+     * Accesseur public des étiquettes
+     * @return ObservableList<Node> liste observable JavaFX avec les étiquettes
+     */
     public ObservableList<Node> getLabels(){
         return unmodifiableObservableList(labels.getValue());
     }
     
+    /**
+     * Méthode privée effectuant le recalcul de l'image du panorama
+     */
     private void compute(){
+        //Mise à jour du panorama et des étiquettes
         panorama.setValue(panoramaComputer.computePanorama(parameters.getValue().panoramaParameters()));
         
         labels.getValue().setAll(labelizer.labels(parameters.getValue().panoramaParameters()));
-        
+       
+        //Recalcul des canaux
         ChannelPainter distance = panorama.getValue()::distanceAt;
         ChannelPainter opacity = distance.map(d -> d == Float.POSITIVE_INFINITY ? 0 : 1);
         
@@ -93,9 +139,10 @@ public class PanoramaComputerBean {
 
         ChannelPainter slope = panorama.getValue()::slopeAt;
         ChannelPainter b = (x,y)->0.3f+0.7f*slope.mul(2).div((float)Math.PI).inverted().valueAt(x, y);
-
+        
         ImagePainter painter = ImagePainter.hsb(h, s, b, opacity);
         
+        //Nouvelle image
         image.setValue(renderPanorama(panorama.getValue(), painter));
     }
 
