@@ -39,7 +39,7 @@ public final class Labelizer {
     private static final int HORIZONTAL_SPACING = 20;
     private static final int VERTICAL_SPACING = 22;
     private static final int TEXT_LINE_SPACING = 2;
-    private static final int ROTATION_ANGLE = 60;
+    private static final int ROTATION_ANGLE = -60;
 
     private final ContinuousElevationModel cDem;
     private final List<Summit> summits;
