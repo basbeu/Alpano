@@ -1,7 +1,7 @@
 package ch.epfl.alpano.gui;
 
 /**
- * Interface fournissant des panoramas prédéfinis sous forme de paramêtre
+ * Interface fournissant des panoramas prédéfinis sous forme de paramètre
  *
  * @author Philippine Favre (258854)
  * @author Bastien Beuchat  (257117)
