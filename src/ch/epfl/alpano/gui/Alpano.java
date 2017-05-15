@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import ch.epfl.alpano.Azimuth;
 import ch.epfl.alpano.GeoPoint;
 import ch.epfl.alpano.dem.ContinuousElevationModel;
 import ch.epfl.alpano.dem.DiscreteElevationModel;
@@ -124,18 +125,30 @@ public final class Alpano extends Application {
         panoView.setOnMouseMoved((e)->{
             
             StringBuilder sb = new StringBuilder();
+            /*
             String valueOfLatitude = String.valueOf(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
             String valueOfLongitude = String.valueOf(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
-            GeoPoint observer = parametersBean.parametersProperty().getValue().panoramaParameters().observerPosition();
-            GeoPoint souris = new GeoPoint(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY()), computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY()));
             double distance = computerBean.getPanorama().distanceAt((int)e.getX(), (int)e.getY())/1000;
             double elevation = computerBean.getPanorama().elevationAt((int)e.getX(), (int)e.getY());
             double altitude = Math.toDegrees(parametersBean.parametersProperty().getValue().panoramaParameters().altitudeForY(e.getY()));
+            */
+            GeoPoint observer = parametersBean.parametersProperty().getValue().panoramaParameters().observerPosition();
+            GeoPoint souris = new GeoPoint(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY()), computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY()));
+            
+            
+            String valueOfLatitude  = String.format("%.4f", Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
+            String valueOfLongitude = String.format("%.4f", Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
+            String distance = String.format("%.1f", computerBean.getPanorama().distanceAt((int)e.getX(), (int)e.getY())/1000d);
+            String elevation = String.format("%.0f",computerBean.getPanorama().elevationAt((int)e.getX(), (int)e.getY()));
+            String altitude = String.format("%.1f",Math.toDegrees(parametersBean.parametersProperty().getValue().panoramaParameters().altitudeForY(e.getY())));
+            double azimuthValue = computerBean.getParameters().panoramaParameters().azimuthForX(e.getX());
+            String azimuth = String.format("%.1f", Math.toDegrees(azimuthValue));
+            
             sb.append("Position : " + valueOfLatitude + "°N "  + valueOfLongitude + "°E "
                     + "\nDistance : " + distance + " km"
                     + "\nAltitude : " + elevation + " m"
-                    + "\nAzimut : " + observer.azimuthTo(souris) + "° (S) " 
-                    + "Elévation : " + altitude + "°");
+                    + "\nAzimut : " + azimuth +" "+Azimuth.toOctantString(azimuthValue, "N", "E", "S", "W") 
+                    + "\t\tElévation : " + altitude + "°");
             
             infos.setText(sb.toString());
             //System.out.println(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
