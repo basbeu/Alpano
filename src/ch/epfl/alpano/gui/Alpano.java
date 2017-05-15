@@ -1,13 +1,21 @@
 package ch.epfl.alpano.gui;
 
+
+import static java.lang.String.format;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.signum;
+import static java.awt.Desktop.getDesktop;
 import static ch.epfl.alpano.summit.GazetteerParser.readSummitsFrom;
+import static ch.epfl.alpano.Azimuth.toOctantString;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Locale;
 
-import ch.epfl.alpano.Azimuth;
-import ch.epfl.alpano.GeoPoint;
+import ch.epfl.alpano.Panorama;
 import ch.epfl.alpano.dem.ContinuousElevationModel;
 import ch.epfl.alpano.dem.DiscreteElevationModel;
 import ch.epfl.alpano.dem.HgtDiscreteElevationModel;
@@ -64,7 +72,6 @@ public final class Alpano extends Application {
             throw new IOException("Problème avec le fichier des sommets");
         }
         computerBean = new PanoramaComputerBean(cem, summits);
-        computerBean.setParameters(PredefinedPanoramas.ALPES_JURA);
         parametersBean = new PanoramaParametersBean(PredefinedPanoramas.ALPES_JURA);
     } 
 
@@ -100,68 +107,77 @@ public final class Alpano extends Application {
         DiscreteElevationModel dem5 = new HgtDiscreteElevationModel(HGT_FILE5);
         DiscreteElevationModel dem6 = new HgtDiscreteElevationModel(HGT_FILE6);
         DiscreteElevationModel dem7 = new HgtDiscreteElevationModel(HGT_FILE7);
-        DiscreteElevationModel dem8 =new HgtDiscreteElevationModel(HGT_FILE8);
+        DiscreteElevationModel dem8 = new HgtDiscreteElevationModel(HGT_FILE8);
         
         return new ContinuousElevationModel(dem1.union(dem2).union(dem3).union(dem4).union(dem5.union(dem6).union(dem7).union(dem8)));
     }
-    
+
     private StackPane getPanoPane(TextArea infos){
         Text updateText = new Text("Les paramètres du panorama ont changé. Cliquez ici pour mettre le dessin à jour.");
         updateText.setFont(new Font(40));
         updateText.setTextAlignment(TextAlignment.CENTER);
-            
+
         StackPane updateNotice = new StackPane(updateText);
         updateNotice.setBackground(new Background(new BackgroundFill(new Color(1, 1, 1, 0.9), CornerRadii.EMPTY, Insets.EMPTY)));
         updateNotice.visibleProperty().bind(computerBean.parametersProperty().isNotEqualTo(parametersBean.parametersProperty()));
         updateNotice.setOnMouseClicked((e)->computerBean.setParameters(parametersBean.parametersProperty().getValue()));
-        
+
         ImageView panoView = new ImageView();
-        
+
         panoView.imageProperty().bind(computerBean.imageProperty());
         panoView.fitWidthProperty().bind(parametersBean.widthProperty());
         panoView.preserveRatioProperty().setValue(true);
         panoView.smoothProperty().setValue(true);
-        
+
         panoView.setOnMouseMoved((e)->{
-            
-            StringBuilder sb = new StringBuilder();
-            /*
-            String valueOfLatitude = String.valueOf(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
-            String valueOfLongitude = String.valueOf(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
-            double distance = computerBean.getPanorama().distanceAt((int)e.getX(), (int)e.getY())/1000;
-            double elevation = computerBean.getPanorama().elevationAt((int)e.getX(), (int)e.getY());
-            double altitude = Math.toDegrees(parametersBean.parametersProperty().getValue().panoramaParameters().altitudeForY(e.getY()));
-            */
-            GeoPoint observer = parametersBean.parametersProperty().getValue().panoramaParameters().observerPosition();
-            GeoPoint souris = new GeoPoint(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY()), computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY()));
-            
-            
-            String valueOfLatitude  = String.format("%.4f", Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
-            String valueOfLongitude = String.format("%.4f", Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
-            String distance = String.format("%.1f", computerBean.getPanorama().distanceAt((int)e.getX(), (int)e.getY())/1000d);
-            String elevation = String.format("%.0f",computerBean.getPanorama().elevationAt((int)e.getX(), (int)e.getY()));
-            String altitude = String.format("%.1f",Math.toDegrees(parametersBean.parametersProperty().getValue().panoramaParameters().altitudeForY(e.getY())));
-            double azimuthValue = computerBean.getParameters().panoramaParameters().azimuthForX(e.getX());
-            String azimuth = String.format("%.1f", Math.toDegrees(azimuthValue));
-            
-            sb.append("Position : " + valueOfLatitude + "°N "  + valueOfLongitude + "°E "
-                    + "\nDistance : " + distance + " km"
-                    + "\nAltitude : " + elevation + " m"
-                    + "\nAzimut : " + azimuth +" "+Azimuth.toOctantString(azimuthValue, "N", "E", "S", "W") 
-                    + "\t\tElévation : " + altitude + "°");
-            
+            int x = (int) e.getX();
+            int y = (int) e.getY();
+
+            Panorama p = computerBean.getPanorama();
+            double azimuth = computerBean.getParameters().panoramaParameters().azimuthForX(x);
+            double latitude = p.latitudeAt(x, y);
+            double longitude = p.longitudeAt(x, y);
+
+            StringBuilder sb = new StringBuilder("Position : ");
+            sb.append(format("%.4f °",toDegrees(latitude))).append(signum(latitude)==1?"N":"S")
+            .append(format(" %.4f °", toDegrees(longitude))).append(signum(longitude)==1?"E":"W")
+            .append("\nDistance : ").append(format("%.1f", p.distanceAt(x, y)/1000d))
+            .append(" km\nAltitude : ").append(format("%.0f", p.elevationAt(x, y)))
+            .append(" m\nAzimut : ").append(format("%.1f °", toDegrees(azimuth))).append(toOctantString(azimuth, "N", "E", "S", "W"))
+            .append("\t\tElévation : ").append(format("%.1f °", toDegrees(computerBean.getParameters().panoramaParameters().altitudeForY(y))));
+
             infos.setText(sb.toString());
-            //System.out.println(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
-            //System.out.println(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
-            //infos.appendText(String.valueOf(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY()))));
         });
-        
+
+        panoView.setOnMouseClicked((e)->{
+            int x = (int) e.getX();
+            int y = (int) e.getY();
+
+            Panorama p = computerBean.getPanorama();
+            double latitude = toDegrees(p.latitudeAt(x, y));
+            double longitude = toDegrees(p.longitudeAt(x, y));
+
+            String qy = format((Locale)null,"mlat=%.2f&mlon=%.2f", latitude, longitude);  // "query" : partie après le ?
+            String fg = format((Locale)null,"map=15/%.2f/%.2f", latitude, longitude);  // "fragment" : partie après le #
+
+            URI osmURI;
+            try {
+                osmURI = new URI("http", "www.openstreetmap.org", "/", qy, fg);
+                getDesktop().browse(osmURI);
+            } catch (URISyntaxException exception) {
+                exception.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        });
+
+
         Pane labelsPane = new Pane();
         Bindings.bindContent(labelsPane.getChildren(),computerBean.getLabels());
         labelsPane.setMouseTransparent(true);
         StackPane panoGroup = new StackPane(panoView, labelsPane);
         ScrollPane panoScrollPane = new ScrollPane(panoGroup);
-        
+
         return new StackPane(panoScrollPane, updateNotice);
     }
 
@@ -175,7 +191,7 @@ public final class Alpano extends Application {
         Label laWidth = new Label("Largeur (px) :");
         Label laHeight = new Label("Hauteur (px) :");
         Label laSuperSamplingExponent = new Label("Suréchantillonnage :");
-        
+
         TextField tfLatitude = buildTextField(parametersBean.observerLatitudeProperty(), 7, 4);
         TextField tfLongitude = buildTextField(parametersBean.observerLongitudeProperty(), 7, 4);
         TextField tfElevation = buildTextField(parametersBean.observerElevationProperty(), 4, 0);
@@ -184,37 +200,37 @@ public final class Alpano extends Application {
         TextField tfMaxDistance = buildTextField(parametersBean.maxDistanceProperty(), 3, 0);
         TextField tfWidth = buildTextField(parametersBean.widthProperty(), 4, 0);
         TextField tfHeight = buildTextField(parametersBean.heightProperty(), 4, 0);
-        
+
         StringConverter<Integer> stringConverter = new LabeledListStringConverter("non", "2x", "4x");
-        
+
         ChoiceBox<Integer> cbSuperSamplingExponent = new ChoiceBox<>();
         cbSuperSamplingExponent.getItems().addAll(0,1,2);
         cbSuperSamplingExponent.valueProperty().bindBidirectional(parametersBean.superSamplingExponentProperty());
         cbSuperSamplingExponent.setConverter(stringConverter);
-        
+
         GridPane paramsGrid = new GridPane();
-        
+
         paramsGrid.addRow(0, laLatitude, tfLatitude, laLongitude, tfLongitude, laElevation, tfElevation);
         paramsGrid.addRow(1, laAzimuth, tfAzimuth, laHorizontalFieldOfView, tfHorizontalFieldOfView, laMaxDistance, tfMaxDistance);
         paramsGrid.addRow(2, laWidth, tfWidth, laHeight, tfHeight, laSuperSamplingExponent, cbSuperSamplingExponent);
-        
-        
-        
+
+
+
         paramsGrid.add(infos, 6, 0,1, 3);
-        
+
         return paramsGrid;
     }
-    
+
     private TextField buildTextField(ObjectProperty<Integer> property, int prefColumnCount, int decimal){
         StringConverter<Integer> stringConverter = new FixedPointStringConverter(decimal);
         TextFormatter<Integer> formatter = new TextFormatter<>(stringConverter);
-        
+
         TextField textField = new TextField();
         textField.setAlignment(Pos.BASELINE_RIGHT);
         textField.setPrefColumnCount(prefColumnCount);
         formatter.valueProperty().bindBidirectional(property);
         textField.setTextFormatter(formatter);
-        
+
         return textField;
     }
 }
