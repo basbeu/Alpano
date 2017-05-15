@@ -11,6 +11,7 @@ import ch.epfl.alpano.dem.DiscreteElevationModel;
 import ch.epfl.alpano.dem.HgtDiscreteElevationModel;
 import ch.epfl.alpano.summit.Summit;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
@@ -71,9 +73,12 @@ public final class Alpano extends Application {
     @Override
     public void start(Stage primaryStage) {
         // … création de l'interface graphique
+        TextArea infos = new TextArea();
+        infos.setEditable(false);
+        infos.setPrefRowCount(2);
 
-        GridPane paramsGrid = getParamsGrid();
-        StackPane panoPane = getPanoPane();
+        GridPane paramsGrid = getParamsGrid(infos);
+        StackPane panoPane = getPanoPane(infos);
 
         BorderPane root = new BorderPane(panoPane,null,null,paramsGrid,null);
         Scene scene = new Scene(root);
@@ -98,7 +103,7 @@ public final class Alpano extends Application {
         return new ContinuousElevationModel(dem1.union(dem2).union(dem3).union(dem4).union(dem5.union(dem6).union(dem7).union(dem8)));
     }
     
-    private StackPane getPanoPane(){
+    private StackPane getPanoPane(TextArea infos){
         Text updateText = new Text("Les paramètres du panorama ont changé. Cliquez ici pour mettre le dessin à jour.");
         updateText.setFont(new Font(40));
         updateText.setTextAlignment(TextAlignment.CENTER);
@@ -115,8 +120,15 @@ public final class Alpano extends Application {
         panoView.preserveRatioProperty().setValue(true);
         panoView.smoothProperty().setValue(true);
         
+        panoView.setOnMouseMoved((e)->{
+            infos.setText(String.valueOf(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY()))));
+            System.out.println(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
+            System.out.println(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
+            
+        });
+        
         Pane labelsPane = new Pane();
-        labelsPane.getChildren().addAll(computerBean.getLabels());
+        Bindings.bindContent(labelsPane.getChildren(),computerBean.getLabels());
         labelsPane.setMouseTransparent(true);
         StackPane panoGroup = new StackPane(panoView, labelsPane);
         ScrollPane panoScrollPane = new ScrollPane(panoGroup);
@@ -124,7 +136,7 @@ public final class Alpano extends Application {
         return new StackPane(panoScrollPane, updateNotice);
     }
 
-    private GridPane getParamsGrid(){
+    private GridPane getParamsGrid(TextArea infos){
         Label laLatitude = new Label("Latitude (°) :");
         Label laLongitude = new Label("Longitude (°) :");
         Label laElevation = new Label("Altitude (m) :");
@@ -158,6 +170,8 @@ public final class Alpano extends Application {
         paramsGrid.addRow(2, laWidth, tfWidth, laHeight, tfHeight, laSuperSamplingExponent, cbSuperSamplingExponent);
         
         
+        
+        paramsGrid.add(infos, 6, 0,1, 3);
         
         return paramsGrid;
     }

@@ -31,8 +31,9 @@ public class PanoramaComputerBean {
     private ObjectProperty<Panorama> panorama;
     private ObjectProperty<PanoramaUserParameters> parameters;
     private ObjectProperty<Image> image;
-    private ObjectProperty<ObservableList<Node>> labels;
+    private ObjectProperty<ObservableList<Node>> labelsProperty;
     
+    private final ObservableList<Node> labels;
     /**
      * Constructeur d'un PanoramaComputerBean
      * @param cDem ContinuousElevationModel modèle pour créer le panoramaComputer ainsi que le labelizer
@@ -43,7 +44,8 @@ public class PanoramaComputerBean {
       parameters.addListener((b,o,n)-> compute());
       panoramaComputer = new PanoramaComputer(cDem);
       labelizer = new Labelizer(cDem, summits);
-      labels = new SimpleObjectProperty<>(observableArrayList());
+      labels = observableArrayList();
+      labelsProperty = new SimpleObjectProperty<>(unmodifiableObservableList(labels));
       panorama = new SimpleObjectProperty<>();
       image = new SimpleObjectProperty<>();
     }
@@ -109,7 +111,7 @@ public class PanoramaComputerBean {
      * @return ReadOnlyObjectProperty<ObservableList<Node>> les étiquettes accessible en lecture seule dans un type de liste observable JavaFX 
      */
     public ReadOnlyObjectProperty<ObservableList<Node>> labelsProperty(){
-        return labels;
+        return labelsProperty;
     }
     
     /**
@@ -117,7 +119,7 @@ public class PanoramaComputerBean {
      * @return ObservableList<Node> liste observable JavaFX avec les étiquettes
      */
     public ObservableList<Node> getLabels(){
-        return unmodifiableObservableList(labels.getValue());
+        return labelsProperty.getValue();
     }
     
     /**
@@ -127,7 +129,7 @@ public class PanoramaComputerBean {
         //Mise à jour du panorama et des étiquettes
         panorama.setValue(panoramaComputer.computePanorama(parameters.getValue().panoramaParameters()));
         
-        labels.getValue().setAll(labelizer.labels(parameters.getValue().panoramaParameters()));
+        labels.setAll(labelizer.labels(parameters.getValue().panoramaParameters()));
        
         //Recalcul des canaux
         ChannelPainter distance = panorama.getValue()::distanceAt;
