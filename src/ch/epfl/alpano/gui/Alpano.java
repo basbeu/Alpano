@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import ch.epfl.alpano.GeoPoint;
 import ch.epfl.alpano.dem.ContinuousElevationModel;
 import ch.epfl.alpano.dem.DiscreteElevationModel;
 import ch.epfl.alpano.dem.HgtDiscreteElevationModel;
@@ -121,10 +122,30 @@ public final class Alpano extends Application {
         panoView.smoothProperty().setValue(true);
         
         panoView.setOnMouseMoved((e)->{
-            infos.setText(String.valueOf(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY()))));
-            System.out.println(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
-            System.out.println(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
+            StringConverter<Integer> stringConverter4 = new FixedPointStringConverter(4);
+            TextFormatter<Integer> formatter4 = new TextFormatter<>(stringConverter4);
             
+            StringConverter<Integer> stringConverter2 = new FixedPointStringConverter(2);
+            TextFormatter<Integer> formatter2 = new TextFormatter<>(stringConverter2);
+            
+            StringConverter<Integer> stringConverter0 = new FixedPointStringConverter(0);
+            TextFormatter<Integer> formatter0 = new TextFormatter<>(stringConverter0);
+            
+            StringBuilder sb = new StringBuilder();
+            String valueOfLatitude = String.valueOf(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
+            String valueOfLongitude = String.valueOf(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
+            GeoPoint observer = parametersBean.parametersProperty().getValue().panoramaParameters().observerPosition();
+            GeoPoint souris = new GeoPoint(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY()), computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY()));
+            sb.append("Position : " + valueOfLatitude + "°N "  + valueOfLongitude + "°E "
+                    + "\nDistance : " + computerBean.getPanorama().distanceAt((int)e.getX(), (int)e.getY())/1000 + " km"
+                    + "\nAltitude : " + computerBean.getPanorama().elevationAt((int)e.getX(), (int)e.getY()) + " m"
+                    + "\nAzimut : " + observer.azimuthTo(souris) + "° (S) " 
+                    + "Elévation : " + Math.toDegrees(parametersBean.parametersProperty().getValue().panoramaParameters().altitudeForY(e.getY())) + "°");
+            
+            infos.setText(sb.toString());
+            //System.out.println(Math.toDegrees(computerBean.getPanorama().latitudeAt((int)e.getX(), (int)e.getY())));
+            //System.out.println(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY())));
+            //infos.appendText(String.valueOf(Math.toDegrees(computerBean.getPanorama().longitudeAt((int)e.getX(), (int)e.getY()))));
         });
         
         Pane labelsPane = new Pane();
