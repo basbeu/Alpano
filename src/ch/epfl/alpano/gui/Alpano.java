@@ -46,8 +46,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
+/**
+ * classe public representant le programme principale de l'application et l'interface graphique
+ *
+ * @author Philippine Favre (258854)
+ * @author Bastien Beuchat  (257117)
+ */
 public final class Alpano extends Application {
+    //constantes représentant les fichiers nécessaire à l'application
     private final static File SUMMIT_FILE = new File("alps.txt");
 
     private final static File HGT_FILE1 = new File("N45E006.hgt");
@@ -59,12 +65,18 @@ public final class Alpano extends Application {
     private final static File HGT_FILE7 = new File("N46E008.hgt");
     private final static File HGT_FILE8 = new File("N46E009.hgt");
 
-    private final ContinuousElevationModel cem;
-    private final List<Summit> summits;
+    //attribut de l'application
     private final PanoramaComputerBean computerBean;
     private final PanoramaParametersBean parametersBean;
 
+    /**
+     * Constructeur de l'application
+     * @throws IOException lance une exception s'il y a des problèmes avec les fichiers
+     */
     public Alpano() throws IOException{
+        ContinuousElevationModel cem;
+        List<Summit> summits;
+        
         cem = loadHgt();
         try {
             summits = readSummitsFrom(SUMMIT_FILE);
@@ -75,6 +87,10 @@ public final class Alpano extends Application {
         parametersBean = new PanoramaParametersBean(PredefinedPanoramas.ALPES_JURA);
     } 
 
+    /**
+     * Lance l'application
+     * @param args paramêtre de l'applications
+     */
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -95,10 +111,12 @@ public final class Alpano extends Application {
         primaryStage.setTitle("Alpano");
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
-
+    /**
+     * Charge les fichiers HGT dans l'application
+     * @return ContinuousElevationModel representant le modele de terrain continu correspondant aux fichiers HGT
+     */
     private static ContinuousElevationModel loadHgt(){
         DiscreteElevationModel dem1 = new HgtDiscreteElevationModel(HGT_FILE1);
         DiscreteElevationModel dem2 = new HgtDiscreteElevationModel(HGT_FILE2);
@@ -112,6 +130,11 @@ public final class Alpano extends Application {
         return new ContinuousElevationModel(dem1.union(dem2).union(dem3).union(dem4).union(dem5.union(dem6).union(dem7).union(dem8)));
     }
 
+    /**
+     * Crée la partie d'affichage du panorama
+     * @param infos TextArea representant la zone textuelle qui est liée au panorama pour afficher les infos du point sous la souris
+     * @return StackPane representant la partie qui affiche le panorama
+     */
     private StackPane getPanoPane(TextArea infos){
         Text updateText = new Text("Les paramètres du panorama ont changé. Cliquez ici pour mettre le dessin à jour.");
         updateText.setFont(new Font(40));
@@ -129,6 +152,7 @@ public final class Alpano extends Application {
         panoView.preserveRatioProperty().setValue(true);
         panoView.smoothProperty().setValue(true);
 
+        //ajout de l'auditeur mettant a jour la zone de texte
         panoView.setOnMouseMoved((e)->{
             int x = (int) e.getX();
             int y = (int) e.getY();
@@ -149,6 +173,7 @@ public final class Alpano extends Application {
             infos.setText(sb.toString());
         });
 
+        //ajout de l'auditeur au clic : qui affiche dans openstreetmap le point clique
         panoView.setOnMouseClicked((e)->{
             int x = (int) e.getX();
             int y = (int) e.getY();
@@ -181,6 +206,11 @@ public final class Alpano extends Application {
         return new StackPane(panoScrollPane, updateNotice);
     }
 
+    /**
+     *  Cree la zone de parametrage
+     *  @param infos TextArea representant la zone textuelle qui affiche les infos du point sous la souris
+     *  @return GridPane representant la partie de l'interface qui est destinee au parametrage de l'application
+     */
     private GridPane getParamsGrid(TextArea infos){
         Label laLatitude = new Label("Latitude (°) :");
         Label laLongitude = new Label("Longitude (°) :");
@@ -214,13 +244,18 @@ public final class Alpano extends Application {
         paramsGrid.addRow(1, laAzimuth, tfAzimuth, laHorizontalFieldOfView, tfHorizontalFieldOfView, laMaxDistance, tfMaxDistance);
         paramsGrid.addRow(2, laWidth, tfWidth, laHeight, tfHeight, laSuperSamplingExponent, cbSuperSamplingExponent);
 
-
-
         paramsGrid.add(infos, 6, 0,1, 3);
 
         return paramsGrid;
     }
 
+    /**
+     * Cree un champ textuel pour un parametree
+     * @param property ObjectProperty<Integer> representant la propriete lie au champ
+     * @param prefColumnCount int represenant la valeur PrefColumnCount du TextField cree
+     * @param decimal in represant le nombre de decimal sur lequel la valeur du champ sera affichee
+     * @return TextField correspondant aux parametres donnes
+     */
     private TextField buildTextField(ObjectProperty<Integer> property, int prefColumnCount, int decimal){
         StringConverter<Integer> stringConverter = new FixedPointStringConverter(decimal);
         TextFormatter<Integer> formatter = new TextFormatter<>(stringConverter);
