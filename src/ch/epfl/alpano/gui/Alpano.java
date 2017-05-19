@@ -89,7 +89,7 @@ public final class Alpano extends Application {
 
     /**
      * Lance l'application
-     * @param args paramêtre de l'applications
+     * @param args parametre de l'applications
      */
     public static void main(String[] args) {
         Application.launch(args);
@@ -137,7 +137,7 @@ public final class Alpano extends Application {
      * @return StackPane representant la partie qui affiche le panorama
      */
     private StackPane getPanoPane(TextArea infos){
-        Text updateText = new Text("Les paramètres du panorama ont changé. Cliquez ici pour mettre le dessin à jour.");
+        Text updateText = new Text("Les paramètres du panorama ont changé. \nCliquez ici pour mettre le dessin à jour.");
         updateText.setFont(new Font(40));
         updateText.setTextAlignment(TextAlignment.CENTER);
 
