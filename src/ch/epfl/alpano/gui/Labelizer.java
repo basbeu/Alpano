@@ -78,7 +78,6 @@ public final class Labelizer {
                 if(abs(altitude) < params.verticalFieldOfView()/2){    
                     DoubleUnaryOperator delta = rayToGroundDistance(profile, params.observerElevation(), deltaElevation/distance);
                     
-                    //System.out.println(summit.name()+" "+firstIntervalContainingRoot(delta, 0, distance - TOLERANCE, INTERVAL_SEARCH));
                     //Controle que le sommet se situe dans le voisinage du sommet
                     if(firstIntervalContainingRoot(delta, 0, distance - TOLERANCE, INTERVAL_SEARCH) == POSITIVE_INFINITY){
                         
@@ -103,7 +102,7 @@ public final class Labelizer {
         List<Node> nodes = new ArrayList<>();
         
         BitSet positionsXAvailable = new BitSet();
-        positionsXAvailable.set(0, params.width()-2*HORIZONTAL_SPACING);
+        positionsXAvailable.set(0, params.width());
         
         //BitSet minimalInterval = new BitSet(2*HORIZONTAL_SPACING);
         BitSet minimalInterval = new BitSet();
@@ -111,12 +110,11 @@ public final class Labelizer {
         boolean isFirst = true;
         int yl = -VERTICAL_SPACING;
         for(VisibleSummit summit : visibleSummits){
-            System.out.println(summit.name+ " ("+summit.x+", "+summit.y+")");
             //Controle que le sommet se trouve au dela de 170 px et se trouve a plus de 20 px des bords
             //et qu'il y ait un espace de 20 px au minimum avec les autres labels 
             if(summit.y >= VERTICAL_LIMIT 
                     && HORIZONTAL_SPACING < summit.x 
-                    && summit.x < params.width()-HORIZONTAL_SPACING
+                    && summit.x <= params.width()-HORIZONTAL_SPACING
                     && positionsXAvailable.get(summit.x, summit.x + HORIZONTAL_SPACING).equals(minimalInterval)){
                     
                 positionsXAvailable.flip(summit.x, summit.x+HORIZONTAL_SPACING);

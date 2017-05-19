@@ -110,6 +110,7 @@ public final class Alpano extends Application {
 
         primaryStage.setTitle("Alpano");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

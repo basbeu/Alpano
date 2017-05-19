@@ -129,7 +129,7 @@ public class PanoramaComputerBean {
         //Mise à jour du panorama et des étiquettes
         panorama.setValue(panoramaComputer.computePanorama(parameters.getValue().panoramaParameters()));
         
-        labels.setAll(labelizer.labels(parameters.getValue().panoramaParameters()));
+        labels.setAll(labelizer.labels(parameters.getValue().panoramaDisplayParameters()));
        
         //Recalcul des canaux
         ChannelPainter distance = panorama.getValue()::distanceAt;
