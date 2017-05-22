@@ -40,8 +40,7 @@ public final class LabeledListStringConverter extends StringConverter<Integer> {
 
     @Override
     public String toString(Integer object) {
-        if(object > s.size())
-        {
+        if(object > s.size()){
             throw new IndexOutOfBoundsException("Index invalide");
         }
         return s.get(object);
