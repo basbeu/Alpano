@@ -67,8 +67,10 @@ public final class Alpano extends Application {
     
     //constantes de la classe
     private final static int TEXTSIZE = 40;
-    private final static int SPACEH = 10;
-    private final static int SPACEV = 3;
+    private final static int SPACINGH = 10;
+    private final static int SPACINGV = 3;
+    private final static int PADDINGTOP = 7;
+    private final static int PADDINGOTHERSIDES = 5;
 
     //attribut de l'application
     private final PanoramaComputerBean computerBean;
@@ -247,15 +249,15 @@ public final class Alpano extends Application {
         GridPane paramsGrid = new GridPane();
         
         paramsGrid.setAlignment(Pos.CENTER);
-        paramsGrid.setHgap(SPACEH);
-        paramsGrid.setVgap(SPACEV);
-        paramsGrid.setPadding(new Insets(7, 5, 5, 5));
+        paramsGrid.setHgap(SPACINGH);
+        paramsGrid.setVgap(SPACINGV);
+        paramsGrid.setPadding(new Insets(PADDINGTOP, PADDINGOTHERSIDES, PADDINGOTHERSIDES, PADDINGOTHERSIDES));
 
         paramsGrid.addRow(0, laLatitude, tfLatitude, laLongitude, tfLongitude, laElevation, tfElevation);
         paramsGrid.addRow(1, laAzimuth, tfAzimuth, laHorizontalFieldOfView, tfHorizontalFieldOfView, laMaxDistance, tfMaxDistance);
         paramsGrid.addRow(2, laWidth, tfWidth, laHeight, tfHeight, laSuperSamplingExponent, cbSuperSamplingExponent);
 
-        paramsGrid.add(infos, 6, 0,1, 3);
+        paramsGrid.add(infos, 6, 0, 1, 3);
 
         return paramsGrid;
     }
