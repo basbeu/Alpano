@@ -64,6 +64,11 @@ public final class Alpano extends Application {
     private final static File HGT_FILE6 = new File("N46E007.hgt");
     private final static File HGT_FILE7 = new File("N46E008.hgt");
     private final static File HGT_FILE8 = new File("N46E009.hgt");
+    
+    //constantes de la classe
+    private final static int TEXTSIZE = 40;
+    private final static int SPACEH = 10;
+    private final static int SPACEV = 3;
 
     //attribut de l'application
     private final PanoramaComputerBean computerBean;
@@ -138,7 +143,7 @@ public final class Alpano extends Application {
      */
     private StackPane getPanoPane(TextArea infos){
         Text updateText = new Text("Les paramètres du panorama ont changé. \nCliquez ici pour mettre le dessin à jour.");
-        updateText.setFont(new Font(40));
+        updateText.setFont(new Font(TEXTSIZE));
         updateText.setTextAlignment(TextAlignment.CENTER);
 
         StackPane updateNotice = new StackPane(updateText);
@@ -242,8 +247,8 @@ public final class Alpano extends Application {
         GridPane paramsGrid = new GridPane();
         
         paramsGrid.setAlignment(Pos.CENTER);
-        paramsGrid.setHgap(10);
-        paramsGrid.setVgap(3);
+        paramsGrid.setHgap(SPACEH);
+        paramsGrid.setVgap(SPACEV);
         paramsGrid.setPadding(new Insets(7, 5, 5, 5));
 
         paramsGrid.addRow(0, laLatitude, tfLatitude, laLongitude, tfLongitude, laElevation, tfElevation);
