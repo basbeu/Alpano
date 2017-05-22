@@ -31,7 +31,6 @@ public class PanoramaComputerBean {
     private ObjectProperty<Panorama> panorama;
     private ObjectProperty<PanoramaUserParameters> parameters;
     private ObjectProperty<Image> image;
-    private ObjectProperty<ObservableList<Node>> labelsProperty;
     
     private ObservableList<Node> labels;
     /**
@@ -45,7 +44,6 @@ public class PanoramaComputerBean {
       panoramaComputer = new PanoramaComputer(cDem);
       labelizer = new Labelizer(cDem, summits);
       labels = observableArrayList();
-      labelsProperty = new SimpleObjectProperty<>(unmodifiableObservableList(labels));
       panorama = new SimpleObjectProperty<>();
       image = new SimpleObjectProperty<>();
     }
@@ -108,18 +106,10 @@ public class PanoramaComputerBean {
     
     /**
      * Accesseur public des étiquettes
-     * @return ReadOnlyObjectProperty<ObservableList<Node>> les étiquettes accessible en lecture seule dans un type de liste observable JavaFX 
-     */
-    public ReadOnlyObjectProperty<ObservableList<Node>> labelsProperty(){
-        return labelsProperty;
-    }
-    
-    /**
-     * Accesseur public des étiquettes
      * @return ObservableList<Node> liste observable JavaFX avec les étiquettes
      */
     public ObservableList<Node> getLabels(){
-        return labelsProperty.getValue();
+        return labels;
     }
     
     /**
