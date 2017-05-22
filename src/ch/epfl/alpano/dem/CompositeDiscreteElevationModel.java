@@ -28,12 +28,6 @@ final class CompositeDiscreteElevationModel implements DiscreteElevationModel {
     }
 
     @Override
-    public void close() throws Exception {  
-        dem1.close();
-        dem2.close();
-    }
-
-    @Override
     public Interval2D extent() {
         return demUnion;
     }

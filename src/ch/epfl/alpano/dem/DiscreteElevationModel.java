@@ -11,7 +11,7 @@ import ch.epfl.alpano.Interval2D;
  * @author Philippine Favre (258854)
  * @author Bastien Beuchat  (257117)
  */
-public interface DiscreteElevationModel extends AutoCloseable{
+public interface DiscreteElevationModel {
     int SAMPLES_PER_DEGREE = 3600;
     double SAMPLES_PER_RADIAN = SAMPLES_PER_DEGREE *  180 / PI;
 

@@ -82,11 +82,6 @@ public final class HgtDiscreteElevationModel implements DiscreteElevationModel {
     }
 
     @Override
-    public void close() throws Exception {
-        elevations = null;
-    }
-
-    @Override
     public Interval2D extent() {
         return extent;
     }
