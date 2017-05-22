@@ -1,7 +1,6 @@
 package ch.epfl.alpano.gui;
 
 import static javafx.collections.FXCollections.observableArrayList;
-import static javafx.collections.FXCollections.unmodifiableObservableList;
 import static ch.epfl.alpano.gui.PanoramaRenderer.renderPanorama;
 
 import java.util.List;
