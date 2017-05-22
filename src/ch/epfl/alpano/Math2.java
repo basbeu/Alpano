@@ -96,7 +96,7 @@ public interface Math2 {
         double x2 = minX + dX;
         
         while(x2 <= maxX){
-            if(f.applyAsDouble(x1) * f.applyAsDouble(x2) <= 0){ // <= ?? 
+            if(f.applyAsDouble(x1) * f.applyAsDouble(x2) <= 0){ 
                 return x1; 
             }
             x1 += dX;
