@@ -14,7 +14,7 @@ import ch.epfl.alpano.Interval1D;
 import ch.epfl.alpano.Interval2D;
 
 public final class DrawDEM {
-  @SuppressWarnings("resource")
+  //@SuppressWarnings("resource")
   public static void main(String[] args)
     throws IOException {
 
