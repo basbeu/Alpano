@@ -201,10 +201,7 @@ public final class PanoramaUserParameters {
      * @return PanoramaParameters parametres du panorama tel qu'il sera calcule
      */
     public PanoramaParameters panoramaParameters(){
-        int wp = (int)pow(2, superSamplingExponent()) * width();
-        int hp = (int)pow(2, superSamplingExponent()) * height();
-
-        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
+        return buildPanoramaParameters(superSamplingExponent());
     }
 
     /**
@@ -212,7 +209,7 @@ public final class PanoramaUserParameters {
      * @return PanoramaParameters parametres du panorama tel qu'il sera affiche
      */
     public PanoramaParameters panoramaDisplayParameters(){
-        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, width(), height());
+        return buildPanoramaParameters(0);
     }
 
     @Override
@@ -225,6 +222,15 @@ public final class PanoramaUserParameters {
         return userParameters.hashCode();
     }
 
+    /**
+     * Méthode privee creant un panoramaParameters pour un  exposant de super-echantillonage donne
+     * @param superSamplingExponent int Exposant de super-echantillonnage
+     * @return PanoramaParameters correspondant a l'exposant de super-echantillonage
+     */
+    private PanoramaParameters buildPanoramaParameters(int superSamplingExponent){
+        int wp = (int)pow(2, superSamplingExponent) * width();
+        int hp = (int)pow(2, superSamplingExponent) * height();
 
-
+        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
+    }
 }
