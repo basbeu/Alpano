@@ -27,6 +27,8 @@ final public class PanoramaParameters {
     private final int width;
     private final int height;
     private final double delta;
+    private final double midHorizontalFieldOfView;
+    private final double midVerticalFieldOfView;
 
     /**
      * Constructeur d'un PanoramaParameters
@@ -57,6 +59,9 @@ final public class PanoramaParameters {
         this.maxDistance = maxDistance;
         this.width = width;
         this.height = height;
+        
+        midHorizontalFieldOfView = horizontalFieldOfView / 2.;
+        midVerticalFieldOfView = verticalFieldOfView / 2.;
 
         delta = horizontalFieldOfView / (width - 1);
     }
@@ -133,7 +138,7 @@ final public class PanoramaParameters {
      */
     public double azimuthForX(double x){
         checkArgument(x >= 0 && x <= (width() - 1));
-        return  canonicalize(centerAzimuth() + (delta * x) - horizontalFieldOfView() / 2); 
+        return  canonicalize(centerAzimuth() + (delta * x) - midHorizontalFieldOfView); 
     }
 
     /**
@@ -144,7 +149,7 @@ final public class PanoramaParameters {
      */
     public double xForAzimuth(double a){
         double alpha = angularDistance(centerAzimuth(), a);
-        checkArgument(abs(alpha) <= horizontalFieldOfView() / 2., "L'azimut n'appartient pas à la zone visible!");
+        checkArgument(abs(alpha) <= midHorizontalFieldOfView, "L'azimut n'appartient pas à la zone visible!");
 
         return alpha / delta + (width() - 1) / 2.0;
     }
@@ -157,7 +162,7 @@ final public class PanoramaParameters {
      */
     public double altitudeForY(double y){
         checkArgument(y >= 0 && y <= (height() - 1), "L'index est soit inférieur à zéro, soit supérieur à la hauteur moins un!");
-        return (verticalFieldOfView() / 2) - (delta * y);
+        return midVerticalFieldOfView - (delta * y);
     }
 
     /**
@@ -167,7 +172,7 @@ final public class PanoramaParameters {
      * @throws IllegalArgumentException si l'elevation n'appartient pas a la zone visible
      */
     public double yForAltitude(double a){
-        checkArgument(a <= verticalFieldOfView() / 2 && a >= -verticalFieldOfView() / 2, "L'élévation n'appartient pas à la zone visible!");
+        checkArgument(a <= midVerticalFieldOfView && a >= -midVerticalFieldOfView, "L'élévation n'appartient pas à la zone visible!");
         double y0 = verticalFieldOfView() / (2 * delta);
         return y0 + a / delta * (-1);
 
