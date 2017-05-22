@@ -120,7 +120,7 @@ public class PanoramaComputerBean {
         
         labels.setAll(labelizer.labels(parameters.getValue().panoramaDisplayParameters()));
        
-        //Recalcul des canaux
+        //Re-calcul des canaux formules données dans l'énoncé
         ChannelPainter distance = panorama.getValue()::distanceAt;
         ChannelPainter opacity = distance.map(d -> d == Float.POSITIVE_INFINITY ? 0 : 1);
         

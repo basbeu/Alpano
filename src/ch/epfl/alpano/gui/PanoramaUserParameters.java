@@ -19,8 +19,9 @@ import ch.epfl.alpano.PanoramaParameters;
  */
 public final class PanoramaUserParameters {
 
-    private static final int TO_KM = 1_000;
-    private static final int MAX_VERTICAL_FIELD_OF_VIEW = 170;
+    private final static int TO_KM = 1_000;
+    private final static double TO_TENTHOUSANDS_RADIAN = 10_000;
+    private final static int MAX_VERTICAL_FIELD_OF_VIEW = 170;
 
     private Map<UserParameter, Integer> userParameters;
 
@@ -103,7 +104,7 @@ public final class PanoramaUserParameters {
      * @return double la valeur en radian
      */
     private static double tenThousandthDegreesToRadian(int degree){
-        return toRadians(degree / 10000d);
+        return toRadians(degree / TO_TENTHOUSANDS_RADIAN);
     }
 
     /**
