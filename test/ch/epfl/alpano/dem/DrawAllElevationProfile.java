@@ -72,7 +72,7 @@ final class DrawAllElevationProfile {
                   i.setRGB(x, HEIGHT - 1 - y, color);
                 }
               }
-              dDEM.close();
+             // dDEM.close();
 
               ImageIO.write(i, "png", new File("BP_Profile_"+f+".png"));
         

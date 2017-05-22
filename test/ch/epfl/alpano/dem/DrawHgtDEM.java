@@ -41,7 +41,7 @@ final class DrawHgtDEM {
           i.setRGB(x, IMAGE_SIZE - 1 - y, gray(el));
         }
       }
-      dDEM.close();
+      //dDEM.close();
 
       ImageIO.write(i, "png", new File("dem.png"));
     }

@@ -42,7 +42,7 @@ public class CompositeDiscreteElevationModelTest {
         }
     }
 
-    @SuppressWarnings("resource")
+    //@SuppressWarnings("resource")
     @Test(expected = IllegalArgumentException.class)
     public void unionFailsIfExtentsNotUnionable() {
         ConstantElevationDEM dem1 = new ConstantElevationDEM(ext1, 0);
@@ -50,7 +50,7 @@ public class CompositeDiscreteElevationModelTest {
         dem1.union(dem2);
     }
 
-    @SuppressWarnings("resource")
+    //@SuppressWarnings("resource")
     @Test
     public void extentOfUnionIsUnionOfExtent() {
         ConstantElevationDEM dem1 = new ConstantElevationDEM(ext1, 0);
@@ -59,7 +59,7 @@ public class CompositeDiscreteElevationModelTest {
         assertEquals(ext12, dem12.extent());
     }
 
-    @SuppressWarnings("resource")
+    //@SuppressWarnings("resource")
     @Test(expected = IllegalArgumentException.class)
     public void elevationSampleFailsWhenOutsideOfExtent() {
         ConstantElevationDEM dem1 = new ConstantElevationDEM(ext1, 0);
@@ -68,7 +68,7 @@ public class CompositeDiscreteElevationModelTest {
         dem12.elevationSample(0, 200_001);
     }
 
-    @SuppressWarnings("resource")
+    //@SuppressWarnings("resource")
     @Test
     public void elevationSampleWorksOnBothSubDEMs() {
         ConstantElevationDEM dem1 = new ConstantElevationDEM(ext1, 1);
@@ -84,13 +84,13 @@ public class CompositeDiscreteElevationModelTest {
         assertEquals(2, dem12.elevationSample(-100_000, 200_000), 0);
     }
 
-    @SuppressWarnings("resource")
+    //@SuppressWarnings("resource")
     @Test
     public void closeClosesBothSubDEMs() throws Exception {
         ConstantElevationDEM dem1 = new ConstantElevationDEM(ext1, 0);
         ConstantElevationDEM dem2 = new ConstantElevationDEM(ext2, 0);
-        DiscreteElevationModel dem12 = dem1.union(dem2);
-        dem12.close();
+       // DiscreteElevationModel dem12 = dem1.union(dem2);
+       // dem12.close();
         assertTrue(dem1.isClosed);
         assertTrue(dem2.isClosed);
     }
@@ -106,8 +106,8 @@ class ConstantElevationDEM implements DiscreteElevationModel {
         this.elevation = elevation;
     }
 
-    @Override
-    public void close() throws Exception { isClosed = true; }
+   // @Override
+   // public void close() throws Exception { isClosed = true; }
 
     @Override
     public Interval2D extent() { return extent; }

@@ -54,7 +54,8 @@ public class DrawAllPanorama {
         
         for(String s : HGT_FILE){
             
-            try (DiscreteElevationModel dDEM = new HgtDiscreteElevationModel(new File(s) )) {
+            //try (DiscreteElevationModel dDEM = new HgtDiscreteElevationModel(new File(s) )) {
+                DiscreteElevationModel dDEM = new HgtDiscreteElevationModel(new File(s) );
                  ContinuousElevationModel cDEM = new ContinuousElevationModel(dDEM);
                  
                  PanoramaParameters PARAMS = new PanoramaParameters(new GeoPoint(toRadians(new Double(s.substring(5,7)+"."+s.substring(6,7)+"5")), toRadians(new Double(s.substring(1,3)+"."+s.substring(2,3)+"5"))), ELEVATION, CENTER_AZIMUTH, HORIZONTAL_FOV, MAX_DISTANCE, IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -76,7 +77,7 @@ public class DrawAllPanorama {
                  ImageIO.write(i, "png", new File("Panorama_"+s+".png"));
                }
             
-        }
+      //  }
       
       
       

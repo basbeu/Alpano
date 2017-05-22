@@ -93,8 +93,8 @@ public class PanoramaComputerTestProf {
 
         public ZeroDEM(Interval2D extent) { this.extent = extent; }
 
-        @Override
-        public void close() throws Exception { }
+       // @Override
+       // public void close() throws Exception { }
 
         @Override
         public Interval2D extent() { return extent; }
@@ -113,8 +113,8 @@ public class PanoramaComputerTestProf {
 
         public WavyDEM(Interval2D extent) { this.extent = extent; }
 
-        @Override
-        public void close() throws Exception { }
+       // @Override
+        //public void close() throws Exception { }
 
         @Override
         public Interval2D extent() { return extent; }

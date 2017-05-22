@@ -42,9 +42,11 @@ final class DrawPanoramaPart7 {
     public static void main(String[] as) throws Exception {
         double t=System.currentTimeMillis();
 
-        try (DiscreteElevationModel dDEM =
-                new HgtDiscreteElevationModel(HGT_FILE)) {
-            ContinuousElevationModel cDEM =
+        //try (DiscreteElevationModel dDEM =
+          //      new HgtDiscreteElevationModel(HGT_FILE)) {
+        DiscreteElevationModel dDEM =
+                     new HgtDiscreteElevationModel(HGT_FILE);    
+        ContinuousElevationModel cDEM =
                     new ContinuousElevationModel(dDEM);
             Panorama p = new PanoramaComputer(cDEM)
                     .computePanorama(PARAMS);
@@ -81,7 +83,7 @@ final class DrawPanoramaPart7 {
                     "png",
                     new File("niesen-shaded.png"));
 
-        }
+       
 
         System.out.println(System.currentTimeMillis()-t);
     }

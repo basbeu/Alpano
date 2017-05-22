@@ -26,8 +26,10 @@ public class TestLabelizer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        try (DiscreteElevationModel dDEM =
-                new HgtDiscreteElevationModel(HGT_FILE1)) {
+        //try (DiscreteElevationModel dDEM =
+         //       new HgtDiscreteElevationModel(HGT_FILE1)) {
+            DiscreteElevationModel dDEM =
+                    new HgtDiscreteElevationModel(HGT_FILE1);
             ContinuousElevationModel cDEM = new ContinuousElevationModel(dDEM);
             
             Labelizer l = new Labelizer(cDEM,readSummitsFrom(SUMMIT));
@@ -36,7 +38,7 @@ public class TestLabelizer extends Application {
             
             for(Node n : list)
                 System.out.println(n);
-        }
+        //}
         
         Platform.exit();
     }

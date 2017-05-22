@@ -13,8 +13,8 @@ public final class WavyDEM implements DiscreteElevationModel {
       this.extent = extent;
     }
 
-    @Override
-    public void close() throws Exception { }
+    //@Override
+    //public void close() throws Exception { }
 
     @Override
     public Interval2D extent() { return extent; }

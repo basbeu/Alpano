@@ -28,53 +28,56 @@ final class DrawPanoramaPart8All {
         mapPano.put(PredefinedPanoramas.NIESEN,"NIESEN");
         mapPano.put(PredefinedPanoramas.PELICAN,"PELICAN");
         mapPano.put(PredefinedPanoramas.SAUVABELIN,"SAUVABELIN");
-        
-        try (DiscreteElevationModel dDEM =
-                new HgtDiscreteElevationModel(HGT_FILE1)) {
-            try(DiscreteElevationModel dDEMUnion = dDEM.union(new HgtDiscreteElevationModel(HGT_FILE2))){
 
-                for(Map.Entry<PanoramaUserParameters, String> pano : mapPano.entrySet()){
-                    ContinuousElevationModel cDEM = new ContinuousElevationModel(dDEMUnion);
+        //try (DiscreteElevationModel dDEM =
+        //      new HgtDiscreteElevationModel(HGT_FILE1)) {
+        // try(DiscreteElevationModel dDEMUnion = dDEM.union(new HgtDiscreteElevationModel(HGT_FILE2))){
 
-                    Panorama p = new PanoramaComputer(cDEM)
-                            .computePanorama(pano.getKey().panoramaParameters());
+        DiscreteElevationModel dDEM =
+                new HgtDiscreteElevationModel(HGT_FILE1);
+        DiscreteElevationModel dDEMUnion = dDEM.union(new HgtDiscreteElevationModel(HGT_FILE2));
+        for(Map.Entry<PanoramaUserParameters, String> pano : mapPano.entrySet()){
+            ContinuousElevationModel cDEM = new ContinuousElevationModel(dDEMUnion);
 
-                    ChannelPainter gray =
-                            ChannelPainter.maxDistanceToNeighbors(p)
-                            .sub(500)
-                            .div(4500)
-                            .clamped()
-                            .inverted();
+            Panorama p = new PanoramaComputer(cDEM)
+                    .computePanorama(pano.getKey().panoramaParameters());
 
-                    ChannelPainter distance = p::distanceAt;
-                    ChannelPainter opacity =
-                            distance.map(d -> d == Float.POSITIVE_INFINITY ? 0 : 1);
+            ChannelPainter gray =
+                    ChannelPainter.maxDistanceToNeighbors(p)
+                    .sub(500)
+                    .div(4500)
+                    .clamped()
+                    .inverted();
 
-                    ImagePainter l = ImagePainter.gray(gray, opacity);
+            ChannelPainter distance = p::distanceAt;
+            ChannelPainter opacity =
+                    distance.map(d -> d == Float.POSITIVE_INFINITY ? 0 : 1);
 
-                    Image i = PanoramaRenderer.renderPanorama(p, l);
-                    ImageIO.write(SwingFXUtils.fromFXImage(i, null),
-                            "png",
-                            new File(pano.getValue()+"-profile.png"));
+            ImagePainter l = ImagePainter.gray(gray, opacity);
 
-                    //image en couleur
-                    ChannelPainter h = (x,y)->360*distance.div(100000).cycling().valueAt(x, y);
+            Image i = PanoramaRenderer.renderPanorama(p, l);
+            ImageIO.write(SwingFXUtils.fromFXImage(i, null),
+                    "png",
+                    new File(pano.getValue()+"-profile.png"));
 
-                    ChannelPainter s = distance.div(200000).clamped().inverted();
+            //image en couleur
+            ChannelPainter h = (x,y)->360*distance.div(100000).cycling().valueAt(x, y);
 
-                    ChannelPainter slope = p::slopeAt;
-                    ChannelPainter b = (x,y)->0.3f+0.7f*slope.mul(2).div((float)Math.PI).inverted().valueAt(x, y);
+            ChannelPainter s = distance.div(200000).clamped().inverted();
 
-                    ImagePainter painter = ImagePainter.hsb(h, s, b, opacity);
-                    Image col = PanoramaRenderer.renderPanorama(p, painter);
-                    ImageIO.write(SwingFXUtils.fromFXImage(col, null),
-                            "png",
-                            new File(pano.getValue()+"-shaded.png"));
+            ChannelPainter slope = p::slopeAt;
+            ChannelPainter b = (x,y)->0.3f+0.7f*slope.mul(2).div((float)Math.PI).inverted().valueAt(x, y);
 
-                }
-            }
+            ImagePainter painter = ImagePainter.hsb(h, s, b, opacity);
+            Image col = PanoramaRenderer.renderPanorama(p, painter);
+            ImageIO.write(SwingFXUtils.fromFXImage(col, null),
+                    "png",
+                    new File(pano.getValue()+"-shaded.png"));
 
         }
+        //    }
+
+        //}
 
         System.out.println(System.currentTimeMillis()-t);
     }
