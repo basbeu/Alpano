@@ -33,13 +33,13 @@ import javafx.scene.transform.Translate;
  * @author Bastien Beuchat  (257117)
  */
 public final class Labelizer {
-    private static final int INTERVAL_SEARCH = 64;
-    private static final int TOLERANCE = 200;
-    private static final int VERTICAL_LIMIT = 170;
-    private static final int HORIZONTAL_SPACING = 20;
-    private static final int VERTICAL_SPACING = 22;
-    private static final int TEXT_LINE_SPACING = 2;
-    private static final int ROTATION_ANGLE = -60;
+    private final static int INTERVAL_SEARCH = 64;
+    private final static int TOLERANCE = 200;
+    private final static int VERTICAL_LIMIT = 170;
+    private final static int HORIZONTAL_SPACING = 20;
+    private final static int VERTICAL_SPACING = 22;
+    private final static int TEXT_LINE_SPACING = 2;
+    private final static int ROTATION_ANGLE = -60;
 
     private final ContinuousElevationModel cDem;
     private final List<Summit> summits;
