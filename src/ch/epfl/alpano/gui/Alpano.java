@@ -240,6 +240,11 @@ public final class Alpano extends Application {
         cbSuperSamplingExponent.setConverter(stringConverter);
 
         GridPane paramsGrid = new GridPane();
+        
+        paramsGrid.setAlignment(Pos.CENTER);
+        paramsGrid.setHgap(10);
+        paramsGrid.setVgap(3);
+        paramsGrid.setPadding(new Insets(7, 5, 5, 5));
 
         paramsGrid.addRow(0, laLatitude, tfLatitude, laLongitude, tfLongitude, laElevation, tfElevation);
         paramsGrid.addRow(1, laAzimuth, tfAzimuth, laHorizontalFieldOfView, tfHorizontalFieldOfView, laMaxDistance, tfMaxDistance);
