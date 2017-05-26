@@ -31,7 +31,7 @@ public class PanoramaComputerBean {
     private ObjectProperty<PanoramaUserParameters> parameters;
     private ObjectProperty<Image> image;
     private ObservableList<Node> labels;
-    
+
     /**
      * Constructeur d'un PanoramaComputerBean
      * @param cDem ContinuousElevationModel modèle pour créer le panoramaComputer ainsi que le labelizer

@@ -43,10 +43,10 @@ public enum UserParameter {
      * Exposant de surechantillonage compris entre 0 et 2
      */
     SUPER_SAMPLING_EXPONENT(0, 2);
-    
+
     private int min;
     private int max;
-    
+
     /**
      * Constructeur d'un parametre d'utilisateur
      * @param min int borne minimale de la valeur d'un parametre
@@ -56,7 +56,7 @@ public enum UserParameter {
         this.min = min;
         this.max = max;
     }
-    
+
     /**
      * Methode validant la valeur d'un parametre
      * @param value int representant valeur du parametre a verifier

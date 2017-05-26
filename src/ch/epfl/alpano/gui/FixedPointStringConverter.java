@@ -13,14 +13,14 @@ import javafx.util.StringConverter;
  */
 
 public final class FixedPointStringConverter extends StringConverter<Integer>{
-    
+
     private final int decimal;
-    
+
     /**
      * Constructeur d'un FixedPointStringConverter
      * @param int arrondi à un nombre de décimale fixe 
      */
-    
+
     public FixedPointStringConverter(int decimal){
         this.decimal = decimal;
     }

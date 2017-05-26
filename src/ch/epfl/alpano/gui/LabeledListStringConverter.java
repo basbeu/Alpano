@@ -18,7 +18,7 @@ import javafx.util.StringConverter;
 public final class LabeledListStringConverter extends StringConverter<Integer> {
 
     private final List<String> s;
-    
+
     /**
      * Constructeur d'un LabeledListStringConverter
      * @param strings String il y en a un nombre variable
@@ -27,15 +27,15 @@ public final class LabeledListStringConverter extends StringConverter<Integer> {
         s = new ArrayList<>();
         for(String string : strings){
             checkArgument(string != null, "Un élément est null");
-               s.add(string);
+            s.add(string);
         }
     }
-    
+
     @Override
     public Integer fromString(String arg0) {
         checkArgument(s.indexOf(arg0) != (-1), "l'élément n'est pas dans la liste");
         return s.indexOf(arg0);
-        
+
     }
 
     @Override

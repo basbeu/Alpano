@@ -54,7 +54,7 @@ public final class PanoramaUserParameters {
                 UserParameter.SUPER_SAMPLING_EXPONENT.sanitize(userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT)));        
         this.userParameters = Collections.unmodifiableMap(new EnumMap<>(up));
     }
-    
+
     /**
      * Méthode privee creant un panoramaParameters pour un  exposant de super-echantillonage donne
      * @param superSamplingExponent int Exposant de super-echantillonnage

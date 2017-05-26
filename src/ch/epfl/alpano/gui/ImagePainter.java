@@ -17,7 +17,7 @@ public interface ImagePainter {
      * @return Color (javafx.scene.paint.Color) representant la couleur du pixel
      */
     Color colorAt(int x,int y);
-    
+
     /**
      * Retourne un peintre HSB
      * @param h ChannelPainter representant le canal de la teinte (hue)
@@ -29,7 +29,7 @@ public interface ImagePainter {
     static ImagePainter hsb(ChannelPainter h, ChannelPainter s, ChannelPainter b, ChannelPainter o){
         return (x,y)->Color.hsb(h.valueAt(x,y), s.valueAt(x,y), b.valueAt(x,y), o.valueAt(x,y));
     }
-    
+
     /**
      * Retourne un peintre en niveau de gris
      * @param g ChannelPainter representant le canal de gris

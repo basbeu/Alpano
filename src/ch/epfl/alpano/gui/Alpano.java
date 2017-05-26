@@ -64,7 +64,7 @@ public final class Alpano extends Application {
     private final static File HGT_FILE6 = new File("N46E007.hgt");
     private final static File HGT_FILE7 = new File("N46E008.hgt");
     private final static File HGT_FILE8 = new File("N46E009.hgt");
-    
+
     //constantes de la classe
     private final static int TEXT_SIZE = 40;
     private final static int SPACING_H = 10;
@@ -83,7 +83,7 @@ public final class Alpano extends Application {
     public Alpano() throws IOException{
         ContinuousElevationModel cem;
         List<Summit> summits;
-        
+
         cem = loadHgt();
         try {
             summits = readSummitsFrom(SUMMIT_FILE);
@@ -134,7 +134,7 @@ public final class Alpano extends Application {
         DiscreteElevationModel dem6 = new HgtDiscreteElevationModel(HGT_FILE6);
         DiscreteElevationModel dem7 = new HgtDiscreteElevationModel(HGT_FILE7);
         DiscreteElevationModel dem8 = new HgtDiscreteElevationModel(HGT_FILE8);
-        
+
         return new ContinuousElevationModel(dem1.union(dem2).union(dem3).union(dem4).union(dem5.union(dem6).union(dem7).union(dem8)));
     }
 
@@ -247,7 +247,7 @@ public final class Alpano extends Application {
         cbSuperSamplingExponent.setConverter(stringConverter);
 
         GridPane paramsGrid = new GridPane();
-        
+
         paramsGrid.setAlignment(Pos.CENTER);
         paramsGrid.setHgap(SPACING_H);
         paramsGrid.setVgap(SPACING_V);
@@ -263,7 +263,7 @@ public final class Alpano extends Application {
     }
 
     /**
-     * Cree un champ textuel pour un parametree
+     * Cree un champ textuel pour un parametre
      * @param property ObjectProperty<Integer> representant la propriete lie au champ
      * @param prefColumnCount int represenant la valeur PrefColumnCount du TextField cree
      * @param decimal in represant le nombre de decimal sur lequel la valeur du champ sera affichee

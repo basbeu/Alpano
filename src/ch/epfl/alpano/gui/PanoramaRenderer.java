@@ -12,7 +12,7 @@ import javafx.scene.image.WritableImage;
  * @author Bastien Beuchat  (257117)
  */
 public interface PanoramaRenderer {
-    
+
     /**
      * Crée l'image d'un panorama
      * @param panorama Panorama representant le panorama a peindre
@@ -22,13 +22,13 @@ public interface PanoramaRenderer {
     static Image renderPanorama(Panorama panorama, ImagePainter painter){
         WritableImage image = new WritableImage(panorama.parameters().width(),panorama.parameters().height());
         PixelWriter writer = image.getPixelWriter();
-        
+
         for(int x = 0;x < image.getWidth();++x){
             for(int y = 0;y < image.getHeight();++y){
                 writer.setColor(x, y, painter.colorAt(x, y));
             }
         }
-        
+
         return image;
     }
 }

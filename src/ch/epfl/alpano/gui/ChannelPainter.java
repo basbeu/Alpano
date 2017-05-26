@@ -16,8 +16,8 @@ import ch.epfl.alpano.Panorama;
  */
 @FunctionalInterface
 public interface ChannelPainter {
-    
-    
+
+
     /**
      * Methode abstraite retournant la valeur du canal en ce point
      * @param x int coordonnee entiere x d'un point 
@@ -25,7 +25,7 @@ public interface ChannelPainter {
      * @return float valeur du canal en ce point
      */
     float valueAt(int x, int y);
-    
+
     /**
      * Methode static pour calculer la difference de distance entre un point et le plus lointain de ses voisins 
      * @param panorama Panorama à parcourir
@@ -33,8 +33,8 @@ public interface ChannelPainter {
      *          et le point en question 
      */
     static ChannelPainter maxDistanceToNeighbors(Panorama panorama){
-        
-        
+
+
         return (x,y) -> {
             float[] distance = new float[4];
             distance[0] = panorama.distanceAt(x - 1, y, 0);
@@ -48,13 +48,13 @@ public interface ChannelPainter {
                     max = distance[i];
                 }
             }
-            
+
             return max - panorama.distanceAt(x, y, 0);
-            
+
         };
-        
+
     }
-    
+
     /**
      * Methode par default pour ajouter la valeur produite par le peintre par une constante passee en argument
      * @param c float constante a ajouter a la valeur
@@ -63,7 +63,7 @@ public interface ChannelPainter {
     default ChannelPainter add(float c){
         return (x, y) -> valueAt(x, y) + c;
     }
-    
+
     /**
      * Methode par default pour soustraire la valeur produite par le peintre par une constante passee en argument
      * @param c float constante a soustraire a la valeur
@@ -72,7 +72,7 @@ public interface ChannelPainter {
     default ChannelPainter sub(float c){
         return (x, y) -> valueAt(x, y) - c;
     }
-    
+
     /**     
      * Methode par default pour multiplier la valeur produite par le peintre par une constante passee en argument
      * @param c float constante a multiplier a la valeur
@@ -81,7 +81,7 @@ public interface ChannelPainter {
     default ChannelPainter mul(float c){
         return (x, y) -> valueAt(x, y) * c;
     }
-    
+
     /**     
      * Methode par default pour diviser la valeur produite par le peintre par une constante passee en argument
      * @param c float constante a diviser a la valeur
@@ -90,7 +90,7 @@ public interface ChannelPainter {
     default ChannelPainter div(float c){
         return (x, y) -> valueAt(x, y) / c;        
     }
-    
+
     /**
      * Methode par defaut permettant d'appliquer à la valeur produite par le peintre un operateur unaire
      * @param op DoubleUnaryOperator operateur unaire a appliquer a la valeur
@@ -99,7 +99,7 @@ public interface ChannelPainter {
     default ChannelPainter map(DoubleUnaryOperator op){
         return (x, y) -> (float)op.applyAsDouble(valueAt(x, y));
     }
-    
+
     /**
      * Fonction mathematique  f(x) = 1 - x
      * @return ChannelPainter compose avec les valeurs apres application de la fonction
@@ -107,7 +107,7 @@ public interface ChannelPainter {
     default ChannelPainter inverted(){
         return (x, y) -> 1 - valueAt(x, y);
     }
-    
+
     /**
      * Fonction mathematique f(x) = max(0, min(x, 1))
      * @return ChannelPainter compose avec les valeurs apres application de la fonction
@@ -115,7 +115,7 @@ public interface ChannelPainter {
     default ChannelPainter clamped(){
         return (x, y) -> max(0 , min(valueAt(x, y), 1));
     }
-    
+
     /**
      * Fonction mathematique f(x) = x mod 1
      * @return ChannelPainter compose avec les valeurs apres application de la fonction
@@ -123,5 +123,5 @@ public interface ChannelPainter {
     default ChannelPainter cycling(){
         return (x, y) -> (float)floorMod(valueAt(x, y), 1);
     }
-    
+
 }
