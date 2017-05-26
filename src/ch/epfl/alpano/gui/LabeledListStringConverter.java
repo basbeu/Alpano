@@ -2,7 +2,6 @@ package ch.epfl.alpano.gui;
 
 import static ch.epfl.alpano.Preconditions.checkArgument;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

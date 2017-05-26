@@ -2,13 +2,13 @@ package ch.epfl.alpano.gui;
 
 
 import static ch.epfl.alpano.Math2.angularDistance;
+import static ch.epfl.alpano.Math2.firstIntervalContainingRoot;
+import static ch.epfl.alpano.PanoramaComputer.rayToGroundDistance;
+import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
-import static java.util.Objects.requireNonNull;
-import static ch.epfl.alpano.PanoramaComputer.rayToGroundDistance;
-import static ch.epfl.alpano.Math2.firstIntervalContainingRoot;
 import static java.lang.Math.round;
-import static java.lang.Double.POSITIVE_INFINITY;
+import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.BitSet;

@@ -1,7 +1,7 @@
 package ch.epfl.alpano.gui;
 
-import static javafx.collections.FXCollections.observableArrayList;
 import static ch.epfl.alpano.gui.PanoramaRenderer.renderPanorama;
+import static javafx.collections.FXCollections.observableArrayList;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import ch.epfl.alpano.summit.Summit;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.collections.*;
 
 /**
  * Classe public et c'est un bean JavaFX doté de quatre propriétés : le panorama, ses paramètres (utilisateur), son image et ses étiquettes

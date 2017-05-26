@@ -1,8 +1,9 @@
 package ch.epfl.alpano.gui;
 
+import static ch.epfl.alpano.Math2.floorMod;
+import static java.lang.Float.MIN_VALUE;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static ch.epfl.alpano.Math2.floorMod;
 
 import java.util.function.DoubleUnaryOperator;
 
@@ -42,7 +43,7 @@ public interface ChannelPainter {
             distance [2] = panorama.distanceAt(x, y - 1, 0);
             distance [3] = panorama.distanceAt(x, y + 1, 0);
 
-            float max = Float.MIN_VALUE;
+            float max = MIN_VALUE;
             for(int i = 0; i < distance.length - 1; i++){
                 if (distance[i] > max){
                     max = distance[i];

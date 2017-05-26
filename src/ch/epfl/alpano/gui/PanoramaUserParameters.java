@@ -1,8 +1,8 @@
 package ch.epfl.alpano.gui;
 
-import static java.lang.Math.toRadians;
-import static java.lang.Math.pow;
 import static ch.epfl.alpano.Preconditions.checkArgument;
+import static java.lang.Math.pow;
+import static java.lang.Math.toRadians;
 
 import java.util.Collections;
 import java.util.EnumMap;

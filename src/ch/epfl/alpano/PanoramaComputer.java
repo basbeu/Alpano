@@ -19,10 +19,10 @@ import ch.epfl.alpano.dem.ElevationProfile;
  */
 final public class PanoramaComputer {
     private static final double K = 0.13;
+    private static final int INTERVAL_SEARCH = 64;
+    private static final int INTERVAL_DICHO = 4;
 
     private final ContinuousElevationModel dem;
-    private final int intervalSearch = 64;
-    private final int intervalDicho = 4;
 
     /**
      * Constructeur de PanoramaComputer
@@ -49,9 +49,9 @@ final public class PanoramaComputer {
             int y=parameters.height()-1;
             while(!infinityFound && y>=0){
                 DoubleUnaryOperator delta = rayToGroundDistance(profile, parameters.observerElevation(), tan(parameters.altitudeForY(y)));
-                double x1= firstIntervalContainingRoot(delta, distanceX, parameters.maxDistance(), intervalSearch);
+                double x1= firstIntervalContainingRoot(delta, distanceX, parameters.maxDistance(), INTERVAL_SEARCH);
                 if(x1 != Double.POSITIVE_INFINITY){
-                    distanceX = improveRoot(delta, x1, x1+intervalSearch,intervalDicho);
+                    distanceX = improveRoot(delta, x1, x1+INTERVAL_SEARCH,INTERVAL_DICHO);
 
                     double distance = distanceX/Math.cos(parameters.altitudeForY(y));
                     builder.setDistanceAt(x, y, (float)distance)

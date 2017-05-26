@@ -270,7 +270,6 @@ public final class Panorama {
             isBuilt = true;
             Panorama p = new Panorama(param, distanceBuild, longitudeBuild, latitudeBuild, elevationBuild, slopeBuild);
             
-            //DEMANDER
             distanceBuild = null;
             longitudeBuild = null;
             latitudeBuild = null;

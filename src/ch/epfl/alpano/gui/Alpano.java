@@ -1,12 +1,12 @@
 package ch.epfl.alpano.gui;
 
 
-import static java.lang.String.format;
-import static java.lang.Math.toDegrees;
-import static java.lang.Math.signum;
-import static java.awt.Desktop.getDesktop;
-import static ch.epfl.alpano.summit.GazetteerParser.readSummitsFrom;
 import static ch.epfl.alpano.Azimuth.toOctantString;
+import static ch.epfl.alpano.summit.GazetteerParser.readSummitsFrom;
+import static java.awt.Desktop.getDesktop;
+import static java.lang.Math.signum;
+import static java.lang.Math.toDegrees;
+import static java.lang.String.format;
 
 import java.io.File;
 import java.io.IOException;
