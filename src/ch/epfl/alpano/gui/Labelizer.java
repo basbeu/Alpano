@@ -47,7 +47,8 @@ public final class Labelizer {
     /**
      * Constructeur d'un etiqueteur de panorama
      * @param cDem ContinuousElevationModel MNT continu sur lequel l'etiqueteur va pouvoir etiqueter
-     * @param summits List<Summit> representant la liste des sommets connus sur le MNT continu
+     * @param summits List<Summit> representant la liste des sommets connus sur le MNT continu     
+     * @throws NullPointerException si le ContinuousElevationModel passe en argument est nul
      */
     public Labelizer(ContinuousElevationModel cDem, List<Summit> summits){
         this.cDem  = requireNonNull(cDem);
@@ -68,21 +69,21 @@ public final class Labelizer {
             double distance = summit.position().distanceTo(params.observerPosition());
 
             //Controle que le sommet soit pas plus loin que la distance max et qu'il se trouve dans le champs de vision horizontal
-            if(distance <= params.maxDistance() && abs(alpha) <= params.horizontalFieldOfView() / 2d){
+            if(distance <= params.maxDistance() && abs(alpha) <= params.horizontalFieldOfView() / 2){
                 ElevationProfile profile= new ElevationProfile(cDem, params.observerPosition(), azimuth, distance);
 
-                double deltaElevation = -rayToGroundDistance(profile, params.observerElevation(),0).applyAsDouble(distance); 
-                double altitude = atan2(deltaElevation,distance);
+                double deltaElevation = -rayToGroundDistance(profile, params.observerElevation(), 0).applyAsDouble(distance); 
+                double altitude = atan2(deltaElevation, distance);
 
                 //controle que le sommet soit dans le champs de vision verticale
-                if(abs(altitude) < params.verticalFieldOfView()/2){    
-                    DoubleUnaryOperator delta = rayToGroundDistance(profile, params.observerElevation(), deltaElevation/distance);
-                    
+                if(abs(altitude) < params.verticalFieldOfView() / 2){    
+                    DoubleUnaryOperator delta = rayToGroundDistance(profile, params.observerElevation(), deltaElevation / distance);
+
                     //Controle que le sommet se situe dans le voisinage du sommet
                     if(firstIntervalContainingRoot(delta, 0, distance - TOLERANCE, INTERVAL_SEARCH) == POSITIVE_INFINITY){
-                        
+
                         //Controle que le sommet se situe au delà de la limite verticale
-                        visible.add(new VisibleSummit((int) round(params.xForAzimuth(azimuth)), (int) round(params.yForAltitude(altitude)), summit.name(), summit.elevation()));
+                        visible.add(new VisibleSummit((int)round(params.xForAzimuth(azimuth)), (int)round(params.yForAltitude(altitude)), summit.name(), summit.elevation()));
                     }
                 }
             }
@@ -100,13 +101,13 @@ public final class Labelizer {
         List<VisibleSummit> visibleSummits = getVisibleSummits(params);
         Collections.sort(visibleSummits);
         List<Node> nodes = new ArrayList<>();
-        
+
         BitSet positionsXAvailable = new BitSet();
         positionsXAvailable.set(0, params.width());
-        
+
         //BitSet minimalInterval = new BitSet(2*HORIZONTAL_SPACING);
         BitSet minimalInterval = new BitSet();
-        minimalInterval.set(0,HORIZONTAL_SPACING);
+        minimalInterval.set(0, HORIZONTAL_SPACING);
         boolean isFirst = true;
         int yl = -VERTICAL_SPACING;
         for(VisibleSummit summit : visibleSummits){
@@ -114,20 +115,20 @@ public final class Labelizer {
             //et qu'il y ait un espace de 20 px au minimum avec les autres labels 
             if(summit.y >= VERTICAL_LIMIT 
                     && HORIZONTAL_SPACING < summit.x 
-                    && summit.x <= params.width()-HORIZONTAL_SPACING
+                    && summit.x <= params.width() - HORIZONTAL_SPACING
                     && positionsXAvailable.get(summit.x, summit.x + HORIZONTAL_SPACING).equals(minimalInterval)){
-                    
-                positionsXAvailable.flip(summit.x, summit.x+HORIZONTAL_SPACING);
+
+                positionsXAvailable.flip(summit.x, summit.x + HORIZONTAL_SPACING);
                 if(isFirst){
                     yl += summit.y;
                     isFirst = false;
                 }
-                
+
                 //Creations des noeuds
                 Text t = new Text(summit.name+" ("+summit.elevation+" m)");
-                t.getTransforms().addAll(new Translate(summit.x,yl),new Rotate(ROTATION_ANGLE));
+                t.getTransforms().addAll(new Translate(summit.x, yl),new Rotate(ROTATION_ANGLE));
                 nodes.add(t);
-                nodes.add(new Line(summit.x,yl+TEXT_LINE_SPACING,summit.x,summit.y));
+                nodes.add(new Line(summit.x,yl+TEXT_LINE_SPACING, summit.x, summit.y));
             }
         }
 
