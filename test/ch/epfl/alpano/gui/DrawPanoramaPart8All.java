@@ -15,30 +15,36 @@ import ch.epfl.alpano.dem.HgtDiscreteElevationModel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
-final class DrawPanoramaPart8All {
-    final static File HGT_FILE1 = new File("N46E007.hgt");
-    final static File HGT_FILE2 = new File("N46E006.hgt");
+final class DrawPanoramaPart8All {private final static File HGT_FILE1 = new File("N45E006.hgt");
+private final static File HGT_FILE2 = new File("N45E007.hgt");
+private final static File HGT_FILE3 = new File("N45E008.hgt");
+private final static File HGT_FILE4 = new File("N45E009.hgt");
+private final static File HGT_FILE5 = new File("N46E006.hgt");
+private final static File HGT_FILE6 = new File("N46E007.hgt");
+private final static File HGT_FILE7 = new File("N46E008.hgt");
+private final static File HGT_FILE8 = new File("N46E009.hgt");
 
     public static void main(String[] as) throws Exception {
         double t=System.currentTimeMillis();
         HashMap<PanoramaUserParameters, String> mapPano = new HashMap<>();
         mapPano.put(PredefinedPanoramas.ALPES_JURA,"ALPES_JURA");
-        mapPano.put(PredefinedPanoramas.FINSTERAARHORN,"FINSTERAARHORN");
-        mapPano.put(PredefinedPanoramas.MONT_RACINE,"MONT_RACINE");
-        mapPano.put(PredefinedPanoramas.NIESEN,"NIESEN");
-        mapPano.put(PredefinedPanoramas.PELICAN,"PELICAN");
-        mapPano.put(PredefinedPanoramas.SAUVABELIN,"SAUVABELIN");
+//        mapPano.put(PredefinedPanoramas.FINSTERAARHORN,"FINSTERAARHORN");
+//        mapPano.put(PredefinedPanoramas.MONT_RACINE,"MONT_RACINE");
+//        mapPano.put(PredefinedPanoramas.NIESEN,"NIESEN");
+//        mapPano.put(PredefinedPanoramas.PELICAN,"PELICAN");
+//        mapPano.put(PredefinedPanoramas.SAUVABELIN,"SAUVABELIN");
 
         //try (DiscreteElevationModel dDEM =
         //      new HgtDiscreteElevationModel(HGT_FILE1)) {
         // try(DiscreteElevationModel dDEMUnion = dDEM.union(new HgtDiscreteElevationModel(HGT_FILE2))){
 
-        DiscreteElevationModel dDEM =
-                new HgtDiscreteElevationModel(HGT_FILE1);
-        DiscreteElevationModel dDEMUnion = dDEM.union(new HgtDiscreteElevationModel(HGT_FILE2));
+       // DiscreteElevationModel dDEM =
+         //       new HgtDiscreteElevationModel(HGT_FILE1);
+        //DiscreteElevationModel dDEMUnion = dDEM.union(new HgtDiscreteElevationModel(HGT_FILE2));
         for(Map.Entry<PanoramaUserParameters, String> pano : mapPano.entrySet()){
-            ContinuousElevationModel cDEM = new ContinuousElevationModel(dDEMUnion);
-
+            //ContinuousElevationModel cDEM = new ContinuousElevationModel(dDEMUnion);
+            ContinuousElevationModel cDEM = loadHgt();
+            
             Panorama p = new PanoramaComputer(cDEM)
                     .computePanorama(pano.getKey().panoramaParameters());
 
@@ -80,6 +86,19 @@ final class DrawPanoramaPart8All {
         //}
 
         System.out.println(System.currentTimeMillis()-t);
+    }
+    
+    private static ContinuousElevationModel loadHgt(){
+        DiscreteElevationModel dem1 = new HgtDiscreteElevationModel(HGT_FILE1);
+        DiscreteElevationModel dem2 = new HgtDiscreteElevationModel(HGT_FILE2);
+        DiscreteElevationModel dem3 = new HgtDiscreteElevationModel(HGT_FILE3);
+        DiscreteElevationModel dem4 = new HgtDiscreteElevationModel(HGT_FILE4);
+        DiscreteElevationModel dem5 = new HgtDiscreteElevationModel(HGT_FILE5);
+        DiscreteElevationModel dem6 = new HgtDiscreteElevationModel(HGT_FILE6);
+        DiscreteElevationModel dem7 = new HgtDiscreteElevationModel(HGT_FILE7);
+        DiscreteElevationModel dem8 = new HgtDiscreteElevationModel(HGT_FILE8);
+        
+        return new ContinuousElevationModel(dem1.union(dem2).union(dem3).union(dem4).union(dem5.union(dem6).union(dem7).union(dem8)));
     }
 }
 
