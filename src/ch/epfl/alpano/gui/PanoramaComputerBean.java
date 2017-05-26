@@ -23,14 +23,14 @@ import javafx.scene.image.Image;
  * @author Bastien Beuchat  (257117)
  */
 
-public class PanoramaComputerBean {
+public final class PanoramaComputerBean {
 
-    private PanoramaComputer panoramaComputer;
-    private Labelizer labelizer;
-    private ObjectProperty<Panorama> panorama;
-    private ObjectProperty<PanoramaUserParameters> parameters;
-    private ObjectProperty<Image> image;
-    private ObservableList<Node> labels;
+    private final PanoramaComputer panoramaComputer;
+    private final Labelizer labelizer;
+    private final ObjectProperty<Panorama> panorama;
+    private final ObjectProperty<PanoramaUserParameters> parameters;
+    private final ObjectProperty<Image> image;
+    private final ObservableList<Node> labels;
 
     /**
      * Constructeur d'un PanoramaComputerBean

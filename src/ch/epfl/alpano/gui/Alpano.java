@@ -7,6 +7,7 @@ import static java.awt.Desktop.getDesktop;
 import static java.lang.Math.signum;
 import static java.lang.Math.toDegrees;
 import static java.lang.String.format;
+import static java.lang.Math.pow;
 
 import java.io.File;
 import java.io.IOException;
@@ -163,8 +164,9 @@ public final class Alpano extends Application {
 
         //ajout de l'auditeur mettant a jour la zone de texte
         panoView.setOnMouseMoved((e)->{
-            int x = (int)e.getX();
-            int y = (int)e.getY();
+            double superSampling = computerBean.getParameters().superSamplingExponent();
+            int x = (int)(e.getX() * pow(2,superSampling));
+            int y = (int)(e.getY() * pow(2,superSampling));
 
             Panorama p = computerBean.getPanorama();
             double azimuth = computerBean.getParameters().panoramaParameters().azimuthForX(x);
@@ -184,8 +186,9 @@ public final class Alpano extends Application {
 
         //ajout de l'auditeur au clic : qui affiche dans openstreetmap le point clique
         panoView.setOnMouseClicked((e)->{
-            int x = (int)e.getX();
-            int y = (int)e.getY();
+            double superSampling = computerBean.getParameters().superSamplingExponent();
+            int x = (int)(e.getX() * pow(2,superSampling));
+            int y = (int)(e.getY() * pow(2,superSampling));
 
             Panorama p = computerBean.getPanorama();
             double latitude = toDegrees(p.latitudeAt(x, y));
