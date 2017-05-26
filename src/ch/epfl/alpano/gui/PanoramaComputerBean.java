@@ -24,29 +24,29 @@ import javafx.collections.*;
  */
 
 public class PanoramaComputerBean {
-    
+
     private PanoramaComputer panoramaComputer;
     private Labelizer labelizer;
     private ObjectProperty<Panorama> panorama;
     private ObjectProperty<PanoramaUserParameters> parameters;
     private ObjectProperty<Image> image;
-    
     private ObservableList<Node> labels;
+    
     /**
      * Constructeur d'un PanoramaComputerBean
      * @param cDem ContinuousElevationModel modèle pour créer le panoramaComputer ainsi que le labelizer
      * @param summits List<Summit> liste des sommets
      */
     public PanoramaComputerBean(ContinuousElevationModel cDem, List<Summit> summits){
-      parameters = new SimpleObjectProperty<>();
-      parameters.addListener((b,o,n)-> compute());
-      panoramaComputer = new PanoramaComputer(cDem);
-      labelizer = new Labelizer(cDem, summits);
-      labels = observableArrayList();
-      panorama = new SimpleObjectProperty<>();
-      image = new SimpleObjectProperty<>();
+        parameters = new SimpleObjectProperty<>();
+        parameters.addListener((b,o,n)-> compute());
+        panoramaComputer = new PanoramaComputer(cDem);
+        labelizer = new Labelizer(cDem, summits);
+        labels = observableArrayList();
+        panorama = new SimpleObjectProperty<>();
+        image = new SimpleObjectProperty<>();
     }
-    
+
     /**
      * Accesseur public des paramètres du panorama
      * @return ObjectProperty<PanoramaUserParameters> obtenir la propriété JavaFX correspondant aux paramètres
@@ -54,7 +54,7 @@ public class PanoramaComputerBean {
     public ObjectProperty<PanoramaUserParameters> parametersProperty(){
         return parameters;
     }
-    
+
     /**
      * Accesseur public des paramètres du panorama
      * @return PanoramaUserParameters paramètres du panorama
@@ -62,7 +62,7 @@ public class PanoramaComputerBean {
     public PanoramaUserParameters getParameters(){
         return parameters.getValue();
     }
-    
+
     /**
      * Modificateur public des paramètres du panorama
      * @param newParameters PanoramaUserParameters nouveaux paramètres
@@ -70,7 +70,7 @@ public class PanoramaComputerBean {
     public void setParameters(PanoramaUserParameters newParameters){
         parameters.setValue(newParameters);
     }
-    
+
     /**
      * Accesseur public du panorama
      * @return ReadOnlyObjectProperty<Panorama> panorama accessible en lecture seule
@@ -78,7 +78,7 @@ public class PanoramaComputerBean {
     public ReadOnlyObjectProperty<Panorama> panoramaProperty(){
         return panorama;
     }
-    
+
     /**
      * Accesseur public du panorama
      * @return Panorama le panorama
@@ -86,7 +86,7 @@ public class PanoramaComputerBean {
     public Panorama getPanorama(){
         return panorama.getValue();
     }
-    
+
     /**
      * Accesseur public de l'image
      * @return ReadOnlyObjectProperty<Image> l'image accessible en lecture seule
@@ -94,7 +94,7 @@ public class PanoramaComputerBean {
     public ReadOnlyObjectProperty<Image> imageProperty(){
         return image;
     }
-    
+
     /**
      * Accesseur public de l'image
      * @return Image l'image
@@ -102,7 +102,7 @@ public class PanoramaComputerBean {
     public Image getImage(){
         return image.getValue();
     }
-    
+
     /**
      * Accesseur public des étiquettes
      * @return ObservableList<Node> liste observable JavaFX avec les étiquettes
@@ -110,29 +110,29 @@ public class PanoramaComputerBean {
     public ObservableList<Node> getLabels(){
         return labels;
     }
-    
+
     /**
      * Méthode privée effectuant le recalcul de l'image du panorama
      */
     private void compute(){
         //Mise à jour du panorama et des étiquettes
         panorama.setValue(panoramaComputer.computePanorama(parameters.getValue().panoramaParameters()));
-        
+
         labels.setAll(labelizer.labels(parameters.getValue().panoramaDisplayParameters()));
-       
-        //Re-calcul des canaux formules données dans l'énoncé
+
+        //Re-calcul des canaux, formules données dans l'énoncé
         ChannelPainter distance = panorama.getValue()::distanceAt;
         ChannelPainter opacity = distance.map(d -> d == Float.POSITIVE_INFINITY ? 0 : 1);
-        
+
         ChannelPainter h = (x,y)->360*distance.div(100000).cycling().valueAt(x, y);
 
         ChannelPainter s = distance.div(200000).clamped().inverted();
 
         ChannelPainter slope = panorama.getValue()::slopeAt;
         ChannelPainter b = (x,y)->0.3f+0.7f*slope.mul(2).div((float)Math.PI).inverted().valueAt(x, y);
-        
+
         ImagePainter painter = ImagePainter.hsb(h, s, b, opacity);
-        
+
         //Nouvelle image
         image.setValue(renderPanorama(panorama.getValue(), painter));
     }

@@ -66,11 +66,11 @@ public final class Alpano extends Application {
     private final static File HGT_FILE8 = new File("N46E009.hgt");
     
     //constantes de la classe
-    private final static int TEXTSIZE = 40;
-    private final static int SPACINGH = 10;
-    private final static int SPACINGV = 3;
-    private final static int PADDINGTOP = 7;
-    private final static int PADDINGOTHERSIDES = 5;
+    private final static int TEXT_SIZE = 40;
+    private final static int SPACING_H = 10;
+    private final static int SPACING_V = 3;
+    private final static int PADDING_TOP = 7;
+    private final static int PADDING_OTHER_SIDES = 5;
 
     //attribut de l'application
     private final PanoramaComputerBean computerBean;
@@ -145,7 +145,7 @@ public final class Alpano extends Application {
      */
     private StackPane getPanoPane(TextArea infos){
         Text updateText = new Text("Les paramètres du panorama ont changé. \nCliquez ici pour mettre le dessin à jour.");
-        updateText.setFont(new Font(TEXTSIZE));
+        updateText.setFont(new Font(TEXT_SIZE));
         updateText.setTextAlignment(TextAlignment.CENTER);
 
         StackPane updateNotice = new StackPane(updateText);
@@ -249,9 +249,9 @@ public final class Alpano extends Application {
         GridPane paramsGrid = new GridPane();
         
         paramsGrid.setAlignment(Pos.CENTER);
-        paramsGrid.setHgap(SPACINGH);
-        paramsGrid.setVgap(SPACINGV);
-        paramsGrid.setPadding(new Insets(PADDINGTOP, PADDINGOTHERSIDES, PADDINGOTHERSIDES, PADDINGOTHERSIDES));
+        paramsGrid.setHgap(SPACING_H);
+        paramsGrid.setVgap(SPACING_V);
+        paramsGrid.setPadding(new Insets(PADDING_TOP, PADDING_OTHER_SIDES, PADDING_OTHER_SIDES, PADDING_OTHER_SIDES));
 
         paramsGrid.addRow(0, laLatitude, tfLatitude, laLongitude, tfLongitude, laElevation, tfElevation);
         paramsGrid.addRow(1, laAzimuth, tfAzimuth, laHorizontalFieldOfView, tfHorizontalFieldOfView, laMaxDistance, tfMaxDistance);
