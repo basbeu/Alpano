@@ -54,6 +54,18 @@ public final class PanoramaUserParameters {
                 UserParameter.SUPER_SAMPLING_EXPONENT.sanitize(userParameters.get(UserParameter.SUPER_SAMPLING_EXPONENT)));        
         this.userParameters = Collections.unmodifiableMap(new EnumMap<>(up));
     }
+    
+    /**
+     * Méthode privee creant un panoramaParameters pour un  exposant de super-echantillonage donne
+     * @param superSamplingExponent int Exposant de super-echantillonnage
+     * @return PanoramaParameters correspondant a l'exposant de super-echantillonage
+     */
+    private PanoramaParameters buildPanoramaParameters(int superSamplingExponent){
+        int wp = (int)pow(2, superSamplingExponent) * width();
+        int hp = (int)pow(2, superSamplingExponent) * height();
+
+        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
+    }
 
     /**
      * Constructeur secondaire 
@@ -220,17 +232,5 @@ public final class PanoramaUserParameters {
     @Override
     public int hashCode(){
         return userParameters.hashCode();
-    }
-
-    /**
-     * Méthode privee creant un panoramaParameters pour un  exposant de super-echantillonage donne
-     * @param superSamplingExponent int Exposant de super-echantillonnage
-     * @return PanoramaParameters correspondant a l'exposant de super-echantillonage
-     */
-    private PanoramaParameters buildPanoramaParameters(int superSamplingExponent){
-        int wp = (int)pow(2, superSamplingExponent) * width();
-        int hp = (int)pow(2, superSamplingExponent) * height();
-
-        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
     }
 }
