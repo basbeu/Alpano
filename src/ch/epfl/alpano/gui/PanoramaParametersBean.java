@@ -37,7 +37,7 @@ public class PanoramaParametersBean {
         properties.put(UserParameter.HEIGHT, new SimpleObjectProperty<>(params.height()));
         properties.put(UserParameter.SUPER_SAMPLING_EXPONENT, new SimpleObjectProperty<>(params.superSamplingExponent()));
 
-        properties.forEach((k,v)->v.addListener((b, o, n) -> runLater(this::synchronizeParameters)));
+        properties.forEach((k,v)->v.addListener((b, o, n)->runLater(this::synchronizeParameters)));
     }
 
     /**

@@ -20,11 +20,11 @@ public interface PanoramaRenderer {
      * @return Image representant l'image du panorama selon le peintre
      */
     static Image renderPanorama(Panorama panorama, ImagePainter painter){
-        WritableImage image = new WritableImage(panorama.parameters().width(),panorama.parameters().height());
+        WritableImage image = new WritableImage(panorama.parameters().width(), panorama.parameters().height());
         PixelWriter writer = image.getPixelWriter();
 
-        for(int x = 0;x < image.getWidth();++x){
-            for(int y = 0;y < image.getHeight();++y){
+        for(int x = 0; x < image.getWidth(); ++x){
+            for(int y = 0; y < image.getHeight(); ++y){
                 writer.setColor(x, y, painter.colorAt(x, y));
             }
         }

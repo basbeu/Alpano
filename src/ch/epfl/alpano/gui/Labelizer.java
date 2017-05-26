@@ -125,10 +125,10 @@ public final class Labelizer {
                 }
 
                 //Creations des noeuds
-                Text t = new Text(summit.name+" ("+summit.elevation+" m)");
+                Text t = new Text(summit.name + " (" + summit.elevation + " m)");
                 t.getTransforms().addAll(new Translate(summit.x, yl),new Rotate(ROTATION_ANGLE));
                 nodes.add(t);
-                nodes.add(new Line(summit.x,yl+TEXT_LINE_SPACING, summit.x, summit.y));
+                nodes.add(new Line(summit.x, yl + TEXT_LINE_SPACING, summit.x, summit.y));
             }
         }
 

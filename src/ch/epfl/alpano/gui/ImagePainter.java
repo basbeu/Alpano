@@ -27,7 +27,7 @@ public interface ImagePainter {
      * @return ImagePainter representant un peintre HSB
      */
     static ImagePainter hsb(ChannelPainter h, ChannelPainter s, ChannelPainter b, ChannelPainter o){
-        return (x,y)->Color.hsb(h.valueAt(x,y), s.valueAt(x,y), b.valueAt(x,y), o.valueAt(x,y));
+        return (x,y)->Color.hsb(h.valueAt(x, y), s.valueAt(x, y), b.valueAt(x, y), o.valueAt(x, y));
     }
 
     /**
@@ -37,6 +37,6 @@ public interface ImagePainter {
      * @return ImagePainter representant un peintre en niveau de gris
      */
     static ImagePainter gray(ChannelPainter g, ChannelPainter o){
-        return (x,y)->Color.gray(g.valueAt(x,y),o.valueAt(x,y));
+        return (x,y)->Color.gray(g.valueAt(x, y), o.valueAt(x, y));
     }
 }

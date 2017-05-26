@@ -39,7 +39,7 @@ public class PanoramaComputerBean {
      */
     public PanoramaComputerBean(ContinuousElevationModel cDem, List<Summit> summits){
         parameters = new SimpleObjectProperty<>();
-        parameters.addListener((b,o,n)-> compute());
+        parameters.addListener((b,o,n)->compute());
         panoramaComputer = new PanoramaComputer(cDem);
         labelizer = new Labelizer(cDem, summits);
         labels = observableArrayList();
@@ -122,11 +122,11 @@ public class PanoramaComputerBean {
 
         //Re-calcul des canaux, formules données dans l'énoncé
         ChannelPainter distance = panorama.getValue()::distanceAt;
-        ChannelPainter opacity = distance.map(d -> d == Float.POSITIVE_INFINITY ? 0 : 1);
+        ChannelPainter opacity = distance.map((d)->d == Float.POSITIVE_INFINITY ? 0 : 1);
 
-        ChannelPainter h = (x,y)->360*distance.div(100000).cycling().valueAt(x, y);
+        ChannelPainter h = (x,y)->360*distance.div(100_000).cycling().valueAt(x, y);
 
-        ChannelPainter s = distance.div(200000).clamped().inverted();
+        ChannelPainter s = distance.div(200_000).clamped().inverted();
 
         ChannelPainter slope = panorama.getValue()::slopeAt;
         ChannelPainter b = (x,y)->0.3f+0.7f*slope.mul(2).div((float)Math.PI).inverted().valueAt(x, y);

@@ -71,6 +71,7 @@ public final class Alpano extends Application {
     private final static int SPACING_V = 3;
     private final static int PADDING_TOP = 7;
     private final static int PADDING_OTHER_SIDES = 5;
+    private final static int TO_KM = 1_000;
 
     //attribut de l'application
     private final PanoramaComputerBean computerBean;
@@ -104,7 +105,7 @@ public final class Alpano extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // … création de l'interface graphique
+        // création de l'interface graphique
         TextArea infos = new TextArea();
         infos.setEditable(false);
         infos.setPrefRowCount(2);
@@ -112,7 +113,7 @@ public final class Alpano extends Application {
         GridPane paramsGrid = getParamsGrid(infos);
         StackPane panoPane = getPanoPane(infos);
 
-        BorderPane root = new BorderPane(panoPane,null,null,paramsGrid,null);
+        BorderPane root = new BorderPane(panoPane, null, null, paramsGrid, null);
         Scene scene = new Scene(root);
 
         primaryStage.setTitle("Alpano");
@@ -162,8 +163,8 @@ public final class Alpano extends Application {
 
         //ajout de l'auditeur mettant a jour la zone de texte
         panoView.setOnMouseMoved((e)->{
-            int x = (int) e.getX();
-            int y = (int) e.getY();
+            int x = (int)e.getX();
+            int y = (int)e.getY();
 
             Panorama p = computerBean.getPanorama();
             double azimuth = computerBean.getParameters().panoramaParameters().azimuthForX(x);
@@ -171,9 +172,9 @@ public final class Alpano extends Application {
             double longitude = p.longitudeAt(x, y);
 
             StringBuilder sb = new StringBuilder("Position : ");
-            sb.append(format("%.4f °",toDegrees(latitude))).append(signum(latitude)==1?"N":"S")
+            sb.append(format("%.4f °", toDegrees(latitude))).append(signum(latitude)==1?"N":"S")
             .append(format(" %.4f °", toDegrees(longitude))).append(signum(longitude)==1?"E":"W")
-            .append("\nDistance : ").append(format("%.1f", p.distanceAt(x, y)/1000d))
+            .append("\nDistance : ").append(format("%.1f", p.distanceAt(x, y) / TO_KM))
             .append(" km\nAltitude : ").append(format("%.0f", p.elevationAt(x, y)))
             .append(" m\nAzimut : ").append(format("%.1f °", toDegrees(azimuth))).append(toOctantString(azimuth, "N", "E", "S", "W"))
             .append("\t\tElévation : ").append(format("%.1f °", toDegrees(computerBean.getParameters().panoramaParameters().altitudeForY(y))));
@@ -183,15 +184,15 @@ public final class Alpano extends Application {
 
         //ajout de l'auditeur au clic : qui affiche dans openstreetmap le point clique
         panoView.setOnMouseClicked((e)->{
-            int x = (int) e.getX();
-            int y = (int) e.getY();
+            int x = (int)e.getX();
+            int y = (int)e.getY();
 
             Panorama p = computerBean.getPanorama();
             double latitude = toDegrees(p.latitudeAt(x, y));
             double longitude = toDegrees(p.longitudeAt(x, y));
 
-            String qy = format((Locale)null,"mlat=%.2f&mlon=%.2f", latitude, longitude);  // "query" : partie après le ?
-            String fg = format((Locale)null,"map=15/%.2f/%.2f", latitude, longitude);  // "fragment" : partie après le #
+            String qy = format((Locale)null, "mlat=%.2f&mlon=%.2f", latitude, longitude);  // "query" : partie après le ?
+            String fg = format((Locale)null, "map=15/%.2f/%.2f", latitude, longitude);  // "fragment" : partie après le #
 
             URI osmURI;
             try {
@@ -206,7 +207,7 @@ public final class Alpano extends Application {
 
 
         Pane labelsPane = new Pane();
-        Bindings.bindContent(labelsPane.getChildren(),computerBean.getLabels());
+        Bindings.bindContent(labelsPane.getChildren(), computerBean.getLabels());
         labelsPane.setMouseTransparent(true);
         StackPane panoGroup = new StackPane(panoView, labelsPane);
         ScrollPane panoScrollPane = new ScrollPane(panoGroup);
@@ -242,7 +243,7 @@ public final class Alpano extends Application {
         StringConverter<Integer> stringConverter = new LabeledListStringConverter("non", "2x", "4x");
 
         ChoiceBox<Integer> cbSuperSamplingExponent = new ChoiceBox<>();
-        cbSuperSamplingExponent.getItems().addAll(0,1,2);
+        cbSuperSamplingExponent.getItems().addAll(0, 1, 2);
         cbSuperSamplingExponent.valueProperty().bindBidirectional(parametersBean.superSamplingExponentProperty());
         cbSuperSamplingExponent.setConverter(stringConverter);
 

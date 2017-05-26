@@ -35,7 +35,7 @@ public interface ChannelPainter {
     static ChannelPainter maxDistanceToNeighbors(Panorama panorama){
 
 
-        return (x,y) -> {
+        return (x,y)->{
             float[] distance = new float[4];
             distance[0] = panorama.distanceAt(x - 1, y, 0);
             distance [1] = panorama.distanceAt(x + 1, y, 0);
@@ -61,7 +61,7 @@ public interface ChannelPainter {
      * @return ChannelPainter avec c ajoute a toutes les valeurs produites
      */
     default ChannelPainter add(float c){
-        return (x, y) -> valueAt(x, y) + c;
+        return (x, y)->valueAt(x, y) + c;
     }
 
     /**
@@ -70,7 +70,7 @@ public interface ChannelPainter {
      * @return ChannelPainter avec c soustrait a toutes les valeurs produites
      */
     default ChannelPainter sub(float c){
-        return (x, y) -> valueAt(x, y) - c;
+        return (x, y)->valueAt(x, y) - c;
     }
 
     /**     
@@ -79,7 +79,7 @@ public interface ChannelPainter {
      * @return ChannelPainter avec c multiplie a toutes les valeurs produites
      */
     default ChannelPainter mul(float c){
-        return (x, y) -> valueAt(x, y) * c;
+        return (x, y)->valueAt(x, y) * c;
     }
 
     /**     
@@ -88,7 +88,7 @@ public interface ChannelPainter {
      * @return ChannelPainter avec toutes les valeurs produites divisees par c
      */
     default ChannelPainter div(float c){
-        return (x, y) -> valueAt(x, y) / c;        
+        return (x, y)->valueAt(x, y) / c;        
     }
 
     /**
@@ -97,7 +97,7 @@ public interface ChannelPainter {
      * @return ChannelPainter canal avec operateur applique aux valeurs
      */
     default ChannelPainter map(DoubleUnaryOperator op){
-        return (x, y) -> (float)op.applyAsDouble(valueAt(x, y));
+        return (x, y)->(float)op.applyAsDouble(valueAt(x, y));
     }
 
     /**
@@ -105,7 +105,7 @@ public interface ChannelPainter {
      * @return ChannelPainter compose avec les valeurs apres application de la fonction
      */
     default ChannelPainter inverted(){
-        return (x, y) -> 1 - valueAt(x, y);
+        return (x, y)->1 - valueAt(x, y);
     }
 
     /**
@@ -113,7 +113,7 @@ public interface ChannelPainter {
      * @return ChannelPainter compose avec les valeurs apres application de la fonction
      */
     default ChannelPainter clamped(){
-        return (x, y) -> max(0 , min(valueAt(x, y), 1));
+        return (x, y)->max(0, min(valueAt(x, y), 1));
     }
 
     /**
@@ -121,7 +121,7 @@ public interface ChannelPainter {
      * @return ChannelPainter compose avec les valeurs apres application de la fonction
      */
     default ChannelPainter cycling(){
-        return (x, y) -> (float)floorMod(valueAt(x, y), 1);
+        return (x, y)->(float)floorMod(valueAt(x, y), 1);
     }
 
 }
