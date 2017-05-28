@@ -5,6 +5,7 @@ import static ch.epfl.alpano.Math2.angularDistance;
 import static ch.epfl.alpano.Math2.firstIntervalContainingRoot;
 import static ch.epfl.alpano.PanoramaComputer.rayToGroundDistance;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static java.lang.Integer.compare;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 import static java.lang.Math.round;
@@ -105,7 +106,7 @@ public final class Labelizer {
         BitSet positionsXAvailable = new BitSet();
         positionsXAvailable.set(0, params.width());
 
-        //BitSet minimalInterval = new BitSet(2*HORIZONTAL_SPACING);
+        
         BitSet minimalInterval = new BitSet();
         minimalInterval.set(0, HORIZONTAL_SPACING);
         boolean isFirst = true;
@@ -160,7 +161,7 @@ public final class Labelizer {
 
         @Override
         public int compareTo(VisibleSummit o) {
-            return this.y!=o.y ? Integer.compare(this.y, o.y) : Integer.compare(o.elevation, this.elevation);
+            return this.y!=o.y ? compare(this.y, o.y) : compare(o.elevation, this.elevation);
         }
     }
 }

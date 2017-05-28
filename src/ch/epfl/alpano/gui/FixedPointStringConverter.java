@@ -1,7 +1,9 @@
 package ch.epfl.alpano.gui;
 
+
+import static java.math.RoundingMode.HALF_UP;
+
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import javafx.util.StringConverter;
 
@@ -28,7 +30,7 @@ public final class FixedPointStringConverter extends StringConverter<Integer>{
     @Override
     public Integer fromString(String string) {
         BigDecimal number = new BigDecimal (string);
-        return number.setScale(decimal, RoundingMode.HALF_UP).movePointRight(decimal).intValueExact();
+        return number.setScale(decimal, HALF_UP).movePointRight(decimal).intValueExact();
     }
 
     @Override

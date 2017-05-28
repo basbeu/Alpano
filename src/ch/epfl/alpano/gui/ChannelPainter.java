@@ -34,8 +34,6 @@ public interface ChannelPainter {
      *          et le point en question 
      */
     static ChannelPainter maxDistanceToNeighbors(Panorama panorama){
-
-
         return (x,y)->{
             float[] distance = new float[4];
             distance[0] = panorama.distanceAt(x - 1, y, 0);
@@ -44,16 +42,14 @@ public interface ChannelPainter {
             distance [3] = panorama.distanceAt(x, y + 1, 0);
 
             float max = MIN_VALUE;
-            for(int i = 0; i < distance.length - 1; i++){
+            for(int i = 0; i < distance.length - 1; ++i){
                 if (distance[i] > max){
                     max = distance[i];
                 }
             }
 
             return max - panorama.distanceAt(x, y, 0);
-
         };
-
     }
 
     /**

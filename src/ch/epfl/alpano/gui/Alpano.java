@@ -4,10 +4,12 @@ package ch.epfl.alpano.gui;
 import static ch.epfl.alpano.Azimuth.toOctantString;
 import static ch.epfl.alpano.summit.GazetteerParser.readSummitsFrom;
 import static java.awt.Desktop.getDesktop;
+import static java.lang.Math.pow;
 import static java.lang.Math.signum;
 import static java.lang.Math.toDegrees;
 import static java.lang.String.format;
-import static java.lang.Math.pow;
+import static javafx.geometry.Pos.BASELINE_RIGHT;
+import static javafx.geometry.Pos.CENTER;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +27,6 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -208,7 +209,7 @@ public final class Alpano extends Application {
             }
         });
 
-
+        //Création du panneau
         Pane labelsPane = new Pane();
         Bindings.bindContent(labelsPane.getChildren(), computerBean.getLabels());
         labelsPane.setMouseTransparent(true);
@@ -224,6 +225,7 @@ public final class Alpano extends Application {
      *  @return GridPane representant la partie de l'interface qui est destinee au parametrage de l'application
      */
     private GridPane getParamsGrid(TextArea infos){
+        //Créations des labels
         Label laLatitude = new Label("Latitude (°) :");
         Label laLongitude = new Label("Longitude (°) :");
         Label laElevation = new Label("Altitude (m) :");
@@ -234,6 +236,7 @@ public final class Alpano extends Application {
         Label laHeight = new Label("Hauteur (px) :");
         Label laSuperSamplingExponent = new Label("Suréchantillonnage :");
 
+        //Création des TextField
         TextField tfLatitude = buildTextField(parametersBean.observerLatitudeProperty(), 7, 4);
         TextField tfLongitude = buildTextField(parametersBean.observerLongitudeProperty(), 7, 4);
         TextField tfElevation = buildTextField(parametersBean.observerElevationProperty(), 4, 0);
@@ -243,6 +246,7 @@ public final class Alpano extends Application {
         TextField tfWidth = buildTextField(parametersBean.widthProperty(), 4, 0);
         TextField tfHeight = buildTextField(parametersBean.heightProperty(), 4, 0);
 
+        //Création de la liste déroulante
         StringConverter<Integer> stringConverter = new LabeledListStringConverter("non", "2x", "4x");
 
         ChoiceBox<Integer> cbSuperSamplingExponent = new ChoiceBox<>();
@@ -250,9 +254,10 @@ public final class Alpano extends Application {
         cbSuperSamplingExponent.valueProperty().bindBidirectional(parametersBean.superSamplingExponentProperty());
         cbSuperSamplingExponent.setConverter(stringConverter);
 
+        //Création du panneau
         GridPane paramsGrid = new GridPane();
 
-        paramsGrid.setAlignment(Pos.CENTER);
+        paramsGrid.setAlignment(CENTER);
         paramsGrid.setHgap(SPACING_H);
         paramsGrid.setVgap(SPACING_V);
         paramsGrid.setPadding(new Insets(PADDING_TOP, PADDING_OTHER_SIDES, PADDING_OTHER_SIDES, PADDING_OTHER_SIDES));
@@ -278,7 +283,7 @@ public final class Alpano extends Application {
         TextFormatter<Integer> formatter = new TextFormatter<>(stringConverter);
 
         TextField textField = new TextField();
-        textField.setAlignment(Pos.BASELINE_RIGHT);
+        textField.setAlignment(BASELINE_RIGHT);
         textField.setPrefColumnCount(prefColumnCount);
         formatter.valueProperty().bindBidirectional(property);
         textField.setTextFormatter(formatter);

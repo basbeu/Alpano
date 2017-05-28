@@ -12,5 +12,5 @@ public interface PredefinedPanoramas {
     PanoramaUserParameters MONT_RACINE    = new PanoramaUserParameters(68_200, 470_200, 1500, 135, 20, 300, 2500, 800, 0);
     PanoramaUserParameters FINSTERAARHORN = new PanoramaUserParameters(81_260, 465_374, 4300, 205, 20, 300, 2500, 800, 0); 
     PanoramaUserParameters SAUVABELIN     = new PanoramaUserParameters(66_385, 465_353, 700, 135, 100, 300, 2500, 800, 0);
-    PanoramaUserParameters PELICAN        = new PanoramaUserParameters(65_728, 465_132, 380, 135, 60, 300, 2500, 800, 0);
+    PanoramaUserParameters PELICAN        = new PanoramaUserParameters(65_728, 465_132, 380, 135,  60, 300, 2500, 800, 0);
 }

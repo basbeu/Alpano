@@ -56,18 +56,6 @@ public final class PanoramaUserParameters {
     }
 
     /**
-     * Méthode privee creant un panoramaParameters pour un  exposant de super-echantillonage donne
-     * @param superSamplingExponent int Exposant de super-echantillonnage
-     * @return PanoramaParameters correspondant a l'exposant de super-echantillonage
-     */
-    private PanoramaParameters buildPanoramaParameters(int superSamplingExponent){
-        int wp = (int)pow(2, superSamplingExponent) * width();
-        int hp = (int)pow(2, superSamplingExponent) * height();
-
-        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
-    }
-
-    /**
      * Constructeur secondaire 
      * @param observerLongitude int longitude de l'observateur
      * @param observerLatitude int latitude de l'observateur
@@ -82,7 +70,7 @@ public final class PanoramaUserParameters {
     public PanoramaUserParameters(int observerLongitude, int observerLatitude, int observerElevation, int centerAzimuth, int horizontalFieldOfView, int maxDistance, int width, int height, int superSamplingExponent){
         this(map(observerLongitude, observerLatitude, observerElevation, centerAzimuth, horizontalFieldOfView, maxDistance, width, height, superSamplingExponent));
     }
-
+    
     /**
      * Methode privee pour construire une map
      * @param observerLongitude int longitude de l'observateur
@@ -118,7 +106,19 @@ public final class PanoramaUserParameters {
     private static double tenThousandthDegreesToRadian(int degree){
         return toRadians(degree / TO_TENTHOUSANDS_RADIAN);
     }
+    
+    /**
+     * Méthode privee creant un panoramaParameters pour un  exposant de super-echantillonage donne
+     * @param superSamplingExponent int Exposant de super-echantillonnage
+     * @return PanoramaParameters correspondant a l'exposant de super-echantillonage
+     */
+    private PanoramaParameters buildPanoramaParameters(int superSamplingExponent){
+        int wp = (int)pow(2, superSamplingExponent) * width();
+        int hp = (int)pow(2, superSamplingExponent) * height();
 
+        return new PanoramaParameters(observerPosition(), observerElevation(), toRadians(centerAzimuth()), toRadians(horizontalFieldOfView()), maxDistance() * TO_KM, wp, hp);
+    }
+    
     /**
      * Methode privee pour calculer le GeoPoint de la position de l'observateur
      * @return GeoPoint coordonnee de l'observateur
